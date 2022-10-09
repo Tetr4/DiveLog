@@ -1,0 +1,35 @@
+build:
+  maxIssues: 0
+
+naming:
+  FunctionNaming:
+    # composable functions have uppercase names
+    ignoreAnnotated:
+      - Composable
+
+complexity:
+  LongParameterList:
+    # composables often have lots of args (with defaults)
+    functionThreshold: 8
+    ignoreDefaultParameters: true
+
+formatting:
+  MaximumLineLength:
+    # use style rule instead
+    active: false
+  FinalNewline:
+    # this is just annoying
+    active: false
+
+style:
+  MaxLineLength:
+    maxLineLength: 120
+  NewLineAtEndOfFile:
+    active: false
+  MagicNumber:
+    # this is fine, e.g. for accessing by index
+    active: false
+  UnusedPrivateMember:
+    # keep composable previews
+    ignoreAnnotated:
+      - Preview
