@@ -13,6 +13,11 @@ complexity:
     functionThreshold: 8
     ignoreDefaultParameters: true
 
+exceptions:
+  TooGenericExceptionCaught:
+    # Allow top level catch all handlers
+    active: false
+
 formatting:
   MaximumLineLength:
     # use style rule instead

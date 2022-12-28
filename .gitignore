@@ -10,8 +10,7 @@
 .idea/*
 !.idea/codeStyles/
 !.idea/detekt.xml
-!.idea/icon.png
-!.idea/icon_dark.png
+!.idea/icon.svg
 !.idea/.name
 
 # OSX filesystem

@@ -1,7 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.DiveLog" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+    <!-- Base application theme with default values shared by both light and dark theme. -->
+    <style name="Theme.DiveLog" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Colors -->
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">?colorPrimary</item>
+        <item name="colorOnSecondary">?colorOnPrimary</item>
+        <item name="colorSurface">@color/black</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorOnBackground">@color/black</item>
+        <item name="android:statusBarColor">@color/purple</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+
+        <!-- Shapes -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.DiveLog.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.DiveLog.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.DiveLog.LargeComponent</item>
+
+        <!-- Typography -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.DiveLog.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.DiveLog.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.DiveLog.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.DiveLog.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.DiveLog.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.DiveLog.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.DiveLog.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.DiveLog.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.DiveLog.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.DiveLog.Body2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.DiveLog.Caption</item>
+        <item name="textAppearanceButton">@style/TextAppearance.DiveLog.Button</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.DiveLog.Overline</item>
     </style>
+
+    <!-- Base splash theme with default values shared by both light and dark theme -->
+    <style name="Theme.DiveLog.Splash" parent="Theme.SplashScreen">
+        <item name="android:colorBackground">@color/purple</item>
+        <item name="colorOnBackground">@color/white</item>
+        <item name="windowSplashScreenBackground">?android:colorBackground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.DiveLog.DayNight</item>
+    </style>
+
+    <!-- Light application theme -->
+    <style name="Theme.DiveLog.DayNight" />
+
+    <!-- Light splash theme -->
+    <style name="Theme.DiveLog.Splash.DayNight" />
+
 </resources>
