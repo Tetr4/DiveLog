@@ -97,6 +97,7 @@ dependencies {
 
     // UI
     implementation("androidx.compose.material:material")
+    implementation("androidx.compose.material:material-icons-extended")
     implementation("com.google.accompanist:accompanist-themeadapter-material:0.28.0")
     implementation("androidx.core:core-splashscreen:1.0.0")
 
