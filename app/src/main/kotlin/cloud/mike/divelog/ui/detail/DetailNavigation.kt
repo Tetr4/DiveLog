@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import cloud.mike.divelog.data.dives.Dive
 import org.koin.androidx.compose.koinViewModel
+import java.util.UUID
 
 object DetailNavigation {
     const val route = "detail"
@@ -36,5 +37,5 @@ fun NavController.showDetail(dive: Dive) {
     navigate("${DetailNavigation.route}/${dive.id}")
 }
 
-val SavedStateHandle.diveId
-    get() = checkNotNull(get<String>(DetailNavigation.diveId))
+val SavedStateHandle.diveId: UUID
+    get() = UUID.fromString(get<String>(DetailNavigation.diveId))

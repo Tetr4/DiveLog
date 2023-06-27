@@ -9,7 +9,8 @@ enum class BondState(val extra: Int) {
     NONE(BluetoothDevice.BOND_NONE),
     BONDED(BluetoothDevice.BOND_BONDED),
     BONDING(BluetoothDevice.BOND_BONDING),
-    UNKNOWN(0);
+    UNKNOWN(0),
+    ;
 
     companion object {
         fun fromExtra(extra: Int) = values().find { it.extra == extra } ?: UNKNOWN

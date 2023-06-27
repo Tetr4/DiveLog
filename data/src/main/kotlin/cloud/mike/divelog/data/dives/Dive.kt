@@ -9,7 +9,7 @@ data class Dive(
     companion object {
         val sample = Dive(
             id = UUID.randomUUID(),
-            location = "Cyprus"
+            location = "Cyprus",
         )
         val samples = (0..20).map {
             sample.copy(

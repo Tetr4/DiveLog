@@ -25,6 +25,10 @@ formatting:
   FinalNewline:
     # this is just annoying
     active: false
+  TrailingCommaOnCallSite:
+    active: true
+  TrailingCommaOnDeclarationSite:
+    active: true
 
 style:
   MaxLineLength:
