@@ -9,7 +9,6 @@ android {
 
     defaultConfig {
         minSdk = 26
-        targetSdk = 33
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -26,11 +25,11 @@ android {
 
 dependencies {
     // dependency injection
-    implementation("io.insert-koin:koin-android:3.3.0")
+    implementation("io.insert-koin:koin-android:3.4.2")
 
     // coroutines
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.6.4")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.7.1")
 
     // reactive streams
     api("io.reactivex.rxjava2:rxjava:2.2.21")

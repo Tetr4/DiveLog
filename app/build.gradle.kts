@@ -11,6 +11,7 @@ val versionCodeProp = property("version.code").toString().toInt()
 val versionNameProp = property("version.name").toString()
 val buildTag = System.getenv("GITHUB_RUN_NUMBER") ?: DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now())!!
 
+@Suppress("UnstableApiUsage") // Even basic configs are currently marked as @Incubating
 android {
     namespace = "cloud.mike.divelog"
     compileSdk = 33
@@ -39,14 +40,25 @@ android {
     buildTypes {
         debug {
             // Set to true, if you want to debug code shrinking:
-            isMinifyEnabled = false
-            isShrinkResources = false
+            val shrink = false
+            isDebuggable = !shrink
+            isMinifyEnabled = shrink
+            isShrinkResources = shrink
         }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
         }
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        // See https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
 
     compileOptions {
@@ -58,16 +70,7 @@ android {
         jvmTarget = "1.8"
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        // See https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-        kotlinCompilerExtensionVersion = "1.3.2"
-    }
-
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -79,31 +82,33 @@ dependencies {
     implementation(project(":data"))
 
     // dependency injection
-    implementation("io.insert-koin:koin-android:3.3.0")
-    implementation("io.insert-koin:koin-androidx-compose:3.3.0")
+    implementation("io.insert-koin:koin-android:3.4.2")
+    implementation("io.insert-koin:koin-androidx-compose:3.4.5")
 
     // Support
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
 
     // Compose
     // See https://developer.android.com/jetpack/compose/setup#bom-version-mapping
-    implementation(platform("androidx.compose:compose-bom:2022.12.00"))
-    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation(platform("androidx.compose:compose-bom:2023.05.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-
-    // UI
     implementation("androidx.compose.material:material")
     implementation("androidx.compose.material:material-icons-extended")
-    implementation("com.google.accompanist:accompanist-themeadapter-material:0.28.0")
-    implementation("androidx.core:core-splashscreen:1.0.0")
+
+    // UI
+    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("com.google.accompanist:accompanist-themeadapter-material:0.30.1")
+    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-    testImplementation("org.mockito:mockito-inline:3.8.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
 }
