@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     uiState: HomeState,
     onShowDetail: (Dive) -> Unit,
+    onSearch: (query: String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(
@@ -80,9 +81,11 @@ fun HomeScreen(
             },
         ) { innerPadding ->
             DiveList(
-                Modifier.padding(innerPadding),
+                modifier = Modifier.padding(innerPadding),
                 dives = uiState.dives.orEmpty(),
                 onDiveClicked = onShowDetail,
+                query = uiState.query,
+                onQueryChanged = onSearch,
             )
         }
     }
@@ -96,6 +99,7 @@ private fun Preview() {
         HomeScreen(
             uiState = HomeState(),
             onShowDetail = {},
+            onSearch = {},
         )
     }
 }

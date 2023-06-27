@@ -21,6 +21,7 @@ fun NavGraphBuilder.homeScreen(
         HomeScreen(
             uiState = uiState,
             onShowDetail = onShowDetail,
+            onSearch = viewModel::search,
         )
     }
 }
