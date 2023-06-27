@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.home
+package cloud.mike.divelog.ui.home.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ScubaDiving
@@ -19,25 +20,26 @@ import cloud.mike.divelog.data.dives.Dive
 import com.google.accompanist.themeadapter.material.MdcTheme
 
 @Composable
-fun DiveCard(
+fun DiveItem(
     modifier: Modifier = Modifier,
     dive: Dive,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Card(
         modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .clickable(onClick = onClick),
     ) {
         Box(Modifier.padding(16.dp)) {
             Text(dive.location)
             Icon(
-                Icons.Default.ScubaDiving,
                 modifier = Modifier
                     .height(64.dp)
                     .padding(16.dp)
                     .fillMaxWidth(),
+                imageVector = Icons.Default.ScubaDiving,
                 contentDescription = null,
+                tint = MaterialTheme.colors.onSurface,
             )
         }
     }
@@ -48,6 +50,6 @@ fun DiveCard(
 @Composable
 private fun Preview() {
     MdcTheme {
-        DiveCard(dive = Dive.sample, onClick = {})
+        DiveItem(dive = Dive.sample, onClick = {})
     }
 }

@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.home
+package cloud.mike.divelog.ui.home.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.horizontalScroll
@@ -29,27 +29,32 @@ fun TagFilters(
         modifier = Modifier
             .horizontalScroll(rememberScrollState())
             .then(modifier),
-        horizontalArrangement = Arrangement
-            .spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         FilterChip(
             selected = false,
             onClick = { },
-            leadingIcon = { Icon(Icons.Default.Bedtime, contentDescription = null) }
+            leadingIcon = {
+                Icon(Icons.Default.Bedtime, contentDescription = null)
+            },
         ) {
             Text("Night dive")
         }
         FilterChip(
             selected = true,
             onClick = { },
-            leadingIcon = { Icon(Icons.Default.Check, contentDescription = null) }
+            leadingIcon = {
+                Icon(Icons.Default.Check, contentDescription = null)
+            },
         ) {
             Text("Cyprus")
         }
         FilterChip(
             selected = false,
             onClick = { },
-            leadingIcon = { Icon(Icons.Default.Place, contentDescription = null) }
+            leadingIcon = {
+                Icon(Icons.Default.Place, contentDescription = null)
+            },
         ) {
             Text("Egypt")
         }
@@ -57,7 +62,9 @@ fun TagFilters(
             FilterChip(
                 selected = false,
                 onClick = { },
-                leadingIcon = { Icon(Icons.Default.Place, contentDescription = null) }
+                leadingIcon = {
+                    Icon(Icons.Default.Place, contentDescription = null)
+                },
             ) {
                 Text("Filter: $index")
             }

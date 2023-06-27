@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Dive Log</string>
+    <string name="common_error_connectivity">Connection error. Please check your internet connection.</string>
 </resources>

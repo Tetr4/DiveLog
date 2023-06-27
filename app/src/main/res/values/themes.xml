@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme with default values shared by both light and dark theme. -->
     <style name="Theme.DiveLog" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
+        <item name="isLightTheme">true</item>
+
         <!-- Colors -->
-        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimary">@color/purple_dark</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">?colorPrimary</item>
-        <item name="colorOnSecondary">?colorOnPrimary</item>
-        <item name="colorSurface">@color/black</item>
-        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSecondary">@color/blue_light</item>
+        <item name="colorOnSecondary">@color/purple_dark</item>
+        <item name="colorSurface">@color/blue_light</item>
+        <item name="colorOnSurface">@color/purple_dark</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="colorOnBackground">@color/black</item>
-        <item name="android:statusBarColor">@color/purple</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
+
+        <!-- System windows -->
+        <item name="android:statusBarColor">?colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/purple_dark</item>
+        <!-- Dark mode is only available since API 29, so we can be sure that this is always used. -->
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
 
         <!-- Shapes -->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.DiveLog.SmallComponent</item>
@@ -40,7 +46,7 @@
 
     <!-- Base splash theme with default values shared by both light and dark theme -->
     <style name="Theme.DiveLog.Splash" parent="Theme.SplashScreen">
-        <item name="android:colorBackground">@color/purple</item>
+        <item name="android:colorBackground">@color/purple_dark</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="windowSplashScreenBackground">?android:colorBackground</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>

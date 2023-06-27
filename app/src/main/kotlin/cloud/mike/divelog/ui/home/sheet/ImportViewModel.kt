@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.import
+package cloud.mike.divelog.ui.home.sheet
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,6 +15,7 @@ class ImportViewModel(
     private val autoConnector: AutoConnector,
 ) : ViewModel() {
 
+    // TODO refactor to use uiState
     var preconditionState by mutableStateOf(preconditionService.precondition)
     var connectionState by mutableStateOf(autoConnector.connectionState)
     var error: Exception? by mutableStateOf(null)

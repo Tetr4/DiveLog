@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import cloud.mike.divelog.ui.home.HomeScreen
 import com.google.accompanist.themeadapter.material.MdcTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MdcTheme {
-                HomeScreen()
+                NavRoot()
             }
         }
     }

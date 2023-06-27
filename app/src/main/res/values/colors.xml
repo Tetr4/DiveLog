@@ -2,6 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="purple">#FF422594</color>
-    <color name="charcoal">#FF2E2E2E</color>
+    <color name="purple_light">#FFE9F4FE</color>
+    <color name="purple_dark">#FF393F81</color>
+    <color name="blue_light">#FFE2F0FE</color>
+    <color name="gray_light">#FFF5F7FC</color>
+    <color name="gray_dark">#FF262836</color>
+    <color name="orange_light">#FFE2F0FE</color>
 </resources>
