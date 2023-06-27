@@ -3,6 +3,18 @@ This repository contains code for a dive log Android app that can read dives fro
 [hwOS](https://heinrichsweikamp.com/hw-os) family of dive computers (e.g. Heinrichs Weikamp OSTC Sport) via Bluetooth
 LE (BLE).
 
+Feature Plan:
+- MVP:
+  - Offline-first dive log
+  - Fetch and merge dive logs from dive computer
+  - Plot of dive profile
+  - Additional data (equipment, observations, tags)
+- Afterwards:
+  - Synchronize dive logs in external cloud
+  - Map with dive locations?
+  - Header image?
+  - Custom data fields (e.g. weights, tank, etc.)?
+
 
 ## Modules
 - `app`: The application or presentation layer. Contains compose views, viewmodels, resources, etc.
