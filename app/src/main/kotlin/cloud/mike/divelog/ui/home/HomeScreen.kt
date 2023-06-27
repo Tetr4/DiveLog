@@ -1,6 +1,7 @@
 package cloud.mike.divelog.ui.home
 
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.CornerSize
@@ -48,6 +49,10 @@ fun HomeScreen(
     fun showCloudSettings() = Unit // TODO
     fun showBluetoothImport() {
         scope.launch { sheetState.show() }
+    }
+
+    BackHandler(enabled = sheetState.isVisible) {
+        scope.launch { sheetState.hide() }
     }
 
     ModalBottomSheetLayout(
