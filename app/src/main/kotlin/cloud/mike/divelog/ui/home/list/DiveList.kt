@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
+import cloud.mike.divelog.ui.home.list.item.DiveItem
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
 
 @Composable
