@@ -5,21 +5,21 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FilterChip
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.themeadapter.material.MdcTheme
+import com.google.accompanist.themeadapter.material3.Mdc3Theme
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TagFilters(
     modifier: Modifier = Modifier,
@@ -34,40 +34,28 @@ fun TagFilters(
         FilterChip(
             selected = false,
             onClick = { },
-            leadingIcon = {
-                Icon(Icons.Default.Bedtime, contentDescription = null)
-            },
-        ) {
-            Text("Night dive")
-        }
+            leadingIcon = { Icon(Icons.Default.Bedtime, contentDescription = null) },
+            label = { Text("Night dive") },
+        )
         FilterChip(
             selected = true,
             onClick = { },
-            leadingIcon = {
-                Icon(Icons.Default.Check, contentDescription = null)
-            },
-        ) {
-            Text("Cyprus")
-        }
+            label = { Text("Cyprus") },
+            leadingIcon = { Icon(Icons.Default.Check, contentDescription = null) },
+        )
         FilterChip(
             selected = false,
             onClick = { },
-            leadingIcon = {
-                Icon(Icons.Default.Place, contentDescription = null)
-            },
-        ) {
-            Text("Egypt")
-        }
+            leadingIcon = { Icon(Icons.Default.Place, contentDescription = null) },
+            label = { Text("Egypt") },
+        )
         (0..5).map { index ->
             FilterChip(
                 selected = false,
                 onClick = { },
-                leadingIcon = {
-                    Icon(Icons.Default.Place, contentDescription = null)
-                },
-            ) {
-                Text("Filter: $index")
-            }
+                label = { Text("Filter: $index") },
+                leadingIcon = { Icon(Icons.Default.Place, contentDescription = null) },
+            )
         }
     }
 }
@@ -76,7 +64,7 @@ fun TagFilters(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview() {
-    MdcTheme {
+    Mdc3Theme {
         TagFilters()
     }
 }

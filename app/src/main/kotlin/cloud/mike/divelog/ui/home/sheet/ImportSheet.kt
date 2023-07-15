@@ -12,9 +12,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +31,7 @@ import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_CON
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_NOT_AVAILABLE
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_NOT_ENABLED
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState.READY
-import com.google.accompanist.themeadapter.material.MdcTheme
+import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -69,8 +68,7 @@ fun ImportSheet(
     Column(
         modifier = Modifier
             .fillMaxHeight(0.6f)
-            .fillMaxWidth()
-            .systemBarsPadding(),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(64.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -104,7 +102,7 @@ private class PreconditionProvider : PreviewParameterProvider<PreconditionState>
 private fun Preview(
     @PreviewParameter(PreconditionProvider::class) preconditionState: PreconditionState,
 ) {
-    MdcTheme {
+    Mdc3Theme {
         ImportSheet(
             preconditionState = preconditionState,
             connectionState = IDLE,

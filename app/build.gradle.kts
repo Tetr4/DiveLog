@@ -91,18 +91,18 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
 
     // Compose
-    // See https://developer.android.com/jetpack/compose/setup#bom-version-mapping
+    // See https://developer.android.com/jetpack/compose/bom/bom-mapping
     implementation(platform("androidx.compose:compose-bom:2023.05.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.compose.material:material")
+    implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
 
     // UI
     implementation("androidx.activity:activity-compose:1.7.2")
-    implementation("com.google.accompanist:accompanist-themeadapter-material:0.30.1")
+    implementation("com.google.accompanist:accompanist-themeadapter-material3:0.30.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.navigation:navigation-compose:2.6.0")
 
