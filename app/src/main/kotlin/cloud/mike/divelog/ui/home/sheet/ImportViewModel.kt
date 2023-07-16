@@ -19,8 +19,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx2.asFlow
-import kotlin.jvm.optionals.getOrNull
 
 sealed interface TransferState {
     object Idle : TransferState
@@ -47,14 +45,11 @@ class ImportViewModel(
     private val transferState = MutableStateFlow<TransferState>(TransferState.Idle)
 
     val uiState = combine(
-        // TODO replace Rx with StateFlows
-        deviceProvider.deviceStream.asFlow()
-            .map { it.getOrNull() }
-            .onStart { emit(deviceProvider.device) },
-        preconditionService.preconditionStream.asFlow().onStart { emit(preconditionService.precondition) },
-        autoConnector.connectionStateStream.asFlow().onStart { emit(autoConnector.connectionState) },
+        deviceProvider.deviceFlow.onStart { emit(deviceProvider.device) },
+        preconditionService.preconditionFlow.onStart { emit(preconditionService.precondition) },
+        autoConnector.connectionStateFlow.onStart { emit(autoConnector.connectionState) },
         transferState,
-        autoConnector.error.asFlow()
+        autoConnector.error
             .map<Exception, ErrorMessage?> { errorService.createMessage(it) }
             .onStart { emit(null) },
         ::ImportState,

@@ -13,7 +13,7 @@ enum class BondState(val extra: Int) {
     ;
 
     companion object {
-        fun fromExtra(extra: Int) = values().find { it.extra == extra } ?: UNKNOWN
+        internal fun fromExtra(extra: Int) = values().find { it.extra == extra } ?: UNKNOWN
     }
 }
 

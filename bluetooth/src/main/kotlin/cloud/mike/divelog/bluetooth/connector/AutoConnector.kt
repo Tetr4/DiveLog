@@ -8,14 +8,16 @@ import cloud.mike.divelog.bluetooth.pairing.bonding
 import cloud.mike.divelog.bluetooth.precondition.PreconditionService
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState
 import cloud.mike.divelog.bluetooth.utils.aliasOrName
-import cloud.mike.divelog.bluetooth.utils.subscribeForever
 import com.polidea.rxandroidble2.RxBleClient
 import com.polidea.rxandroidble2.Timeout
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 private val TAG = AutoConnector::class.java.simpleName
@@ -25,21 +27,26 @@ class AutoConnector(
     private val bleClient: RxBleClient,
     private val preconditionService: PreconditionService,
     private val deviceProvider: DeviceProvider,
+    appScope: CoroutineScope,
 ) {
-    val connectionStateStream = BehaviorSubject.createDefault(ConnectionState.IDLE)
-    val connectionState
-        get() = connectionStateStream.value!! // default value, so this can not be null
-    val error = PublishSubject.create<Exception>()
     var connection: Connection? = null
         private set
+    val connectionStateFlow = MutableStateFlow(ConnectionState.IDLE)
+    val connectionState
+        get() = connectionStateFlow.value
+    val error = MutableSharedFlow<Exception>(extraBufferCapacity = 1)
 
     private var autoConnect = false
     private var connectionDisposable: Disposable? = null
 
     init {
         Log.i(TAG, "Init")
-        preconditionService.preconditionStream.subscribeForever { onStateChanged() }
-        deviceProvider.deviceStream.distinctUntilChanged().subscribeForever { onStateChanged() }
+        appScope.launch {
+            preconditionService.preconditionFlow.collect { onStateChanged() }
+        }
+        appScope.launch {
+            deviceProvider.deviceFlow.collect { onStateChanged() }
+        }
     }
 
     fun connect() {
@@ -89,13 +96,16 @@ class AutoConnector(
     private fun startConnection(device: BluetoothDevice) {
         val rxDevice = bleClient.getBleDevice(device.address)
         Log.i(TAG, "Start (${device.aliasOrName})")
-        connectionStateStream.onNext(ConnectionState.CONNECTING)
+        connectionStateFlow.update { ConnectionState.CONNECTING }
         val timeout = Timeout(CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS)
-        connectionDisposable = rxDevice.establishConnection(false, timeout).subscribeOn(Schedulers.io())
+        // TODO replace RX with flow?
+        connectionDisposable = rxDevice
+            .establishConnection(false, timeout)
+            .subscribeOn(Schedulers.io())
             .retryWhen { errorStream ->
                 errorStream
                     .doOnNext { Log.e(TAG, "Could not connect", it) }
-                    .doOnNext { connectionStateStream.onNext(ConnectionState.CONNECTING) }
+                    .doOnNext { connectionStateFlow.update { ConnectionState.CONNECTING } }
                     .takeWhile { autoConnect }
                     .delay(2_000, TimeUnit.MILLISECONDS)
             }
@@ -103,7 +113,7 @@ class AutoConnector(
             .subscribe({
                 Log.i(TAG, "Connected (${device.aliasOrName})")
                 connection = Connection(it)
-                connectionStateStream.onNext(ConnectionState.CONNECTED)
+                connectionStateFlow.update { ConnectionState.CONNECTED }
             }, {
                 stopConnection()
                 showConnectionError(it)
@@ -115,11 +125,11 @@ class AutoConnector(
         connectionDisposable?.dispose()
         connectionDisposable = null
         connection = null
-        connectionStateStream.onNext(ConnectionState.IDLE)
+        connectionStateFlow.update { ConnectionState.IDLE }
     }
 
     private fun showConnectionError(error: Throwable) {
         Log.e(TAG, "Connection error", error)
-        this.error.onNext(ConnectionException(message = error.message, cause = error))
+        this.error.tryEmit(ConnectionException(message = error.message, cause = error))
     }
 }

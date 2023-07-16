@@ -2,13 +2,14 @@ package cloud.mike.divelog.bluetooth.device
 
 import android.bluetooth.BluetoothDevice
 import cloud.mike.divelog.bluetooth.pairing.PairingService
-import io.reactivex.Observable
-import java.util.Optional
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 /** Provides a random bonded device. */
 class AnyDeviceProvider(private val pairingService: PairingService) : DeviceProvider {
-    override val deviceStream: Observable<Optional<BluetoothDevice>> = pairingService.pairedDevicesStream
-        .map { Optional.ofNullable(device) }
+    override val deviceFlow = pairingService.pairedDevicesFlow
+        .map { device }
+        .distinctUntilChanged()
 
     override val device: BluetoothDevice?
         get() = pairingService.pairedDevices.firstOrNull()
