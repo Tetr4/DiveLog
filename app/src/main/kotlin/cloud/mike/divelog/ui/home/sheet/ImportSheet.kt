@@ -44,7 +44,7 @@ fun ImportSheet(viewModel: ImportViewModel = koinViewModel()) {
 }
 
 @Composable
-fun ImportSheet(
+private fun ImportSheet(
     preconditionState: PreconditionState,
     connectionState: ConnectionState,
 ) {

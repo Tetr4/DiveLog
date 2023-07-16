@@ -15,7 +15,8 @@ class DiveRepository {
     suspend fun fetchDives(query: String): Flow<List<Dive>> {
         delay(200)
         return dives.map { dives ->
-            dives.filter { it.matches(query) }
+            dives
+                .filter { it.matches(query) }
         }
     }
 

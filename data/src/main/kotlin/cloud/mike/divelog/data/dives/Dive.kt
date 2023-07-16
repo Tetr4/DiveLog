@@ -10,6 +10,7 @@ import kotlin.math.sin
 
 data class Dive(
     val id: UUID,
+    val number: Int,
     val location: String,
     val start: LocalDateTime,
     val diveTime: Duration,
@@ -20,7 +21,8 @@ data class Dive(
     companion object {
         val sample = Dive(
             id = UUID.randomUUID(),
-            location = "Cyprus",
+            number = 1,
+            location = "Sha'ab Hamam, Egypt",
             start = LocalDateTime.now(),
             diveTime = DiveProfile.sample.samplingRate.multipliedBy(
                 DiveProfile.sample.depthCentimeters.size.toLong(),
@@ -29,12 +31,13 @@ data class Dive(
             minTemperatureCelsius = 20f,
             diveProfile = DiveProfile.sample,
         )
-        val samples = (0..20).map {
+        val samples = List(20) { index ->
             sample.copy(
                 id = UUID.randomUUID(),
-                location = "Dive: $it",
+                number = index + 1,
+                location = "Sha'ab Hamam, Egypt",
             )
-        }
+        }.reversed()
     }
 }
 
