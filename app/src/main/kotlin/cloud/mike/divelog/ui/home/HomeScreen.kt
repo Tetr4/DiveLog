@@ -1,6 +1,7 @@
 package cloud.mike.divelog.ui.home
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -16,16 +17,20 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
+import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.home.list.DiveList
 import cloud.mike.divelog.ui.home.sheet.ImportSheet
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
@@ -40,12 +45,18 @@ fun HomeScreen(
 ) {
     val scope = rememberCoroutineScope()
     val bluetoothSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     fun showAddDive() = Unit // TODO
     fun showCloudSettings() = Unit // TODO
+
     fun showBluetoothImport() {
         scope.launch { bluetoothSheetState.show() }
+    }
+
+    suspend fun showError(message: ErrorMessage) {
+        snackbarHostState.showSnackbar(message.content)
     }
 
     Scaffold(
@@ -63,6 +74,7 @@ fun HomeScreen(
                 showAddDive = ::showAddDive,
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         DiveList(
             modifier = Modifier
@@ -80,7 +92,10 @@ fun HomeScreen(
             sheetState = bluetoothSheetState,
             onDismissRequest = { },
         ) {
-            ImportSheet()
+            ImportSheet(
+                modifier = Modifier.fillMaxHeight(0.6f),
+                onShowError = ::showError,
+            )
         }
     }
 }

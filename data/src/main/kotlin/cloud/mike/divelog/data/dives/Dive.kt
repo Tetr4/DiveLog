@@ -17,6 +17,7 @@ data class Dive(
     val maxDepthMeters: Float?,
     val minTemperatureCelsius: Float?,
     val diveProfile: DiveProfile? = null,
+    // TODO tags
 ) {
     companion object {
         val sample = Dive(
