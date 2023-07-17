@@ -129,7 +129,9 @@ private fun BottomBar(
 private fun Preview() {
     Mdc3Theme {
         HomeScreen(
-            uiState = HomeState(),
+            uiState = HomeState(
+                dives = Dive.samples,
+            ),
             onShowDetail = {},
             onSearch = {},
         )

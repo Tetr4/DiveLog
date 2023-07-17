@@ -26,8 +26,12 @@ fun TransferProgressView(progress: Float?) {
 }
 
 @Composable
-fun TransferErrorView(message: ErrorMessage) {
+fun TransferErrorView(
+    message: ErrorMessage,
+    onRetry: () -> Unit,
+) {
     Text(message.content)
+    Button(onClick = onRetry) { Text("Retry") }
 }
 
 @Composable
@@ -53,7 +57,12 @@ private fun PreviewProgress() {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewError() {
-    Mdc3Theme { TransferErrorView(ErrorMessage("Lorem Ipsum")) }
+    Mdc3Theme {
+        TransferErrorView(
+            message = ErrorMessage("Lorem Ipsum"),
+            onRetry = {},
+        )
+    }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)

@@ -120,7 +120,7 @@ private fun TransferView(
     when (transferState) {
         TransferState.Idle -> TransferIdleView(onStartTransfer = onStartTransfer)
         is TransferState.Transfering -> TransferProgressView(transferState.progress)
-        is TransferState.Error -> TransferErrorView(transferState.message)
+        is TransferState.Error -> TransferErrorView(transferState.message, onRetry = onStartTransfer)
         TransferState.Success -> TransferSuccessView()
     }
 }

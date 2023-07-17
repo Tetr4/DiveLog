@@ -1,6 +1,7 @@
 package cloud.mike.divelog.ui.home.sheet
 
 import android.bluetooth.BluetoothDevice
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cloud.mike.divelog.bluetooth.connector.AutoConnector
@@ -8,6 +9,10 @@ import cloud.mike.divelog.bluetooth.connector.ConnectionState
 import cloud.mike.divelog.bluetooth.device.DeviceProvider
 import cloud.mike.divelog.bluetooth.precondition.PreconditionService
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState
+import cloud.mike.divelog.data.communication.exitCommunication
+import cloud.mike.divelog.data.communication.sendCompactHeaders
+import cloud.mike.divelog.data.communication.startCommunication
+import cloud.mike.divelog.data.logging.logError
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.localization.errors.ErrorService
 import kotlinx.coroutines.delay
@@ -67,16 +72,20 @@ class ImportViewModel(
     fun disconnect() = autoConnector.disconnect()
 
     fun startTransfer() {
+        val connection = autoConnector.connection ?: return
         viewModelScope.launch {
             try {
                 transferState.update { TransferState.Transfering(progress = null) }
                 // TODO implement me
-                repeat(100) { step ->
-                    delay(10)
-                    transferState.update { TransferState.Transfering(progress = step / 100f) }
-                }
+                connection.startCommunication()
+                delay(3000)
+                val result = connection.sendCompactHeaders()
+                Log.d("Import", "Headers: $result")
+                delay(3000)
+                connection.exitCommunication()
                 transferState.update { TransferState.Success }
             } catch (e: Exception) {
+                logError(e)
                 transferState.update { TransferState.Error(errorService.createMessage(e)) }
             }
         }

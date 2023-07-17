@@ -75,7 +75,7 @@ See [hwOS API specification](https://code.heinrichsweikamp.com/public/hwos_code/
 
 ## Download Dives
 First off we have to enable download mode by sending the "start communication" command (`0xBB`). Afterwards we can end
-communication by sending the "exit communication" command (`0xFF`).
+communication by sending the "exit communication" command (`0xFF`). This will kill the bluetooth connection.
 
 We have three options:
 - Send "get compact headers" command (`0x6D`):
@@ -92,7 +92,7 @@ We have three options:
 
 ## Things to keep in mind
 - Track credits and make sure device always has enough.
-- Always wait for echo and acknowledgement (`0x4D`) from device. This might require a UART request queue on top of the BLE request queue.
+- Always wait for echo and acknowledgement (`0x4D`) from device.
 - Device exits COM mode after 120 seconds, so add a heartbeat or reconnect logic.
 
 
