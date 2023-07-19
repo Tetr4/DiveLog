@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.home.list.DiveList
-import cloud.mike.divelog.ui.home.sheet.ImportSheet
+import cloud.mike.divelog.ui.imports.ImportSheet
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import kotlinx.coroutines.launch
 

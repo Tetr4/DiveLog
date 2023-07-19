@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.home.sheet.states
+package cloud.mike.divelog.ui.imports.states
 
 import android.content.res.Configuration
 import androidx.compose.material3.Text

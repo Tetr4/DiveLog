@@ -4,7 +4,7 @@ import cloud.mike.divelog.data.dataModule
 import cloud.mike.divelog.localization.errors.ErrorService
 import cloud.mike.divelog.ui.detail.DetailViewModel
 import cloud.mike.divelog.ui.home.HomeViewModel
-import cloud.mike.divelog.ui.home.sheet.ImportViewModel
+import cloud.mike.divelog.ui.imports.ImportViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module

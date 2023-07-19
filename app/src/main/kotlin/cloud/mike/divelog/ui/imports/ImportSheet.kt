@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.home.sheet
+package cloud.mike.divelog.ui.imports
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -28,25 +28,27 @@ import cloud.mike.divelog.bluetooth.precondition.PreconditionState.READY
 import cloud.mike.divelog.bluetooth.utils.aliasOrName
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.common.LifecycleEffect
-import cloud.mike.divelog.ui.home.sheet.states.BluetoothDisabledView
-import cloud.mike.divelog.ui.home.sheet.states.BluetoothNotAvailableView
-import cloud.mike.divelog.ui.home.sheet.states.ConnectingView
-import cloud.mike.divelog.ui.home.sheet.states.DeviceNotPairedView
-import cloud.mike.divelog.ui.home.sheet.states.MissingPermissionView
-import cloud.mike.divelog.ui.home.sheet.states.NotConnectedView
-import cloud.mike.divelog.ui.home.sheet.states.TransferErrorView
-import cloud.mike.divelog.ui.home.sheet.states.TransferIdleView
-import cloud.mike.divelog.ui.home.sheet.states.TransferProgressView
-import cloud.mike.divelog.ui.home.sheet.states.TransferSuccessView
+import cloud.mike.divelog.ui.imports.states.BluetoothDisabledView
+import cloud.mike.divelog.ui.imports.states.BluetoothNotAvailableView
+import cloud.mike.divelog.ui.imports.states.ConnectingView
+import cloud.mike.divelog.ui.imports.states.DeviceNotPairedView
+import cloud.mike.divelog.ui.imports.states.MissingPermissionView
+import cloud.mike.divelog.ui.imports.states.NotConnectedView
+import cloud.mike.divelog.ui.imports.states.TransferErrorView
+import cloud.mike.divelog.ui.imports.states.TransferIdleView
+import cloud.mike.divelog.ui.imports.states.TransferProgressView
+import cloud.mike.divelog.ui.imports.states.TransferSuccessView
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
-import org.koin.androidx.compose.koinViewModel
+import com.sebaslogen.resaca.viewModelScoped
+import org.koin.java.KoinJavaComponent.getKoin
 
 @Composable
 fun ImportSheet(
     onShowError: suspend (ErrorMessage) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel: ImportViewModel = koinViewModel()
+    // Viewmodel is scoped to sheet, so a new one is created when closing and opening sheet.
+    val viewModel: ImportViewModel = viewModelScoped { getKoin().get() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     ImportSheet(
         modifier = modifier,
@@ -67,8 +69,18 @@ private fun ImportSheet(
     onShowError: suspend (ErrorMessage) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LifecycleEffect(Lifecycle.Event.ON_RESUME, onConnect)
-    LifecycleEffect(Lifecycle.Event.ON_PAUSE, onDisconnect)
+    val transferFinished = uiState.transferState == TransferState.Success
+
+    // Autoconnect when app is in foreground
+    if (!transferFinished) {
+        LifecycleEffect(Lifecycle.Event.ON_RESUME, onConnect)
+        LifecycleEffect(Lifecycle.Event.ON_PAUSE, onDisconnect)
+    }
+
+    // Disconnect after transmission
+    LaunchedEffect(transferFinished) {
+        if (transferFinished) onDisconnect()
+    }
 
     LaunchedEffect(uiState.connectionError) {
         uiState.connectionError?.let { onShowError(it) }
@@ -79,19 +91,34 @@ private fun ImportSheet(
         verticalArrangement = Arrangement.spacedBy(64.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        when (uiState.preconditionState) {
-            BLUETOOTH_NOT_AVAILABLE -> BluetoothNotAvailableView()
-            BLUETOOTH_CONNECTION_PERMISSION_NOT_GRANTED -> MissingPermissionView()
-            BLUETOOTH_NOT_ENABLED -> BluetoothDisabledView()
-            READY -> if (uiState.device == null) {
-                DeviceNotPairedView()
-            } else {
-                ReadyView(
-                    uiState = uiState,
-                    deviceName = uiState.device.aliasOrName,
-                    onStartTransfer = onStartTransfer,
-                )
-            }
+        if (transferFinished) {
+            TransferSuccessView()
+        } else {
+            PreconditionView(
+                uiState = uiState,
+                onStartTransfer = onStartTransfer,
+            )
+        }
+    }
+}
+
+@Composable
+private fun PreconditionView(
+    uiState: ImportState,
+    onStartTransfer: () -> Unit,
+) {
+    when (uiState.preconditionState) {
+        BLUETOOTH_NOT_AVAILABLE -> BluetoothNotAvailableView()
+        BLUETOOTH_CONNECTION_PERMISSION_NOT_GRANTED -> MissingPermissionView()
+        BLUETOOTH_NOT_ENABLED -> BluetoothDisabledView()
+        READY -> if (uiState.device == null) {
+            DeviceNotPairedView()
+        } else {
+            ReadyView(
+                uiState = uiState,
+                deviceName = uiState.device.aliasOrName,
+                onStartTransfer = onStartTransfer,
+            )
         }
     }
 }

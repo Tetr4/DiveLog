@@ -62,12 +62,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        // Needed in addition to jvmToolchain because of this AGP bug: https://issuetracker.google.com/issues/260059413
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
+    kotlin {
+        jvmToolchain(17)
     }
 
     packaging {
@@ -84,6 +85,9 @@ dependencies {
     // Dependency Injection
     implementation("io.insert-koin:koin-android:3.4.2")
     implementation("io.insert-koin:koin-androidx-compose:3.4.5")
+
+    // ViewModel Scoping
+    implementation("com.github.sebaslogen.resaca:resaca:2.4.5")
 
     // Support
     implementation("androidx.core:core-ktx:1.10.1")

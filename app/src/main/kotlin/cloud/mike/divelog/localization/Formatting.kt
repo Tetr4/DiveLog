@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
 import java.text.NumberFormat
-import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
+import kotlin.time.Duration
 
 @Composable
 @ReadOnlyComposable
@@ -18,7 +18,7 @@ fun Number.format(): String = NumberFormat.getInstance(primaryLocale).format(thi
 @ReadOnlyComposable
 fun Number.formatDepthMeters(): String {
     val numberFormat = NumberFormat.getInstance(primaryLocale).apply {
-        maximumFractionDigits = 1
+        maximumFractionDigits = 2
     }
     return numberFormat.format(this) + " m"
 }
@@ -33,7 +33,7 @@ fun LocalDateTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = this
 
 @Composable
 @ReadOnlyComposable
-fun Duration.format() = "${toMinutes()} min"
+fun Duration.format() = "$inWholeMinutes min"
 
 private val primaryLocale: Locale
     @Composable

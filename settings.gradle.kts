@@ -1,4 +1,4 @@
-@Suppress("UnstableApiUsage")
+@file:Suppress("UnstableApiUsage")
 
 pluginManagement {
     repositories {
@@ -13,6 +13,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { setUrl("https://jitpack.io") }
     }
 }
 
