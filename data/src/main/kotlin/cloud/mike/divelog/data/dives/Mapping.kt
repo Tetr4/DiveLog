@@ -1,11 +1,11 @@
 package cloud.mike.divelog.data.dives
 
-import cloud.mike.divelog.data.importer.frames.CompactHeaderFrame
-import cloud.mike.divelog.data.importer.frames.DiveProfileFrame
+import cloud.mike.divelog.data.importer.ostc.frames.DiveHeaderCompactFrame
+import cloud.mike.divelog.data.importer.ostc.frames.DiveProfileFrame
 import java.util.UUID
 import kotlin.time.Duration.Companion.seconds
 
-internal fun CompactHeaderFrame.toDive(number: Int) = Dive(
+internal fun DiveHeaderCompactFrame.toDive(number: Int) = Dive(
     id = UUID.randomUUID(),
     number = number,
     location = "",

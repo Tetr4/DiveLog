@@ -1,4 +1,4 @@
-package cloud.mike.divelog.data.importer.frames
+package cloud.mike.divelog.data.importer.ostc.frames
 
 import cloud.mike.divelog.data.importer.uInt16
 import cloud.mike.divelog.data.importer.uInt24
@@ -8,7 +8,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-data class CompactHeaderFrame(
+internal data class DiveHeaderCompactFrame(
     val profileNumber: Int,
     val profileSize: Int,
     val timestamp: LocalDateTime,
@@ -24,9 +24,9 @@ data class CompactHeaderFrame(
 // 10: 21 00 34 # 33m52s
 // 13: 01 00    # Dive Number
 // 15: 24       # Profile Version
-internal fun ByteArray.parseCompactHeader(profileNumber: Int): CompactHeaderFrame? {
+internal fun ByteArray.parseCompactHeader(profileNumber: Int): DiveHeaderCompactFrame? {
     if (this.isEmptyBank) return null
-    return CompactHeaderFrame(
+    return DiveHeaderCompactFrame(
         profileNumber = profileNumber,
         profileSize = uInt24(0),
         timestamp = LocalDateTime.of(
@@ -41,7 +41,7 @@ internal fun ByteArray.parseCompactHeader(profileNumber: Int): CompactHeaderFram
     )
 }
 
-internal fun ByteArray.parseCompactHeaders(): List<CompactHeaderFrame> = this.toList()
+internal fun ByteArray.parseCompactHeaders(): List<DiveHeaderCompactFrame> = this.toList()
     .chunked(16)
     .mapIndexedNotNull { index, chunk ->
         chunk.toByteArray().parseCompactHeader(profileNumber = index)

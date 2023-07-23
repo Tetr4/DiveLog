@@ -1,18 +1,20 @@
 package cloud.mike.divelog.data.dives
 
-import cloud.mike.divelog.data.importer.frames.CompactHeaderFrame
-import cloud.mike.divelog.data.importer.frames.DiveProfileFrame
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import java.time.LocalDateTime
 import java.util.UUID
 
 class DiveRepository {
 
     // TODO use room database
     private var dives = MutableStateFlow<List<Dive>>(emptyList())
+
+    val currentDiveNumber
+        get() = dives.value.maxOfOrNull { it.number } ?: 0
 
     suspend fun fetchDives(query: String): Flow<List<Dive>> {
         delay(200)
@@ -28,9 +30,9 @@ class DiveRepository {
         return dives.value.find { it.id == id } ?: error("Dive not found")
     }
 
-    suspend fun addDive(dive: Dive) {
+    suspend fun addDives(newDives: List<Dive>) {
         delay(200)
-        dives.update { it + dive }
+        dives.update { it + newDives }
     }
 
     suspend fun updateDive(dive: Dive) {
@@ -38,13 +40,7 @@ class DiveRepository {
         dives.update { dives -> dives.filter { it.id == dive.id } + dive }
     }
 
-    fun importFromDiveComputer(profiles: List<DiveProfileFrame>) {
-        var maxDiveNumber = dives.value.maxOfOrNull { it.number } ?: 0
-        val newDives = profiles.map { it.toDive(++maxDiveNumber) }
-        dives.update { it + newDives }
-    }
-
-    fun contains(header: CompactHeaderFrame) = dives.value.any { it.start == header.timestamp }
+    fun containsDiveAt(timestamp: LocalDateTime) = dives.value.any { it.start == timestamp }
 }
 
 private fun Dive.matches(query: String): Boolean {

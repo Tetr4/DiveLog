@@ -1,4 +1,4 @@
-package cloud.mike.divelog.data.importer.frames
+package cloud.mike.divelog.data.importer.ostc.frames
 
 import cloud.mike.divelog.data.importer.uInt16
 import cloud.mike.divelog.data.importer.uInt8
@@ -7,19 +7,19 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-data class FullHeaderFrame(
+internal data class DiveHeaderFullFrame(
     val timestamp: LocalDateTime,
     val maxDepthCentimeters: Int,
     val diveTime: Duration,
     val minTemperatureCelsius: Float,
-    // most fields omitted because we don't need them
+    // Most fields omitted because we currently don't need them
 ) {
-    internal companion object {
+    companion object {
         const val SIZE_BYTES = 256
     }
 }
 
-internal fun ByteArray.parseFullHeader() = FullHeaderFrame(
+internal fun ByteArray.parseFullHeader() = DiveHeaderFullFrame(
     timestamp = LocalDateTime.of(
         uInt8(12) + 2000,
         uInt8(13),

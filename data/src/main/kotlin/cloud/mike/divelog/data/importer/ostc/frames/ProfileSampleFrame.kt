@@ -1,11 +1,11 @@
-package cloud.mike.divelog.data.importer.frames
+package cloud.mike.divelog.data.importer.ostc.frames
 
 import cloud.mike.divelog.data.importer.uInt16
 import cloud.mike.divelog.data.importer.uInt8
 
-data class ProfileSampleFrame(
+internal data class ProfileSampleFrame(
     val depthCentimeters: Int,
-    // TODO more data
+    // TODO Parse more data
 )
 
 // Depth:
@@ -42,7 +42,6 @@ data class ProfileSampleFrame(
 // - PPO2 Sensor 3 Voltage Low
 // - PP02 Sensor 3 Voltage High
 // - Deco Stop 1 Duration
-// - Deco Stop 2 Duration
 // - ...
 // - Deco Stop 15 Duration
 // - CNS Low
@@ -56,10 +55,9 @@ internal fun ByteArray.parseProfileSample() = ProfileSampleFrame(
 internal fun ByteArray.parseProfileSamples(): List<ProfileSampleFrame> {
     var index = 0
     val samples = mutableListOf<ProfileSampleFrame>()
-    while (index < size - 2) { // TODO check this
+    while (index < lastIndex) {
         val remainingBytes = uInt8(index + 2) and 0b0111_1111
         val nextIndex = index + 3 + remainingBytes
-        if (nextIndex >= size) break // TODO check this
         val sampleBytes = copyOfRange(index, nextIndex)
         samples += sampleBytes.parseProfileSample()
         index = nextIndex

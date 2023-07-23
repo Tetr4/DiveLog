@@ -8,17 +8,26 @@ Feature Plan:
   - Offline-first dive log
   - Fetch and merge dive logs from dive computer
   - Plot of dive profile
+- Next steps:
+  - Synchronize dive logs in external cloud (e.g. Google Drive)
   - Additional data (equipment, observations, tags)
-- Afterwards:
-  - Synchronize dive logs in external cloud
-  - Map with dive locations?
-  - Header image?
-  - Custom data fields (e.g. weights, tank, etc.)?
+- Ideas:
+  - Storing images
+  - Map with dive locations
+  - CSV export / import
+  - User defined data fields (e.g. weights, tank, etc.)
+  - Buddy signature via NFC
+  - Support for more dive computers
+  - In-app payments (only if there are any cloud storage costs)
+- Out of scope:
+  - User accounts
+  - Dive certificates
 
 
 ## Modules
 - `app`: The application or presentation layer. Contains compose views, viewmodels, resources, etc.
-- `data`: The data layer. Contains business logic components, e.g. for fetching data over BLE.
+- `data`: The data layer. Contains business logic components, e.g. `DiveRepository`.
+- `bluetooth`: Generic bluetooth connectivity, permission and pairing handling. No domain specific code.
 
 
 ## Communication Concept
@@ -87,16 +96,13 @@ We have three options:
     - Includes more information than compact headers, like surface pressure, min. temperature, gas mix, deco model, etc.
 - Send "get dive profile" command (`0x66`) with dive number (0-255).
     - Sends full header and dive profile
-    - ~21 kB for a one-hour dive
+    - Profile has variable length, e.g. ~21 kB for a one-hour dive
 
-
-## Things to keep in mind
-- Track credits and make sure device always has enough.
-- Always wait for echo and acknowledgement (`0x4D`) from device.
-- Device exits COM mode after 120 seconds, so add a heartbeat or reconnect logic.
+See [OstcConnection.kt](./data/src/main/kotlin/cloud/mike/divelog/data/importer/ostc/OstcConnection.kt) for
+implementation details.
 
 
 ## Links
 - [Mike's Android Bluetooth Guide](https://mike.cloud/android/2021/05/19/bluetooth.html)
 - [hwOS source](https://code.heinrichsweikamp.com/public/hwos_code/file/tip)
-- [Lovely rant about BLE serial communication](https://github.com/subsurface/subsurface/blob/master/core/qt-ble.cpp#L120-L136) by [@torvalds](https://github.com/torvalds)
+- [Lovely rant about BLE serial communication](https://github.com/subsurface/subsurface/blob/e91c252093e2e12488ae576bf38dbf8859efabea/core/qt-ble.cpp#L121-L135) by [@torvalds](https://github.com/torvalds)

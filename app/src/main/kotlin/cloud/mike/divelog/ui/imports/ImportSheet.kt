@@ -17,7 +17,14 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cloud.mike.divelog.data.importer.DeviceConnectionState
+import cloud.mike.divelog.data.importer.ImportConnectionState
+import cloud.mike.divelog.data.importer.ImportConnectionState.BluetoothNotAvailable
+import cloud.mike.divelog.data.importer.ImportConnectionState.BluetoothNotEnabled
+import cloud.mike.divelog.data.importer.ImportConnectionState.Connected
+import cloud.mike.divelog.data.importer.ImportConnectionState.Connecting
+import cloud.mike.divelog.data.importer.ImportConnectionState.ConnectionPermissionNotGranted
+import cloud.mike.divelog.data.importer.ImportConnectionState.NotConnected
+import cloud.mike.divelog.data.importer.ImportConnectionState.NotPaired
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.common.LifecycleEffect
 import cloud.mike.divelog.ui.imports.states.BluetoothDisabledView
@@ -86,7 +93,7 @@ private fun ImportSheet(
         if (transferFinished) {
             TransferSuccessView()
         } else {
-            PreconditionView(
+            ConnectionView(
                 uiState = uiState,
                 onStartTransfer = onStartTransfer,
             )
@@ -95,18 +102,18 @@ private fun ImportSheet(
 }
 
 @Composable
-private fun PreconditionView(
+private fun ConnectionView(
     uiState: ImportState,
     onStartTransfer: () -> Unit,
 ) {
-    when (uiState.deviceConnectionState) {
-        DeviceConnectionState.BluetoothNotAvailable -> BluetoothNotAvailableView()
-        DeviceConnectionState.ConnectionPermissionNotGranted -> MissingPermissionView()
-        DeviceConnectionState.BluetoothNotEnabled -> BluetoothDisabledView()
-        DeviceConnectionState.NotPaired -> DeviceNotPairedView()
-        is DeviceConnectionState.NotConnected -> NotConnectedView()
-        is DeviceConnectionState.Connecting -> ConnectingView(uiState.deviceConnectionState.deviceName)
-        is DeviceConnectionState.Connected -> TransferView(
+    when (uiState.connectionState) {
+        BluetoothNotAvailable -> BluetoothNotAvailableView()
+        ConnectionPermissionNotGranted -> MissingPermissionView()
+        BluetoothNotEnabled -> BluetoothDisabledView()
+        NotPaired -> DeviceNotPairedView()
+        is NotConnected -> NotConnectedView()
+        is Connecting -> ConnectingView(uiState.connectionState.deviceName)
+        is Connected -> TransferView(
             transferState = uiState.transferState,
             onStartTransfer = onStartTransfer,
         )
@@ -126,15 +133,15 @@ private fun TransferView(
     }
 }
 
-private class StateProvider : PreviewParameterProvider<DeviceConnectionState> {
+private class StateProvider : PreviewParameterProvider<ImportConnectionState> {
     override val values = sequenceOf(
-        DeviceConnectionState.BluetoothNotEnabled,
-        DeviceConnectionState.ConnectionPermissionNotGranted,
-        DeviceConnectionState.BluetoothNotEnabled,
-        DeviceConnectionState.NotPaired,
-        DeviceConnectionState.NotConnected(deviceName = "Device"),
-        DeviceConnectionState.Connecting(deviceName = "Device"),
-        DeviceConnectionState.Connected(deviceName = "Device"),
+        BluetoothNotEnabled,
+        ConnectionPermissionNotGranted,
+        BluetoothNotEnabled,
+        NotPaired,
+        NotConnected(deviceName = "Device"),
+        Connecting(deviceName = "Device"),
+        Connected(deviceName = "Device"),
     )
 }
 
@@ -142,14 +149,14 @@ private class StateProvider : PreviewParameterProvider<DeviceConnectionState> {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview(
-    @PreviewParameter(StateProvider::class) state: DeviceConnectionState,
+    @PreviewParameter(StateProvider::class) state: ImportConnectionState,
 ) {
     Mdc3Theme {
         Card {
             ImportSheet(
                 modifier = Modifier.heightIn(min = 300.dp),
                 uiState = ImportState(
-                    deviceConnectionState = state,
+                    connectionState = state,
                 ),
                 onConnect = {},
                 onDisconnect = {},

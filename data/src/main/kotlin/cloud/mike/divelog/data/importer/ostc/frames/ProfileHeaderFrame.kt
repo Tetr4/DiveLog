@@ -1,9 +1,9 @@
-package cloud.mike.divelog.data.importer.frames
+package cloud.mike.divelog.data.importer.ostc.frames
 
 import cloud.mike.divelog.data.importer.uInt24
 import cloud.mike.divelog.data.importer.uInt8
 
-data class ProfileHeaderFrame(
+internal data class ProfileHeaderFrame(
     val profileDataLength: Int,
     val samplingRateSeconds: Int,
     val numDivisors: Int,
@@ -15,7 +15,7 @@ data class ProfileHeaderFrame(
     val divisorCnsProfile: Int?,
     val divisorTankData: Int?,
 ) {
-    internal val sizeBytes
+    val sizeBytes
         get() = 5 + numDivisors * 3
 }
 

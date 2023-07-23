@@ -7,7 +7,7 @@ import cloud.mike.divelog.bluetooth.pairing.BondState
 import cloud.mike.divelog.bluetooth.pairing.bonding
 import cloud.mike.divelog.bluetooth.precondition.PreconditionService
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState
-import cloud.mike.divelog.bluetooth.utils.aliasOrName
+import cloud.mike.divelog.bluetooth.utils.aliasOrNull
 import com.polidea.rxandroidble2.RxBleClient
 import com.polidea.rxandroidble2.Timeout
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -63,7 +63,7 @@ class AutoConnector(
 
     private fun onStateChanged() {
         val precondition = preconditionService.precondition
-        val deviceName = deviceProvider.device?.aliasOrName ?: "no device"
+        val deviceName = deviceProvider.device?.aliasOrNull ?: "no device"
         Log.i(TAG, "State changed: $precondition - $deviceName")
         stopConnection()
         if (autoConnect) connect()
@@ -95,7 +95,7 @@ class AutoConnector(
 
     private fun startConnection(device: BluetoothDevice) {
         val rxDevice = bleClient.getBleDevice(device.address)
-        Log.i(TAG, "Start (${device.aliasOrName})")
+        Log.i(TAG, "Start (${device.aliasOrNull})")
         connectionStateFlow.update { ConnectionState.CONNECTING }
         val timeout = Timeout(CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS)
         // TODO replace RX with flow?
@@ -111,7 +111,7 @@ class AutoConnector(
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.i(TAG, "Connected (${device.aliasOrName})")
+                Log.i(TAG, "Connected (${device.aliasOrNull})")
                 connection = Connection(it)
                 connectionStateFlow.update { ConnectionState.CONNECTED }
             }, {

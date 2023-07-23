@@ -3,7 +3,7 @@ package cloud.mike.divelog.ui.imports
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cloud.mike.divelog.data.dives.DiveRepository
-import cloud.mike.divelog.data.importer.DeviceConnectionState
+import cloud.mike.divelog.data.importer.ImportConnectionState
 import cloud.mike.divelog.data.importer.Importer
 import cloud.mike.divelog.data.logging.logError
 import cloud.mike.divelog.localization.errors.ErrorMessage
@@ -25,7 +25,7 @@ sealed interface TransferState {
 }
 
 data class ImportState(
-    val deviceConnectionState: DeviceConnectionState,
+    val connectionState: ImportConnectionState,
     val transferState: TransferState = TransferState.Idle,
     val connectionError: ErrorMessage? = null,
 )
@@ -37,17 +37,19 @@ class ImportViewModel(
 ) : ViewModel() {
 
     private val transferState = MutableStateFlow<TransferState>(TransferState.Idle)
-    private val errorFlow = importer.errorFlow.map<Exception, ErrorMessage?> { errorService.createMessage(it) }
+    private val errorFlow = importer.errorFlow
+        .map<Exception, ErrorMessage?> { errorService.createMessage(it) }
+        .onStart { emit(null) }
 
     val uiState = combine(
-        importer.stateFlow,
+        importer.connectionStateFlow,
         transferState,
-        errorFlow.onStart { emit(null) },
+        errorFlow,
         ::ImportState,
     ).stateIn(
         viewModelScope,
         SharingStarted.Eagerly,
-        ImportState(deviceConnectionState = importer.state),
+        ImportState(connectionState = importer.connectionState),
     )
 
     fun connect() = importer.connect()
@@ -55,14 +57,16 @@ class ImportViewModel(
     fun disconnect() = importer.disconnect()
 
     fun startTransfer() {
+        val connection = importer.connection ?: error("Not connected")
         viewModelScope.launch {
             try {
                 transferState.update { TransferState.Transfering(progress = null) }
-                val profiles = importer.downloadProfiles(
-                    filterHeaders = { !diveRepo.contains(it) },
+                val dives = connection.fetchDives(
+                    currentDiveNumber = diveRepo.currentDiveNumber,
+                    isAlreadyImported = { timestamp -> diveRepo.containsDiveAt(timestamp) },
                     onProgress = { progress -> transferState.update { TransferState.Transfering(progress) } },
                 )
-                diveRepo.importFromDiveComputer(profiles)
+                diveRepo.addDives(dives)
                 transferState.update { TransferState.Success }
             } catch (e: Exception) {
                 logError(e)
