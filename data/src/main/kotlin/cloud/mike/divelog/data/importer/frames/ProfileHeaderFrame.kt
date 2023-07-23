@@ -1,7 +1,7 @@
-package cloud.mike.divelog.data.communication.frames
+package cloud.mike.divelog.data.importer.frames
 
-import cloud.mike.divelog.data.communication.uInt24
-import cloud.mike.divelog.data.communication.uInt8
+import cloud.mike.divelog.data.importer.uInt24
+import cloud.mike.divelog.data.importer.uInt8
 
 data class ProfileHeaderFrame(
     val profileDataLength: Int,

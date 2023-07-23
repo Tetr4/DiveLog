@@ -17,15 +17,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cloud.mike.divelog.bluetooth.connector.ConnectionState.CONNECTED
-import cloud.mike.divelog.bluetooth.connector.ConnectionState.CONNECTING
-import cloud.mike.divelog.bluetooth.connector.ConnectionState.IDLE
-import cloud.mike.divelog.bluetooth.precondition.PreconditionState
-import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_CONNECTION_PERMISSION_NOT_GRANTED
-import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_NOT_AVAILABLE
-import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_NOT_ENABLED
-import cloud.mike.divelog.bluetooth.precondition.PreconditionState.READY
-import cloud.mike.divelog.bluetooth.utils.aliasOrName
+import cloud.mike.divelog.data.importer.DeviceConnectionState
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.common.LifecycleEffect
 import cloud.mike.divelog.ui.imports.states.BluetoothDisabledView
@@ -107,32 +99,14 @@ private fun PreconditionView(
     uiState: ImportState,
     onStartTransfer: () -> Unit,
 ) {
-    when (uiState.preconditionState) {
-        BLUETOOTH_NOT_AVAILABLE -> BluetoothNotAvailableView()
-        BLUETOOTH_CONNECTION_PERMISSION_NOT_GRANTED -> MissingPermissionView()
-        BLUETOOTH_NOT_ENABLED -> BluetoothDisabledView()
-        READY -> if (uiState.device == null) {
-            DeviceNotPairedView()
-        } else {
-            ReadyView(
-                uiState = uiState,
-                deviceName = uiState.device.aliasOrName,
-                onStartTransfer = onStartTransfer,
-            )
-        }
-    }
-}
-
-@Composable
-private fun ReadyView(
-    uiState: ImportState,
-    deviceName: String?,
-    onStartTransfer: () -> Unit,
-) {
-    when (uiState.connectionState) {
-        IDLE -> NotConnectedView()
-        CONNECTING -> ConnectingView(deviceName)
-        CONNECTED -> TransferView(
+    when (uiState.deviceConnectionState) {
+        DeviceConnectionState.BluetoothNotAvailable -> BluetoothNotAvailableView()
+        DeviceConnectionState.ConnectionPermissionNotGranted -> MissingPermissionView()
+        DeviceConnectionState.BluetoothNotEnabled -> BluetoothDisabledView()
+        DeviceConnectionState.NotPaired -> DeviceNotPairedView()
+        is DeviceConnectionState.NotConnected -> NotConnectedView()
+        is DeviceConnectionState.Connecting -> ConnectingView(uiState.deviceConnectionState.deviceName)
+        is DeviceConnectionState.Connected -> TransferView(
             transferState = uiState.transferState,
             onStartTransfer = onStartTransfer,
         )
@@ -152,23 +126,30 @@ private fun TransferView(
     }
 }
 
-private class PreconditionProvider : PreviewParameterProvider<PreconditionState> {
-    override val values = PreconditionState.values().asSequence()
+private class StateProvider : PreviewParameterProvider<DeviceConnectionState> {
+    override val values = sequenceOf(
+        DeviceConnectionState.BluetoothNotEnabled,
+        DeviceConnectionState.ConnectionPermissionNotGranted,
+        DeviceConnectionState.BluetoothNotEnabled,
+        DeviceConnectionState.NotPaired,
+        DeviceConnectionState.NotConnected(deviceName = "Device"),
+        DeviceConnectionState.Connecting(deviceName = "Device"),
+        DeviceConnectionState.Connected(deviceName = "Device"),
+    )
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview(
-    @PreviewParameter(PreconditionProvider::class) preconditionState: PreconditionState,
+    @PreviewParameter(StateProvider::class) state: DeviceConnectionState,
 ) {
     Mdc3Theme {
         Card {
             ImportSheet(
                 modifier = Modifier.heightIn(min = 300.dp),
                 uiState = ImportState(
-                    preconditionState = preconditionState,
-                    connectionState = IDLE,
+                    deviceConnectionState = state,
                 ),
                 onConnect = {},
                 onDisconnect = {},

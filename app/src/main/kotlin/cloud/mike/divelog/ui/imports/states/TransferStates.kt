@@ -1,10 +1,13 @@
 package cloud.mike.divelog.ui.imports.states
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
@@ -30,8 +33,13 @@ fun TransferErrorView(
     message: ErrorMessage,
     onRetry: () -> Unit,
 ) {
-    Text(message.content)
-    Button(onClick = onRetry) { Text("Retry") }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(message.content)
+        Button(onClick = onRetry) { Text("Retry") }
+    }
 }
 
 @Composable

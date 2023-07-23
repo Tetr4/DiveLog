@@ -1,7 +1,7 @@
 package cloud.mike.divelog.data.dives
 
-import cloud.mike.divelog.data.communication.frames.CompactHeaderFrame
-import cloud.mike.divelog.data.communication.frames.DiveProfileFrame
+import cloud.mike.divelog.data.importer.frames.CompactHeaderFrame
+import cloud.mike.divelog.data.importer.frames.DiveProfileFrame
 import java.util.UUID
 import kotlin.time.Duration.Companion.seconds
 

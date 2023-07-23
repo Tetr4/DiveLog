@@ -1,4 +1,4 @@
-package cloud.mike.divelog.data.communication
+package cloud.mike.divelog.data.importer
 
 // Payload is in little endian
 internal fun ByteArray.uInt8(index: Int) = this[index].toUByte().toInt()

@@ -1,4 +1,4 @@
-package cloud.mike.divelog.data.communication.frames
+package cloud.mike.divelog.data.importer.frames
 
 data class DiveProfileFrame(
     val diveHeader: FullHeaderFrame,
@@ -15,9 +15,9 @@ data class DiveProfileFrame(
 internal fun ByteArray.parseProfile(): DiveProfileFrame {
     val fullHeader = this.parseFullHeader()
     val profileHeader = this
-        .copyOfRange(fullHeader.sizeBytes, this.size)
+        .copyOfRange(FullHeaderFrame.SIZE_BYTES, this.size)
         .parseProfileHeader()
-    val startOfSamples = fullHeader.sizeBytes + profileHeader.sizeBytes
+    val startOfSamples = FullHeaderFrame.SIZE_BYTES + profileHeader.sizeBytes
     val samples = this
         .copyOfRange(startOfSamples, profileHeader.profileDataLength - 2)
         .parseProfileSamples()

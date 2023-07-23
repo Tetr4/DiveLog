@@ -1,7 +1,7 @@
-package cloud.mike.divelog.data.communication.frames
+package cloud.mike.divelog.data.importer.frames
 
-import cloud.mike.divelog.data.communication.uInt16
-import cloud.mike.divelog.data.communication.uInt8
+import cloud.mike.divelog.data.importer.uInt16
+import cloud.mike.divelog.data.importer.uInt8
 import java.time.LocalDateTime
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -14,8 +14,9 @@ data class FullHeaderFrame(
     val minTemperatureCelsius: Float,
     // most fields omitted because we don't need them
 ) {
-    internal val sizeBytes
-        get() = 256
+    internal companion object {
+        const val SIZE_BYTES = 256
+    }
 }
 
 internal fun ByteArray.parseFullHeader() = FullHeaderFrame(

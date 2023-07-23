@@ -1,7 +1,7 @@
-package cloud.mike.divelog.data.communication.frames
+package cloud.mike.divelog.data.importer.frames
 
-import cloud.mike.divelog.data.communication.uInt16
-import cloud.mike.divelog.data.communication.uInt8
+import cloud.mike.divelog.data.importer.uInt16
+import cloud.mike.divelog.data.importer.uInt8
 
 data class ProfileSampleFrame(
     val depthCentimeters: Int,
@@ -56,9 +56,10 @@ internal fun ByteArray.parseProfileSample() = ProfileSampleFrame(
 internal fun ByteArray.parseProfileSamples(): List<ProfileSampleFrame> {
     var index = 0
     val samples = mutableListOf<ProfileSampleFrame>()
-    while (index < size) {
+    while (index < size - 2) { // TODO check this
         val remainingBytes = uInt8(index + 2) and 0b0111_1111
         val nextIndex = index + 3 + remainingBytes
+        if (nextIndex >= size) break // TODO check this
         val sampleBytes = copyOfRange(index, nextIndex)
         samples += sampleBytes.parseProfileSample()
         index = nextIndex

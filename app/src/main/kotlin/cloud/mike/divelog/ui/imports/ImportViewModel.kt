@@ -1,18 +1,10 @@
 package cloud.mike.divelog.ui.imports
 
-import android.bluetooth.BluetoothDevice
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cloud.mike.divelog.bluetooth.connector.AutoConnector
-import cloud.mike.divelog.bluetooth.connector.ConnectionState
-import cloud.mike.divelog.bluetooth.device.DeviceProvider
-import cloud.mike.divelog.bluetooth.precondition.PreconditionService
-import cloud.mike.divelog.bluetooth.precondition.PreconditionState
-import cloud.mike.divelog.data.communication.exitCommunication
-import cloud.mike.divelog.data.communication.getDiveProfile
-import cloud.mike.divelog.data.communication.sendCompactHeaders
-import cloud.mike.divelog.data.communication.startCommunication
 import cloud.mike.divelog.data.dives.DiveRepository
+import cloud.mike.divelog.data.importer.DeviceConnectionState
+import cloud.mike.divelog.data.importer.Importer
 import cloud.mike.divelog.data.logging.logError
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.localization.errors.ErrorService
@@ -33,58 +25,44 @@ sealed interface TransferState {
 }
 
 data class ImportState(
-    val device: BluetoothDevice? = null,
-    val preconditionState: PreconditionState,
-    val connectionState: ConnectionState,
+    val deviceConnectionState: DeviceConnectionState,
     val transferState: TransferState = TransferState.Idle,
     val connectionError: ErrorMessage? = null,
 )
 
 class ImportViewModel(
-    deviceProvider: DeviceProvider,
-    preconditionService: PreconditionService,
-    private val autoConnector: AutoConnector,
+    private val importer: Importer,
     private val errorService: ErrorService,
-    private val diveRepository: DiveRepository,
+    private val diveRepo: DiveRepository,
 ) : ViewModel() {
 
     private val transferState = MutableStateFlow<TransferState>(TransferState.Idle)
-    private val errorFlow = autoConnector.error.map<Exception, ErrorMessage?> { errorService.createMessage(it) }
+    private val errorFlow = importer.errorFlow.map<Exception, ErrorMessage?> { errorService.createMessage(it) }
 
     val uiState = combine(
-        deviceProvider.deviceFlow.onStart { emit(deviceProvider.device) },
-        preconditionService.preconditionFlow.onStart { emit(preconditionService.precondition) },
-        autoConnector.connectionStateFlow.onStart { emit(autoConnector.connectionState) },
+        importer.stateFlow,
         transferState,
         errorFlow.onStart { emit(null) },
         ::ImportState,
     ).stateIn(
         viewModelScope,
         SharingStarted.Eagerly,
-        ImportState(
-            preconditionState = preconditionService.precondition,
-            connectionState = autoConnector.connectionState,
-        ),
+        ImportState(deviceConnectionState = importer.state),
     )
 
-    fun connect() = autoConnector.connect()
+    fun connect() = importer.connect()
 
-    fun disconnect() = autoConnector.disconnect()
+    fun disconnect() = importer.disconnect()
 
     fun startTransfer() {
-        val connection = autoConnector.connection ?: return
         viewModelScope.launch {
             try {
                 transferState.update { TransferState.Transfering(progress = null) }
-                connection.startCommunication()
-                val headers = connection.sendCompactHeaders()
-                // TODO only fetch dive profiles for new dives that don't exist locally
-                val divesToImport = headers.takeLast(1)
-                val profiles = divesToImport.map {
-                    connection.getDiveProfile(it.profileNumber)
-                }
-                diveRepository.importFromDiveComputer(profiles)
-                runCatching { connection.exitCommunication() }
+                val profiles = importer.downloadProfiles(
+                    filterHeaders = { !diveRepo.contains(it) },
+                    onProgress = { progress -> transferState.update { TransferState.Transfering(progress) } },
+                )
+                diveRepo.importFromDiveComputer(profiles)
                 transferState.update { TransferState.Success }
             } catch (e: Exception) {
                 logError(e)

@@ -1,8 +1,8 @@
-package cloud.mike.divelog.data.communication.frames
+package cloud.mike.divelog.data.importer.frames
 
-import cloud.mike.divelog.data.communication.uInt16
-import cloud.mike.divelog.data.communication.uInt24
-import cloud.mike.divelog.data.communication.uInt8
+import cloud.mike.divelog.data.importer.uInt16
+import cloud.mike.divelog.data.importer.uInt24
+import cloud.mike.divelog.data.importer.uInt8
 import java.time.LocalDateTime
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -44,7 +44,7 @@ internal fun ByteArray.parseCompactHeader(profileNumber: Int): CompactHeaderFram
 internal fun ByteArray.parseCompactHeaders(): List<CompactHeaderFrame> = this.toList()
     .chunked(16)
     .mapIndexedNotNull { index, chunk ->
-        chunk.toByteArray().parseCompactHeader(profileNumber = index) // TODO check order
+        chunk.toByteArray().parseCompactHeader(profileNumber = index)
     }
 
 private val ByteArray.isEmptyBank

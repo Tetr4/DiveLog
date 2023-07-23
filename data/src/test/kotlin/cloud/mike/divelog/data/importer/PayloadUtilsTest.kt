@@ -1,4 +1,4 @@
-package cloud.mike.divelog.data.communication
+package cloud.mike.divelog.data.importer
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

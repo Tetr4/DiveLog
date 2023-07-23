@@ -27,10 +27,10 @@ class Connection(private val rxBleConnection: RxBleConnection) {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun setupNotification(uuid: UUID, onSubscribe: suspend () -> Unit = {}): Flow<ByteArray> =
-        rxBleConnection.setupNotification(uuid, NotificationSetupMode.QUICK_SETUP)
+    fun setupNotification(uuid: UUID, onSetupCompleted: suspend () -> Unit = {}): Flow<ByteArray> =
+        rxBleConnection.setupNotification(uuid, NotificationSetupMode.DEFAULT)
             .asFlow()
-            .onEach { onSubscribe() }
+            .onEach { onSetupCompleted() }
             .flatMapConcat { it.asFlow() }
             .onEach { Log.v(TAG, "<<< $uuid | ${it.toHexString()}") }
 }

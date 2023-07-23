@@ -25,7 +25,7 @@ android {
 
 dependencies {
     // Modules
-    api(project(":bluetooth"))
+    implementation(project(":bluetooth"))
 
     // Dependency Injection
     implementation("io.insert-koin:koin-android:3.4.2")
