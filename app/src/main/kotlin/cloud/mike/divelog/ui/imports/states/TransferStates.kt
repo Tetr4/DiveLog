@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import cloud.mike.divelog.localization.errors.ErrorMessage
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
 fun TransferIdleView(onStartTransfer: () -> Unit) {
@@ -51,21 +51,21 @@ fun TransferSuccessView() {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewIdle() {
-    Mdc3Theme { TransferIdleView(onStartTransfer = {}) }
+    DiveTheme { TransferIdleView(onStartTransfer = {}) }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewProgress() {
-    Mdc3Theme { TransferProgressView(0.66f) }
+    DiveTheme { TransferProgressView(0.66f) }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewError() {
-    Mdc3Theme {
+    DiveTheme {
         TransferErrorView(
             message = ErrorMessage("Lorem Ipsum"),
             onRetry = {},
@@ -77,5 +77,5 @@ private fun PreviewError() {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewSuccess() {
-    Mdc3Theme { TransferSuccessView() }
+    DiveTheme { TransferSuccessView() }
 }

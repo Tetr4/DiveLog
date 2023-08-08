@@ -13,7 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
 fun BluetoothNotAvailableView() {
@@ -51,19 +51,19 @@ fun BluetoothDisabledView() {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewBluetoothNotAvailable() {
-    Mdc3Theme { BluetoothNotAvailableView() }
+    DiveTheme { BluetoothNotAvailableView() }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewMissingPermission() {
-    Mdc3Theme { MissingPermissionView() }
+    DiveTheme { MissingPermissionView() }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewBluetoothDisabled() {
-    Mdc3Theme { BluetoothDisabledView() }
+    DiveTheme { BluetoothDisabledView() }
 }

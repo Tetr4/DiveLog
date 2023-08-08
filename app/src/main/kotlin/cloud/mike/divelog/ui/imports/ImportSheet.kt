@@ -26,6 +26,7 @@ import cloud.mike.divelog.data.importer.ImportConnectionState.ConnectionPermissi
 import cloud.mike.divelog.data.importer.ImportConnectionState.NotConnected
 import cloud.mike.divelog.data.importer.ImportConnectionState.NotPaired
 import cloud.mike.divelog.localization.errors.ErrorMessage
+import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.LifecycleEffect
 import cloud.mike.divelog.ui.imports.states.BluetoothDisabledView
 import cloud.mike.divelog.ui.imports.states.BluetoothNotAvailableView
@@ -37,7 +38,6 @@ import cloud.mike.divelog.ui.imports.states.TransferErrorView
 import cloud.mike.divelog.ui.imports.states.TransferIdleView
 import cloud.mike.divelog.ui.imports.states.TransferProgressView
 import cloud.mike.divelog.ui.imports.states.TransferSuccessView
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import com.sebaslogen.resaca.viewModelScoped
 import org.koin.java.KoinJavaComponent.getKoin
 
@@ -151,7 +151,7 @@ private class StateProvider : PreviewParameterProvider<ImportConnectionState> {
 private fun Preview(
     @PreviewParameter(StateProvider::class) state: ImportConnectionState,
 ) {
-    Mdc3Theme {
+    DiveTheme {
         Card {
             ImportSheet(
                 modifier = Modifier.heightIn(min = 300.dp),

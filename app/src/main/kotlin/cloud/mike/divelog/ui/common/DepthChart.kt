@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.DiveProfile
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import cloud.mike.divelog.ui.DiveTheme
 
 private const val MAX_DATA_POINTS = 200 // Reduce huge datasets
 private const val DEPTH_PADDING_PERCENT = 1.1f // Ensure chart never touches bottom
@@ -66,7 +66,7 @@ fun DepthChart(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview() {
-    Mdc3Theme {
+    DiveTheme {
         DepthChart(
             modifier = Modifier.height(64.dp),
             profile = DiveProfile.sample,

@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
 fun DetailScreen(
@@ -56,7 +56,7 @@ private class DetailSstatePreviewProvider : PreviewParameterProvider<DetailState
 private fun Preview(
     @PreviewParameter(DetailSstatePreviewProvider::class) uiState: DetailState,
 ) {
-    Mdc3Theme {
+    DiveTheme {
         DetailScreen(
             uiState = uiState,
             onFetchDive = {},

@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
 fun DeviceNotPairedView() {
@@ -25,5 +25,5 @@ fun DeviceNotPairedView() {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewDeviceNotPaired() {
-    Mdc3Theme { DeviceNotPairedView() }
+    DiveTheme { DeviceNotPairedView() }
 }

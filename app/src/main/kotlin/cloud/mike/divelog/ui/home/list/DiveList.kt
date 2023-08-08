@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
 fun DiveList(
@@ -105,7 +105,7 @@ private fun ListView(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview() {
-    Mdc3Theme {
+    DiveTheme {
         DiveList(
             dives = Dive.samples,
             onDiveClicked = {},
@@ -119,7 +119,7 @@ private fun Preview() {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewEmpty() {
-    Mdc3Theme {
+    DiveTheme {
         DiveList(
             dives = emptyList(),
             onDiveClicked = {},

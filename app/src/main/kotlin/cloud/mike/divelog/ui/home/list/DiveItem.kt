@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.localization.formatDepthMeters
+import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.DepthChart
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
 
 @Composable
 fun DiveItem(
@@ -79,7 +79,7 @@ private fun DiveNumber(number: Int) {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewNoProfile() {
-    Mdc3Theme {
+    DiveTheme {
         DiveItem(
             dive = Dive.sample.copy(diveProfile = null),
             onClick = {},
@@ -91,7 +91,7 @@ private fun PreviewNoProfile() {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview() {
-    Mdc3Theme {
+    DiveTheme {
         DiveItem(
             dive = Dive.sample,
             onClick = {},

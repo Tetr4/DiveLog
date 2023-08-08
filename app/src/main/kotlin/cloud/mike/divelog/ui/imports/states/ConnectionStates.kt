@@ -4,7 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
 fun NotConnectedView() {
@@ -20,12 +20,12 @@ fun ConnectingView(deviceName: String?) {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewNotConnected() {
-    Mdc3Theme { NotConnectedView() }
+    DiveTheme { NotConnectedView() }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewConnecting() {
-    Mdc3Theme { ConnectingView(deviceName = "OSTC") }
+    DiveTheme { ConnectingView(deviceName = "OSTC") }
 }

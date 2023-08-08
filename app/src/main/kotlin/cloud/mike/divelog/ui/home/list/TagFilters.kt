@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import cloud.mike.divelog.ui.DiveTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +64,7 @@ fun TagFilters(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview() {
-    Mdc3Theme {
+    DiveTheme {
         TagFilters()
     }
 }

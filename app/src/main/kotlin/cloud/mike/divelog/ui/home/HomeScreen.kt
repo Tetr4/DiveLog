@@ -31,9 +31,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
+import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.home.list.DiveList
 import cloud.mike.divelog.ui.imports.ImportSheet
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -127,7 +127,7 @@ private fun BottomBar(
 @Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview() {
-    Mdc3Theme {
+    DiveTheme {
         HomeScreen(
             uiState = HomeState(
                 dives = Dive.samples,
