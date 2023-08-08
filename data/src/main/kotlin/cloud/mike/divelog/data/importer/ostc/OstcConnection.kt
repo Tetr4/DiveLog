@@ -120,7 +120,8 @@ internal class OstcConnection(
         val combinedResponse = connection.subscribeData(
             onSubscribed = { connection.sendByte(command) },
         )
-            .onEach { uartCredits--; ensureCredits() }
+            .onEach { uartCredits-- }
+            .onEach { ensureCredits() }
             .onFirst { commandParameters?.let { connection.sendData(it) } } // Send payload after command echo response
             .runningReduce { accumulator, value -> accumulator + value } // Combine message payloads
             // Stop when combined response (minus echo and stop byte) has expected length

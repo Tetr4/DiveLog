@@ -13,5 +13,8 @@
 !.idea/icon.svg
 !.idea/.name
 
+# Keystore
+*.jks
+
 # OSX filesystem
 .DS_Store

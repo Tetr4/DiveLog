@@ -13,13 +13,8 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
+    kotlin {
+        jvmToolchain(17)
     }
 }
 
@@ -28,7 +23,7 @@ dependencies {
     implementation(project(":bluetooth"))
 
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:3.4.2")
+    implementation("io.insert-koin:koin-android:3.4.3")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
