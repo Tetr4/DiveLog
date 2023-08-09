@@ -40,9 +40,10 @@ class DiveRepository {
         dives.update { dives -> dives.filter { it.id == dive.id } + dive }
     }
 
+    // TODO Duplicate checking will become more complex once it is possible to delete, edit or merge dives.
     fun containsDiveAt(timestamp: LocalDateTime) = dives.value.any { it.start == timestamp }
 }
 
 private fun Dive.matches(query: String): Boolean {
-    return location.contains(query, ignoreCase = true)
+    return location?.name.orEmpty().contains(query, ignoreCase = true)
 }

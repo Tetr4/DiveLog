@@ -18,10 +18,11 @@ Feature Plan:
   - User defined data fields (e.g. weights, tank, etc.)
   - Buddy signature via NFC
   - Support for more dive computers
-  - In-app payments (only if there are any cloud storage costs)
+  - In-app payments (only if there are any running server costs)
 - Out of scope:
   - User accounts
   - Dive certificates
+  - Social media stuff
 
 
 ## Modules

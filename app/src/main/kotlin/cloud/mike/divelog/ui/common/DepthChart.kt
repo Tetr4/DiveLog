@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cloud.mike.divelog.data.dives.DiveProfile
+import cloud.mike.divelog.data.dives.DepthProfile
 import cloud.mike.divelog.ui.DiveTheme
 
 private const val MAX_DATA_POINTS = 200 // Reduce huge datasets
@@ -24,7 +24,7 @@ private const val DEPTH_PADDING_PERCENT = 1.1f // Ensure chart never touches bot
 
 @Composable
 fun DepthChart(
-    profile: DiveProfile,
+    profile: DepthProfile,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
@@ -34,9 +34,7 @@ fun DepthChart(
         }
     }
 
-    Canvas(
-        modifier = modifier.fillMaxSize(),
-    ) {
+    Canvas(modifier = modifier.fillMaxSize()) {
         val maxValue = dataPoints.max().toFloat() * DEPTH_PADDING_PERCENT
         val maxPoints = dataPoints.size.toFloat()
         val coordinates = dataPoints.mapIndexed { index, value ->
@@ -69,7 +67,7 @@ private fun Preview() {
     DiveTheme {
         DepthChart(
             modifier = Modifier.height(64.dp),
-            profile = DiveProfile.sample,
+            profile = DepthProfile.sample,
         )
     }
 }

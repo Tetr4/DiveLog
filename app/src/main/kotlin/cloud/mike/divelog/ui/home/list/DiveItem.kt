@@ -37,14 +37,14 @@ fun DiveItem(
             .clickable(onClick = onClick),
         leadingContent = {
             Box(modifier = Modifier.size(64.dp)) {
-                when (val profile = dive.diveProfile) {
+                when (val profile = dive.depthProfile) {
                     // TODO We could also show map marker or pictures here
                     null -> DiverIcon(modifier = Modifier.align(Alignment.Center))
                     else -> DepthChart(profile = profile)
                 }
             }
         },
-        headlineContent = { Text(dive.location) },
+        headlineContent = { Text(dive.location?.name.orEmpty()) },
         overlineContent = { Text(dive.start.format()) },
         supportingContent = { Text(dive.formatInfoLine()) },
         trailingContent = { DiveNumber(dive.number) },
@@ -89,7 +89,7 @@ private fun Dive.formatInfoLine(): String = listOfNotNull(
 private fun PreviewNoProfile() {
     DiveTheme {
         DiveItem(
-            dive = Dive.sample.copy(diveProfile = null),
+            dive = Dive.sample.copy(depthProfile = null),
             onClick = {},
         )
     }
