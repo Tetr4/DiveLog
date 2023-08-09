@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.format
+import cloud.mike.divelog.localization.formatDiveNumber
 import cloud.mike.divelog.ui.DiveTheme
 import java.time.LocalDateTime
 import java.time.format.FormatStyle
@@ -52,7 +53,7 @@ private fun DiveNumber(number: Int) {
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = "#${number.format()}",
+            text = number.formatDiveNumber(),
             style = MaterialTheme.typography.labelLarge,
         )
     }

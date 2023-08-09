@@ -2,6 +2,7 @@ package cloud.mike.divelog.ui.imports
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.data.dives.DiveRepository
 import cloud.mike.divelog.data.importer.ImportConnectionState
 import cloud.mike.divelog.data.importer.Importer
@@ -21,7 +22,7 @@ sealed interface TransferState {
     data object Idle : TransferState
     data class Transfering(val progress: Float?) : TransferState
     data class Error(val message: ErrorMessage) : TransferState
-    data object Success : TransferState
+    data class Success(val importedDives: List<Dive>) : TransferState
 }
 
 data class ImportState(
@@ -67,7 +68,7 @@ class ImportViewModel(
                     onProgress = { progress -> transferState.update { TransferState.Transfering(progress) } },
                 )
                 diveRepo.addDives(dives)
-                transferState.update { TransferState.Success }
+                transferState.update { TransferState.Success(dives) }
             } catch (e: Exception) {
                 logError(e)
                 transferState.update { TransferState.Error(errorService.createMessage(e)) }

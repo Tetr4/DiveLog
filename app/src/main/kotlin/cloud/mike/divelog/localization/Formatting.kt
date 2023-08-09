@@ -16,6 +16,10 @@ fun Number.format(): String = NumberFormat.getInstance(primaryLocale).format(thi
 
 @Composable
 @ReadOnlyComposable
+fun Number.formatDiveNumber(): String = "#${this.format()}"
+
+@Composable
+@ReadOnlyComposable
 fun Number.formatDepthMeters(): String {
     val numberFormat = NumberFormat.getInstance(primaryLocale).apply {
         maximumFractionDigits = 2

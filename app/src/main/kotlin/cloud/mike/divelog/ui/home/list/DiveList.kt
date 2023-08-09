@@ -18,8 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.ui.DiveTheme
 
@@ -39,10 +41,9 @@ fun DiveList(
             modifier = Modifier.padding(horizontal = 16.dp),
             value = query,
             onValueChange = onQueryChanged,
-            placeholder = "Tauchgänge suchen",
+            placeholder = stringResource(R.string.home_search_placeholder),
         )
         TagFilters(
-            // we don't add this to contentPadding, because it should be scrollable to the edge of the screen
             modifier = Modifier.padding(horizontal = 16.dp),
         )
         if (dives.isEmpty()) {
@@ -65,7 +66,10 @@ private fun EmptyState(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text("No dives yet.", style = MaterialTheme.typography.headlineLarge)
+        Text(
+            text = stringResource(R.string.home_label_empty),
+            style = MaterialTheme.typography.headlineLarge,
+        )
         Spacer(Modifier.height(32.dp))
         Icon(
             modifier = Modifier

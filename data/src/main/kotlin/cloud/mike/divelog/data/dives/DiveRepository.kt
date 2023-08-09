@@ -11,7 +11,7 @@ import java.util.UUID
 class DiveRepository {
 
     // TODO use room database
-    private var dives = MutableStateFlow<List<Dive>>(emptyList())
+    private var dives = MutableStateFlow<List<Dive>>(Dive.samples)
 
     val currentDiveNumber
         get() = dives.value.maxOfOrNull { it.number } ?: 0

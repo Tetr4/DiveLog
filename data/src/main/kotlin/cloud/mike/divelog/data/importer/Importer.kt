@@ -29,10 +29,10 @@ sealed interface ImportConnectionState {
     val deviceName: String?
         get() = null
 
-    object BluetoothNotAvailable : ImportConnectionState
-    object ConnectionPermissionNotGranted : ImportConnectionState
-    object BluetoothNotEnabled : ImportConnectionState
-    object NotPaired : ImportConnectionState
+    data object BluetoothNotAvailable : ImportConnectionState
+    data object ConnectionPermissionNotGranted : ImportConnectionState
+    data object BluetoothNotEnabled : ImportConnectionState
+    data object NotPaired : ImportConnectionState
     data class NotConnected(override val deviceName: String?) : ImportConnectionState
     data class Connecting(override val deviceName: String?) : ImportConnectionState
     data class Connected(override val deviceName: String?) : ImportConnectionState

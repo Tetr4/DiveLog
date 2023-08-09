@@ -8,14 +8,18 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import cloud.mike.divelog.R
+import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
 fun TransferIdleView(onStartTransfer: () -> Unit) {
     Button(onClick = onStartTransfer) {
-        Text("Download Dives")
+        Text(stringResource(R.string.import_button_download_dives))
     }
 }
 
@@ -38,13 +42,21 @@ fun TransferErrorView(
         verticalArrangement = Arrangement.Center,
     ) {
         Text(message.content)
-        Button(onClick = onRetry) { Text("Retry") }
+        Button(onClick = onRetry) {
+            Text(stringResource(R.string.common_button_retry))
+        }
     }
 }
 
 @Composable
-fun TransferSuccessView() {
-    Text("Success")
+fun TransferSuccessView(importedDives: List<Dive>) {
+    Text(
+        text = pluralStringResource(
+            R.plurals.import_status_success,
+            importedDives.size,
+            importedDives.size,
+        ),
+    )
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -77,5 +89,9 @@ private fun PreviewError() {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewSuccess() {
-    DiveTheme { TransferSuccessView() }
+    DiveTheme {
+        TransferSuccessView(
+            importedDives = Dive.samples,
+        )
+    }
 }

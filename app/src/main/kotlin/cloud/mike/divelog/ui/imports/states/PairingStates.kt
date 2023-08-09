@@ -7,7 +7,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import cloud.mike.divelog.R
 import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
@@ -17,7 +19,7 @@ fun DeviceNotPairedView() {
         context.startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS))
     }
     Button(onClick = ::showBluetoothSettings) {
-        Text("Pair device")
+        Text(stringResource(R.string.import_button_pair))
     }
 }
 

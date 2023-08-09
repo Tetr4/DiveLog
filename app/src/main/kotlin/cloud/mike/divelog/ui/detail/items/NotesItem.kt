@@ -13,8 +13,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.CardHeadline
@@ -29,7 +31,7 @@ fun NotesItem(
         Column(modifier = Modifier.padding(MaterialTheme.spacing.cardPadding)) {
             CardHeadline(
                 imageVector = Icons.Default.Notes,
-                title = "Notes", // TODO localize
+                title = stringResource(R.string.dive_detail_label_notes),
             )
             Spacer(Modifier.height(8.dp))
             Text(

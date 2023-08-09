@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.localization.formatDepthMeters
+import cloud.mike.divelog.localization.formatDiveNumber
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.DepthChart
 
@@ -70,7 +71,7 @@ private fun DiveNumber(number: Int) {
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = "#${number.format()}",
+            text = number.formatDiveNumber(),
             style = MaterialTheme.typography.labelLarge,
         )
     }

@@ -27,8 +27,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
@@ -63,7 +65,7 @@ fun HomeScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
-                title = { Text("My Dives") },
+                title = { Text(stringResource(R.string.home_title)) },
                 scrollBehavior = scrollBehavior,
             )
         },
@@ -109,15 +111,15 @@ private fun BottomBar(
     BottomAppBar(
         actions = {
             IconButton(onClick = showCloudSettings) {
-                Icon(Icons.Default.CloudDone, "Cloud Sync")
+                Icon(Icons.Default.CloudDone, stringResource(R.string.home_button_cloud_sync))
             }
             IconButton(onClick = showBluetoothImport) {
-                Icon(Icons.Filled.Bluetooth, "Bluetooth Import")
+                Icon(Icons.Filled.Bluetooth, stringResource(R.string.home_button_bluetooth_import))
             }
         },
         floatingActionButton = {
             FloatingActionButton(onClick = showAddDive) {
-                Icon(Icons.Filled.Add, contentDescription = "Add Dive")
+                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.home_button_add_dive))
             }
         },
     )

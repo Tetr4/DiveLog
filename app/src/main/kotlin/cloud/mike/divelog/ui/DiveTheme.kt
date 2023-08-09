@@ -19,6 +19,7 @@ data class Spacing(
     val cardPadding: PaddingValues,
 )
 
+@Suppress("UnusedReceiverParameter")
 val MaterialTheme.spacing
     get() = Spacing(
         cardPadding = PaddingValues(16.dp),

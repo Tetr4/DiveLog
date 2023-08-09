@@ -18,6 +18,8 @@ fun NavRoot() {
         homeScreen(
             onShowDetail = mainController::showDetail,
         )
-        detailScreen()
+        detailScreen(
+            onNavigateUp = mainController::navigateUp,
+        )
     }
 }

@@ -17,7 +17,9 @@ object DetailNavigation {
     const val diveId = "diveId"
 }
 
-fun NavGraphBuilder.detailScreen() {
+fun NavGraphBuilder.detailScreen(
+    onNavigateUp: () -> Unit,
+) {
     composable(
         route = "${DetailNavigation.route}/{${DetailNavigation.diveId}}",
         arguments = listOf(
@@ -29,6 +31,7 @@ fun NavGraphBuilder.detailScreen() {
         DetailScreen(
             uiState = uiState,
             onFetchDive = viewModel::fetchDive,
+            onNavigateUp = onNavigateUp,
         )
     }
 }

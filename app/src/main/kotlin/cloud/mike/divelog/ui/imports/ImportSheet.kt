@@ -68,7 +68,7 @@ private fun ImportSheet(
     onShowError: suspend (ErrorMessage) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val transferFinished = uiState.transferState == TransferState.Success
+    val transferFinished = uiState.transferState is TransferState.Success
 
     // Autoconnect when app is in foreground
     if (!transferFinished) {
@@ -90,8 +90,10 @@ private fun ImportSheet(
         verticalArrangement = Arrangement.spacedBy(64.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (transferFinished) {
-            TransferSuccessView()
+        if (uiState.transferState is TransferState.Success) {
+            TransferSuccessView(
+                importedDives = uiState.transferState.importedDives,
+            )
         } else {
             ConnectionView(
                 uiState = uiState,
@@ -107,10 +109,10 @@ private fun ConnectionView(
     onStartTransfer: () -> Unit,
 ) {
     when (uiState.connectionState) {
-        BluetoothNotAvailable -> BluetoothNotAvailableView()
-        ConnectionPermissionNotGranted -> MissingPermissionView()
-        BluetoothNotEnabled -> BluetoothDisabledView()
-        NotPaired -> DeviceNotPairedView()
+        is BluetoothNotAvailable -> BluetoothNotAvailableView()
+        is ConnectionPermissionNotGranted -> MissingPermissionView()
+        is BluetoothNotEnabled -> BluetoothDisabledView()
+        is NotPaired -> DeviceNotPairedView()
         is NotConnected -> NotConnectedView()
         is Connecting -> ConnectingView(uiState.connectionState.deviceName)
         is Connected -> TransferView(
@@ -126,10 +128,10 @@ private fun TransferView(
     onStartTransfer: () -> Unit,
 ) {
     when (transferState) {
-        TransferState.Idle -> TransferIdleView(onStartTransfer = onStartTransfer)
+        is TransferState.Idle -> TransferIdleView(onStartTransfer = onStartTransfer)
         is TransferState.Transfering -> TransferProgressView(transferState.progress)
         is TransferState.Error -> TransferErrorView(transferState.message, onRetry = onStartTransfer)
-        TransferState.Success -> TransferSuccessView()
+        is TransferState.Success -> TransferSuccessView(importedDives = transferState.importedDives)
     }
 }
 
