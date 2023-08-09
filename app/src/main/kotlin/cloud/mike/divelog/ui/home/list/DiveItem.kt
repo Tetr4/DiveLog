@@ -38,6 +38,7 @@ fun DiveItem(
         leadingContent = {
             Box(modifier = Modifier.size(64.dp)) {
                 when (val profile = dive.diveProfile) {
+                    // TODO We could also show map marker or pictures here
                     null -> DiverIcon(modifier = Modifier.align(Alignment.Center))
                     else -> DepthChart(profile = profile)
                 }
@@ -75,6 +76,13 @@ private fun DiveNumber(number: Int) {
     }
 }
 
+@Composable
+@ReadOnlyComposable
+private fun Dive.formatInfoLine(): String = listOfNotNull(
+    diveTime.format(),
+    maxDepthMeters?.formatDepthMeters(),
+).joinToString(" | ")
+
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
@@ -98,10 +106,3 @@ private fun Preview() {
         )
     }
 }
-
-@Composable
-@ReadOnlyComposable
-private fun Dive.formatInfoLine(): String = listOfNotNull(
-    diveTime.format(),
-    maxDepthMeters?.formatDepthMeters(),
-).joinToString(" | ")

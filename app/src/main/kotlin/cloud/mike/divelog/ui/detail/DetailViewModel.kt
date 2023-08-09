@@ -19,7 +19,7 @@ sealed interface DetailState {
     val dive: Dive?
         get() = null
 
-    object Loading : DetailState
+    data object Loading : DetailState
     data class Error(val message: ErrorMessage) : DetailState
     data class Success(override val dive: Dive) : DetailState
 }

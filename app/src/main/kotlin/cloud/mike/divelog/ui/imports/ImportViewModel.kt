@@ -18,10 +18,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 sealed interface TransferState {
-    object Idle : TransferState
+    data object Idle : TransferState
     data class Transfering(val progress: Float?) : TransferState
     data class Error(val message: ErrorMessage) : TransferState
-    object Success : TransferState
+    data object Success : TransferState
 }
 
 data class ImportState(
