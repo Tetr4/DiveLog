@@ -6,7 +6,7 @@ import org.junit.Test
 class ListExtTest {
 
     @Test
-    fun samplingIgnoresLargerData() {
+    fun `sampling ignores larger data`() {
         // given
         val list = List(42) { it }
 

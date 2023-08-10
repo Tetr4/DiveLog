@@ -32,7 +32,10 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
-    // TODO paging: implementation("androidx.room:room-paging:$roomVersion")
 
-    testImplementation("androidx.room:room-testing:$roomVersion")
+    // Testing
+    testImplementation("androidx.test:core-ktx:1.5.0")
+    testImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
+    testImplementation("org.robolectric:robolectric:4.10.3")
 }
