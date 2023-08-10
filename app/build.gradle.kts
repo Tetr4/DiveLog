@@ -18,9 +18,9 @@ android {
     signingConfigs {
         create("release") {
             keyAlias = "DiveLogKey"
-            keyPassword = System.getenv("KEY_PASSWORD") ?: ""
+            keyPassword = System.getenv("SIGNING_PASSWORD") ?: ""
             storeFile = file("../keystore.jks")
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
+            storePassword = System.getenv("SIGNING_PASSWORD") ?: ""
         }
     }
 
