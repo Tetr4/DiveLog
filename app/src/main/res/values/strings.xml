@@ -20,7 +20,6 @@
     <string name="home_search_placeholder">Search dives</string>
     <string name="home_label_empty">No dives yet.</string>
     <plurals name="import_status_success">
-        <item quantity="zero">No dives were imported</item>
         <item quantity="one">%1$s dive was imported</item>
         <item quantity="other">%1$s dives were imported</item>
     </plurals>

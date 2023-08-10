@@ -23,4 +23,11 @@ data class DiveSpot(
 data class GeoCoordinates(
     @FloatRange(from = -90.0, to = 90.0) val latitude: Double,
     @FloatRange(from = -180.0, to = 180.0) val longitude: Double,
-)
+) {
+    companion object {
+        fun fromNullable(latitude: Double?, longitude: Double?): GeoCoordinates? {
+            if (latitude == null || longitude == null) return null
+            return GeoCoordinates(latitude = latitude, longitude = longitude)
+        }
+    }
+}

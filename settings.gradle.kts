@@ -19,5 +19,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Dive Log"
 include(":app")
-include(":bluetooth")
 include(":data")
+include(":persistence")
+include(":bluetooth")

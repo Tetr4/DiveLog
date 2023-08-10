@@ -1,5 +1,6 @@
 package cloud.mike.divelog.data.dives
 
+import java.util.UUID
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -8,15 +9,17 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 data class DepthProfile(
+    val id: UUID,
     val samplingRate: Duration,
     val depthCentimeters: IntArray,
-    // Important: Regenerate equals and hashcode, when adding parameters.
+    // Important: Regenerate equals and hashCode, when adding parameters.
 ) {
     companion object {
         private const val NUM_SAMPLE_POINTS = 30
         private const val SAMPLE_DEPTH_METERS = 25
 
         val sample = DepthProfile(
+            id = UUID.randomUUID(),
             samplingRate = 1.minutes,
             depthCentimeters = IntArray(NUM_SAMPLE_POINTS) {
                 val progress = it / (NUM_SAMPLE_POINTS - 1.0)
@@ -32,6 +35,7 @@ data class DepthProfile(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
         other as DepthProfile
+        if (id != other.id) return false
         if (samplingRate != other.samplingRate) return false
         if (!depthCentimeters.contentEquals(other.depthCentimeters)) return false
         return true
@@ -39,7 +43,8 @@ data class DepthProfile(
 
     /** Generated */
     override fun hashCode(): Int {
-        var result = samplingRate.hashCode()
+        var result = id.hashCode()
+        result = 31 * result + samplingRate.hashCode()
         result = 31 * result + depthCentimeters.contentHashCode()
         return result
     }

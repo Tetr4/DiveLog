@@ -20,6 +20,7 @@ android {
 
 dependencies {
     // Modules
+    implementation(project(":persistence"))
     implementation(project(":bluetooth"))
 
     // Dependency Injection
