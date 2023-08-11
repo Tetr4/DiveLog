@@ -14,14 +14,17 @@ interface DivesDao {
 
     @Transaction
     @Query("SELECT * FROM dives ORDER BY number DESC")
-    fun getDivesFlow(): Flow<List<DiveWithLocationAndProfile>>
+    fun loadDivesStream(): Flow<List<DiveWithLocationAndProfile>>
 
     @Transaction
-    @Query("SELECT * FROM dives WHERE id=:id LIMIT 1")
-    suspend fun findDive(id: UUID): DiveWithLocationAndProfile
+    @Query("SELECT * FROM dives WHERE id=:id")
+    fun loadDiveStream(id: UUID): Flow<DiveWithLocationAndProfile?>
+
+    @Query("DELETE FROM dives WHERE id = :id")
+    suspend fun deleteDive(id: UUID)
 
     @Query("SELECT MAX(number) FROM dives")
-    suspend fun getMaxDiveNumber(): Int?
+    suspend fun loadMaxDiveNumber(): Int?
 
     @Query("SELECT EXISTS(SELECT * FROM dives WHERE start = :timestamp)")
     suspend fun diveExists(timestamp: LocalDateTime): Boolean
@@ -30,7 +33,7 @@ interface DivesDao {
     suspend fun clearDives()
 
     @Transaction
-    suspend fun insertAll(dives: List<DiveWithLocationAndProfile>) = dives.forEach {
+    suspend fun insertDives(dives: List<DiveWithLocationAndProfile>) = dives.forEach {
         if (it.location != null) insertLocation(it.location)
         insertDive(it.dive)
         if (it.depthProfile != null) insertProfile(it.depthProfile)

@@ -1,13 +1,17 @@
 <resources>
     <string name="app_name">Dive Log</string>
-    <string name="common_button_retry">Retry</string>
+    <string name="common_button_navigate_up">Go back</string>
+    <string name="common_button_retry">Try again</string>
     <string name="common_error_connectivity">Connection error. Please check your internet connection.</string>
+    <string name="dive_detail_button_delete_dive">Delete dive</string>
     <string name="dive_detail_label_location">Location</string>
     <string name="dive_detail_label_notes">Notes</string>
     <string name="dive_detail_title">Dive %1$s</string>
     <string name="home_button_cloud_sync">Cloud sync</string>
     <string name="home_button_bluetooth_import">Bluetooth import</string>
     <string name="home_button_add_dive">Add dive</string>
+    <string name="home_label_empty">No dives yet.</string>
+    <string name="home_search_placeholder">Search dives</string>
     <string name="home_title">My Dives</string>
     <string name="import_button_download_dives">Download dives</string>
     <string name="import_button_enable_bluetooth">Enable Bluetooth</string>
@@ -17,8 +21,7 @@
     <string name="import_status_connecting">Connecting to %1$s…</string>
     <string name="import_status_connecting_no_device_name">Connecting to device…</string>
     <string name="import_status_not_connected">Not connected</string>
-    <string name="home_search_placeholder">Search dives</string>
-    <string name="home_label_empty">No dives yet.</string>
+    <string name="dive_detail_error_empty">Dive not found.</string>
     <plurals name="import_status_success">
         <item quantity="one">%1$s dive was imported</item>
         <item quantity="other">%1$s dives were imported</item>

@@ -52,7 +52,7 @@ class DivesDaoTest {
 
         // when
         dao.insertDive(dive)
-        val dives = dao.getDivesFlow().first()
+        val dives = dao.loadDivesStream().first()
 
         // then
         assertEquals(1, dives.size)

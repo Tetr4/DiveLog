@@ -11,7 +11,8 @@ class DiveRepository(
     private val divesDao: DivesDao,
 ) {
 
-    fun fetchDives(query: String): Flow<List<Dive>> = divesDao.getDivesFlow()
+    fun getDiveStream(id: UUID): Flow<Dive?> = divesDao.loadDiveStream(id).map { it?.toEntity() }
+    fun getDivesStream(query: String): Flow<List<Dive>> = divesDao.loadDivesStream()
         .distinctUntilChanged()
         .map { diveDtos ->
             diveDtos
@@ -19,9 +20,9 @@ class DiveRepository(
                 .filter { it.matches(query) } // TODO do this in SQL
         }
 
-    suspend fun fetchDive(id: UUID): Dive = divesDao.findDive(id).toEntity()
-    suspend fun addDives(newDives: List<Dive>) = divesDao.insertAll(newDives.map { it.toDto() })
-    suspend fun getCurrentDiveNumber(): Int = divesDao.getMaxDiveNumber() ?: 0
+    suspend fun deleteDive(id: UUID) = divesDao.deleteDive(id)
+    suspend fun addDives(newDives: List<Dive>) = divesDao.insertDives(newDives.map { it.toDto() })
+    suspend fun getCurrentDiveNumber(): Int = divesDao.loadMaxDiveNumber() ?: 0
     suspend fun containsDiveAt(timestamp: LocalDateTime): Boolean = divesDao.diveExists(timestamp)
 }
 

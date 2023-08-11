@@ -5,15 +5,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -33,31 +38,59 @@ import cloud.mike.divelog.ui.detail.items.ProfileItem
 @Composable
 fun DetailScreen(
     uiState: DetailState,
-    onFetchDive: () -> Unit,
     onNavigateUp: () -> Unit,
+    onFetchDive: () -> Unit,
+    onDeleteDive: () -> Unit,
+    onDismissDeleteError: () -> Unit,
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    suspend fun showError(message: ErrorMessage) {
+        snackbarHostState.showSnackbar(message.content)
+    }
+
     Scaffold(
         topBar = {
             DetailAppBar(
-                diveNumber = uiState.dive?.number,
+                diveNumber = uiState.diveState.dive?.number,
+                deleteState = uiState.deleteState,
                 onNavigateUp = onNavigateUp,
+                onDeleteDive = onDeleteDive,
+                onShowError = ::showError,
+                onDismissDeleteError = onDismissDeleteError,
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { appBarsPadding ->
-        when (uiState) {
-            is DetailState.Error -> ErrorState(
+        when (uiState.diveState) {
+            is DiveState.Loading -> LoadingState(
                 modifier = Modifier.padding(appBarsPadding),
-                message = uiState.message,
+            )
+            is DiveState.Error -> ErrorState(
+                modifier = Modifier.padding(appBarsPadding),
+                message = uiState.diveState.message,
                 onRetry = onFetchDive,
             )
-            DetailState.Loading -> LoadingState(
+            is DiveState.Empty -> EmptyState(
                 modifier = Modifier.padding(appBarsPadding),
             )
-            is DetailState.Success -> ContentState(
+            is DiveState.Content -> ContentState(
                 appBarsPadding = appBarsPadding,
-                dive = uiState.dive,
+                dive = uiState.diveState.dive,
             )
         }
+    }
+}
+
+@Composable
+private fun LoadingState(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        CircularProgressIndicator()
     }
 }
 
@@ -73,6 +106,7 @@ private fun ErrorState(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(message.content)
+        Spacer(Modifier.height(8.dp))
         Button(onClick = onRetry) {
             Text(stringResource(R.string.common_button_retry))
         }
@@ -80,14 +114,15 @@ private fun ErrorState(
 }
 
 @Composable
-private fun LoadingState(
+private fun EmptyState(
     modifier: Modifier = Modifier,
 ) {
-    Box(
+    Column(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        CircularProgressIndicator()
+        Text(stringResource(R.string.dive_detail_error_empty))
     }
 }
 
@@ -122,11 +157,12 @@ private fun ContentState(
     }
 }
 
-private class DetailSstatePreviewProvider : PreviewParameterProvider<DetailState> {
+private class PreviewProvider : PreviewParameterProvider<DiveState> {
     override val values = sequenceOf(
-        DetailState.Loading,
-        DetailState.Error(ErrorMessage("lorem ipsum")),
-        DetailState.Success(Dive.sample),
+        DiveState.Loading,
+        DiveState.Error(ErrorMessage("Lorem ipsum")),
+        DiveState.Content(Dive.sample),
+        DiveState.Empty,
     )
 }
 
@@ -134,13 +170,17 @@ private class DetailSstatePreviewProvider : PreviewParameterProvider<DetailState
 @Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview(
-    @PreviewParameter(DetailSstatePreviewProvider::class) uiState: DetailState,
+    @PreviewParameter(PreviewProvider::class) diveState: DiveState,
 ) {
     DiveTheme {
         DetailScreen(
-            uiState = uiState,
-            onFetchDive = {},
+            uiState = DetailState(
+                diveState = diveState,
+            ),
             onNavigateUp = {},
+            onFetchDive = {},
+            onDeleteDive = {},
+            onDismissDeleteError = {},
         )
     }
 }

@@ -25,7 +25,7 @@ class HomeViewModel(
 ) : ViewModel() {
 
     private val query = MutableStateFlow("")
-    private val dives = query.flatMapLatest { diveRepo.fetchDives(it) }
+    private val dives = query.flatMapLatest { diveRepo.getDivesStream(it) }
 
     val uiState = combine(
         query,

@@ -30,8 +30,10 @@ fun NavGraphBuilder.detailScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         DetailScreen(
             uiState = uiState,
-            onFetchDive = viewModel::fetchDive,
             onNavigateUp = onNavigateUp,
+            onFetchDive = viewModel::fetchDive,
+            onDeleteDive = viewModel::deleteDive,
+            onDismissDeleteError = viewModel::dismissDeleteError,
         )
     }
 }
