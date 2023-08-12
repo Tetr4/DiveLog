@@ -6,13 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Bluetooth
-import androidx.compose.material.icons.filled.CloudDone
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
@@ -51,7 +50,6 @@ fun HomeScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     fun showAddDive() = Unit // TODO
-    fun showCloudSettings() = Unit // TODO
 
     fun showBluetoothImport() {
         scope.launch { bluetoothSheetState.show() }
@@ -64,23 +62,22 @@ fun HomeScreen(
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
+            MediumTopAppBar(
                 title = { Text(stringResource(R.string.home_title)) },
                 scrollBehavior = scrollBehavior,
             )
         },
         bottomBar = {
             BottomBar(
-                showCloudSettings = ::showCloudSettings,
                 showBluetoothImport = ::showBluetoothImport,
                 showAddDive = ::showAddDive,
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-    ) { innerPadding ->
+    ) { appBarsPadding ->
         DiveList(
             modifier = Modifier
-                .padding(innerPadding)
+                .padding(appBarsPadding)
                 .padding(top = 16.dp),
             dives = uiState.dives.orEmpty(),
             onDiveClicked = onShowDetail,
@@ -104,15 +101,11 @@ fun HomeScreen(
 
 @Composable
 private fun BottomBar(
-    showCloudSettings: () -> Unit,
     showBluetoothImport: () -> Unit,
     showAddDive: () -> Unit,
 ) {
     BottomAppBar(
         actions = {
-            IconButton(onClick = showCloudSettings) {
-                Icon(Icons.Default.CloudDone, stringResource(R.string.home_button_cloud_sync))
-            }
             IconButton(onClick = showBluetoothImport) {
                 Icon(Icons.Filled.Bluetooth, stringResource(R.string.home_button_bluetooth_import))
             }
