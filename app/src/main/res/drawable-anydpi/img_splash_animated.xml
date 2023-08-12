@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:drawable="@drawable/ic_launcher_foreground">
+
+    <!-- Swimming animation-->
+    <target android:name="group_fish">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="150"
+                android:propertyName="scaleX"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:valueFrom="1"
+                android:valueTo="0.975" />
+        </aapt:attr>
+    </target>
+
+    <!-- Use theme color (launcher icons do not support theme attributes) -->
+    <target android:name="path_fish">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="0"
+                android:propertyName="fillColor"
+                android:valueTo="?colorOnBackground" />
+        </aapt:attr>
+    </target>
+    <target android:name="path_bubbles">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="0"
+                android:propertyName="fillColor"
+                android:valueTo="?colorOnBackground" />
+        </aapt:attr>
+    </target>
+</animated-vector>
