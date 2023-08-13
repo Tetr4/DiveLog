@@ -8,8 +8,9 @@
     <string name="dive_detail_label_location">Location</string>
     <string name="dive_detail_label_notes">Notes</string>
     <string name="dive_detail_title">Dive %1$s</string>
-    <string name="home_button_bluetooth_import">Bluetooth import</string>
     <string name="home_button_add_dive">Add dive</string>
+    <string name="home_button_bluetooth_import">Bluetooth import</string>
+    <string name="home_button_dive_spots">Dive Spots</string>
     <string name="home_label_empty_title">No dives found</string>
     <string name="home_label_empty_description">Add a dive and it will show up here.</string>
     <string name="home_search_placeholder">Search dives</string>

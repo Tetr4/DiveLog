@@ -1,18 +1,11 @@
 package cloud.mike.divelog.ui.home
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Bluetooth
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -28,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +35,7 @@ import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.home.bottombar.HomeBottomBar
 import cloud.mike.divelog.ui.home.filters.TagFilters
 import cloud.mike.divelog.ui.home.list.DiveList
 import cloud.mike.divelog.ui.home.search.SearchView
@@ -57,19 +52,15 @@ fun HomeScreen(
     onSearch: (query: String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     val bluetoothSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    fun showAddDive() = Unit // TODO
-
-    fun showBluetoothImport() {
-        scope.launch { bluetoothSheetState.show() }
-    }
-
-    suspend fun showError(message: ErrorMessage) {
-        snackbarHostState.showSnackbar(message.content)
-    }
+    fun showBluetoothImport() = scope.launch { bluetoothSheetState.show() }
+    fun showAddDive() = Unit
+    fun showDiveSpots() = Toast.makeText(context, "Map not implemented", Toast.LENGTH_SHORT).show()
+    suspend fun showError(message: ErrorMessage) = snackbarHostState.showSnackbar(message.content)
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -82,6 +73,7 @@ fun HomeScreen(
         bottomBar = {
             HomeBottomBar(
                 showBluetoothImport = ::showBluetoothImport,
+                showDiveSpots = ::showDiveSpots,
                 showAddDive = ::showAddDive,
             )
         },
@@ -121,7 +113,6 @@ fun SearchableList(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         SearchView(
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -136,29 +127,11 @@ fun SearchableList(
         }
         DiveList(
             items = diveItems,
+            // TODO long press to show sheet for quick delete, hide, edit, share, etc.?
             onDiveClicked = onDiveClicked,
             onRetry = diveItems::retry,
         )
     }
-}
-
-@Composable
-private fun HomeBottomBar(
-    showBluetoothImport: () -> Unit,
-    showAddDive: () -> Unit,
-) {
-    BottomAppBar(
-        actions = {
-            IconButton(onClick = showBluetoothImport) {
-                Icon(Icons.Filled.Bluetooth, stringResource(R.string.home_button_bluetooth_import))
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = showAddDive) {
-                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.home_button_add_dive))
-            }
-        },
-    )
 }
 
 @Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
