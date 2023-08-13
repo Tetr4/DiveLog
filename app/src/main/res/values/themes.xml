@@ -35,10 +35,10 @@
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
 
         <!-- System windows -->
-        <item name="android:statusBarColor">?colorOnBackground</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:navigationBarColor">?colorOnBackground</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
 
         <!-- Shapes -->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.DiveLog.SmallComponent</item>

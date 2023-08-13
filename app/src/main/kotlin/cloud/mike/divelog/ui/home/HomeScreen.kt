@@ -127,7 +127,7 @@ fun SearchableList(
         }
         DiveList(
             items = diveItems,
-            // TODO long press to show sheet for quick delete, hide, edit, share, etc.?
+            // TODO long press to show quick delete, hide, edit, share, etc. in bottom bar?
             onDiveClicked = onDiveClicked,
             onRetry = diveItems::retry,
         )
