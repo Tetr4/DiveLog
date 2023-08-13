@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.home.list
+package cloud.mike.divelog.ui.home.search
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxWidth

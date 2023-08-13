@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.home.list
+package cloud.mike.divelog.ui.home.filters
 
 import android.content.res.Configuration
 import androidx.compose.foundation.horizontalScroll
@@ -21,9 +21,7 @@ import cloud.mike.divelog.ui.DiveTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TagFilters(
-    modifier: Modifier = Modifier,
-) {
+fun TagFilters(modifier: Modifier = Modifier) {
     // TODO this should contain user defined tags
     Row(
         modifier = Modifier

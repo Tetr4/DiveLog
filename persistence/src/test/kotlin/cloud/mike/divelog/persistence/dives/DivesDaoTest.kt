@@ -36,7 +36,7 @@ class DivesDaoTest {
     }
 
     @Test
-    fun `write and read dives`() = runTest {
+    fun `write and read dive`() = runTest {
         // given
         val dao = database.divesDao()
         val dive = DiveDto(
@@ -52,10 +52,9 @@ class DivesDaoTest {
 
         // when
         dao.insertDive(dive)
-        val dives = dao.loadDivesStream().first()
+        val diveWithLocationAndProfile = dao.loadDiveStream(dive.id).first()
 
         // then
-        assertEquals(1, dives.size)
-        assertEquals(dive, dives.first().dive)
+        assertEquals(dive, diveWithLocationAndProfile?.dive)
     }
 }

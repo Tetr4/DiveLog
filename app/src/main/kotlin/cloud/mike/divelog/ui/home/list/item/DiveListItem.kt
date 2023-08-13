@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.home.list
+package cloud.mike.divelog.ui.home.list.item
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -27,10 +27,10 @@ import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.DepthChart
 
 @Composable
-fun DiveItem(
-    modifier: Modifier = Modifier,
+fun DiveListItem(
     dive: Dive,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     ListItem(
         modifier = modifier
@@ -46,16 +46,13 @@ fun DiveItem(
             }
         },
         headlineContent = { Text(dive.location?.name.orEmpty()) },
-        overlineContent = { Text(dive.start.format()) },
         supportingContent = { Text(dive.formatInfoLine()) },
         trailingContent = { DiveNumber(dive.number) },
     )
 }
 
 @Composable
-private fun DiverIcon(
-    modifier: Modifier = Modifier,
-) {
+private fun DiverIcon(modifier: Modifier = Modifier) {
     Icon(
         modifier = modifier.padding(16.dp),
         imageVector = Icons.Default.ScubaDiving,
@@ -77,19 +74,12 @@ private fun DiveNumber(number: Int) {
     }
 }
 
-@Composable
-@ReadOnlyComposable
-private fun Dive.formatInfoLine(): String = listOfNotNull(
-    diveTime.format(),
-    maxDepthMeters?.formatDepthMeters(),
-).joinToString(" | ")
-
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun PreviewNoProfile() {
     DiveTheme {
-        DiveItem(
+        DiveListItem(
             dive = Dive.sample.copy(depthProfile = null),
             onClick = {},
         )
@@ -101,9 +91,16 @@ private fun PreviewNoProfile() {
 @Composable
 private fun Preview() {
     DiveTheme {
-        DiveItem(
+        DiveListItem(
             dive = Dive.sample,
             onClick = {},
         )
     }
 }
+
+@Composable
+@ReadOnlyComposable
+private fun Dive.formatInfoLine(): String = listOfNotNull(
+    diveTime.format(),
+    maxDepthMeters?.formatDepthMeters(),
+).joinToString(" | ")

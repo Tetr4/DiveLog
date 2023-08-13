@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
 import java.text.NumberFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -30,6 +31,14 @@ fun Number.formatDepthMeters(): String {
 @Composable
 @ReadOnlyComposable
 fun LocalDateTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = this.format(
+    DateTimeFormatter
+        .ofLocalizedDate(style)
+        .withLocale(primaryLocale),
+)
+
+@Composable
+@ReadOnlyComposable
+fun LocalDate.format(style: FormatStyle = FormatStyle.SHORT): String = this.format(
     DateTimeFormatter
         .ofLocalizedDate(style)
         .withLocale(primaryLocale),

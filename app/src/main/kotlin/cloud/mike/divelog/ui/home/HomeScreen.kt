@@ -1,6 +1,8 @@
 package cloud.mike.divelog.ui.home
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -29,18 +31,28 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import cloud.mike.divelog.App
 import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.home.filters.TagFilters
 import cloud.mike.divelog.ui.home.list.DiveList
+import cloud.mike.divelog.ui.home.search.SearchView
 import cloud.mike.divelog.ui.imports.ImportSheet
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     uiState: HomeState,
+    diveItems: LazyPagingItems<DiveItem>,
     onShowDetail: (Dive) -> Unit,
     onSearch: (query: String) -> Unit,
 ) {
@@ -68,18 +80,18 @@ fun HomeScreen(
             )
         },
         bottomBar = {
-            BottomBar(
+            HomeBottomBar(
                 showBluetoothImport = ::showBluetoothImport,
                 showAddDive = ::showAddDive,
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { appBarsPadding ->
-        DiveList(
+        SearchableList(
             modifier = Modifier
                 .padding(appBarsPadding)
                 .padding(top = 16.dp),
-            dives = uiState.dives.orEmpty(),
+            diveItems = diveItems,
             onDiveClicked = onShowDetail,
             query = uiState.query,
             onQueryChanged = onSearch,
@@ -100,7 +112,38 @@ fun HomeScreen(
 }
 
 @Composable
-private fun BottomBar(
+fun SearchableList(
+    diveItems: LazyPagingItems<DiveItem>,
+    onDiveClicked: (Dive) -> Unit,
+    query: String,
+    onQueryChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        SearchView(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            value = query,
+            onValueChange = onQueryChanged,
+            placeholder = stringResource(R.string.home_search_placeholder),
+        )
+        if (App.SHOW_FILTERS) {
+            TagFilters(
+                modifier = Modifier.padding(horizontal = 16.dp),
+            )
+        }
+        DiveList(
+            items = diveItems,
+            onDiveClicked = onDiveClicked,
+            onRetry = diveItems::retry,
+        )
+    }
+}
+
+@Composable
+private fun HomeBottomBar(
     showBluetoothImport: () -> Unit,
     showAddDive: () -> Unit,
 ) {
@@ -122,11 +165,18 @@ private fun BottomBar(
 @Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview() {
+    val pagingData: PagingData<DiveItem> = PagingData.from(
+        data = Dive.samples.map(DiveItem::Item),
+        sourceLoadStates = LoadStates(
+            refresh = LoadState.NotLoading(endOfPaginationReached = true),
+            append = LoadState.NotLoading(endOfPaginationReached = true),
+            prepend = LoadState.NotLoading(endOfPaginationReached = true),
+        ),
+    )
     DiveTheme {
         HomeScreen(
-            uiState = HomeState(
-                dives = Dive.samples,
-            ),
+            uiState = HomeState(),
+            diveItems = MutableStateFlow(pagingData).collectAsLazyPagingItems(),
             onShowDetail = {},
             onSearch = {},
         )

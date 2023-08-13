@@ -1,5 +1,6 @@
 package cloud.mike.divelog.persistence.dives
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,7 +15,7 @@ interface DivesDao {
 
     @Transaction
     @Query("SELECT * FROM dives ORDER BY number DESC")
-    fun loadDivesStream(): Flow<List<DiveWithLocationAndProfile>>
+    fun loadDivesPages(): PagingSource<Int, DiveWithLocationAndProfile>
 
     @Transaction
     @Query("SELECT * FROM dives WHERE id=:id")

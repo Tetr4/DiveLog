@@ -12,4 +12,9 @@ class App : Application() {
             modules(appModule)
         }
     }
+
+    companion object {
+        // Feature flags
+        const val SHOW_FILTERS = false
+    }
 }

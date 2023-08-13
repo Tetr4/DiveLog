@@ -1,134 +1,169 @@
 package cloud.mike.divelog.ui.home.list
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ScubaDiving
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import cloud.mike.divelog.R
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.home.DiveItem
+import cloud.mike.divelog.ui.home.list.item.DateHeader
+import cloud.mike.divelog.ui.home.list.item.DiveListItem
+import cloud.mike.divelog.ui.home.list.states.InitialEmptyState
+import cloud.mike.divelog.ui.home.list.states.InitialErrorState
+import cloud.mike.divelog.ui.home.list.states.InitialLoadingState
+import cloud.mike.divelog.ui.home.list.states.TrailingErrorState
+import cloud.mike.divelog.ui.home.list.states.TrailingLoadingState
+import kotlinx.coroutines.flow.MutableStateFlow
+import java.time.LocalDate
 
 @Composable
 fun DiveList(
-    dives: List<Dive>,
+    items: LazyPagingItems<DiveItem>,
     onDiveClicked: (Dive) -> Unit,
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier,
-    query: String,
-    onQueryChanged: (String) -> Unit,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        SearchView(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            value = query,
-            onValueChange = onQueryChanged,
-            placeholder = stringResource(R.string.home_search_placeholder),
+    when (val state = items.loadState.refresh) {
+        is LoadState.Loading -> InitialLoadingState(modifier = modifier)
+        is LoadState.Error -> InitialErrorState(
+            modifier = modifier,
+            error = state.error,
+            onRetry = onRetry,
         )
-        TagFilters(
-            modifier = Modifier.padding(horizontal = 16.dp),
-        )
-        if (dives.isEmpty()) {
-            EmptyState()
+        is LoadState.NotLoading -> if (items.itemSnapshotList.isEmpty()) {
+            InitialEmptyState(modifier = modifier)
         } else {
-            ListView(
-                dives = dives,
+            ContentState(
+                modifier = modifier,
+                items = items,
                 onDiveClicked = onDiveClicked,
+                onRetry = onRetry,
             )
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun EmptyState(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text(
-            text = stringResource(R.string.home_label_empty),
-            style = MaterialTheme.typography.headlineLarge,
-        )
-        Spacer(Modifier.height(32.dp))
-        Icon(
-            modifier = Modifier
-                .fillMaxSize(.5f)
-                .padding(32.dp),
-            imageVector = Icons.Default.ScubaDiving,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground,
-        )
-    }
-}
-
-@Composable
-private fun ListView(
-    dives: List<Dive>,
+private fun ContentState(
+    items: LazyPagingItems<DiveItem>,
     onDiveClicked: (Dive) -> Unit,
+    onRetry: () -> Unit,
+    modifier: Modifier,
 ) {
-    LazyColumn {
-        // TODO sticky header for dates?
-        itemsIndexed(
-            items = dives,
-            key = { _, dive -> dive.id },
-        ) { index, dive ->
-            DiveItem(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                dive = dive,
-                onClick = { onDiveClicked(dive) },
-            )
-            if (index != dives.lastIndex) {
-                Divider()
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(vertical = 8.dp),
+    ) {
+        // Sticky headers with paging 3 are currently a bit awkward:
+        // https://issuetracker.google.com/issues/193785330
+        for (index in 0 until items.itemCount) {
+            when (val peekedItem = items.peek(index)) {
+                is DiveItem.Header -> stickyHeader(key = peekedItem.id, contentType = "header") {
+                    val header = items[index] as DiveItem.Header
+                    DateHeader(localDate = header.localDate)
+                }
+                is DiveItem.Item -> item(key = peekedItem.id, contentType = "item") {
+                    val item = items[index] as DiveItem.Item
+                    DiveListItem(
+                        dive = item.dive,
+                        onClick = { onDiveClicked(item.dive) },
+                    )
+                }
+                null -> Unit // Not needed as skeletons are not enabled
             }
         }
+        // Trailing states
+        when (val state = items.loadState.append) {
+            is LoadState.NotLoading -> Unit // No trailing empty state, list just ends
+            is LoadState.Loading -> item { TrailingLoadingState() }
+            is LoadState.Error -> item { TrailingErrorState(error = state.error, onRetry = onRetry) }
+            else -> error("Unsupported state: $state")
+        }
     }
 }
 
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Composable
-private fun Preview() {
-    DiveTheme {
-        DiveList(
-            dives = Dive.samples,
-            onDiveClicked = {},
-            query = "",
-            onQueryChanged = {},
-        )
-    }
+private class PreviewProvider : PreviewParameterProvider<PagingData<DiveItem>> {
+    override val values: Sequence<PagingData<DiveItem>> = sequenceOf(
+        // Initial loading
+        PagingData.empty(),
+        // Initial error
+        PagingData.from(
+            data = emptyList(),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.Error(RuntimeException("Lorem Ipsum")),
+                append = LoadState.NotLoading(endOfPaginationReached = true),
+                prepend = LoadState.NotLoading(endOfPaginationReached = true),
+            ),
+        ),
+        // Initial empty
+        PagingData.from(
+            data = emptyList(),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.NotLoading(endOfPaginationReached = true),
+                append = LoadState.NotLoading(endOfPaginationReached = true),
+                prepend = LoadState.NotLoading(endOfPaginationReached = true),
+            ),
+        ),
+        // Trailing loading
+        PagingData.from(
+            data = listOf(
+                DiveItem.Header(LocalDate.now()),
+                DiveItem.Item(Dive.sample),
+            ),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.NotLoading(endOfPaginationReached = true),
+                append = LoadState.Loading,
+                prepend = LoadState.NotLoading(endOfPaginationReached = true),
+            ),
+        ),
+        // Trailing error
+        PagingData.from(
+            data = listOf(
+                DiveItem.Header(LocalDate.now()),
+                DiveItem.Item(Dive.sample),
+            ),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.NotLoading(endOfPaginationReached = true),
+                append = LoadState.Error(RuntimeException("Lorem Ipsum")),
+                prepend = LoadState.NotLoading(endOfPaginationReached = true),
+            ),
+        ),
+        // Trailing empty (end of list)
+        PagingData.from(
+            data = Dive.samples.map(DiveItem::Item),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.NotLoading(endOfPaginationReached = true),
+                append = LoadState.NotLoading(endOfPaginationReached = true),
+                prepend = LoadState.NotLoading(endOfPaginationReached = true),
+            ),
+        ),
+    )
 }
 
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-private fun PreviewEmpty() {
+private fun Preview(
+    @PreviewParameter(PreviewProvider::class) pagingData: PagingData<DiveItem>,
+) {
     DiveTheme {
         DiveList(
-            dives = emptyList(),
+            items = MutableStateFlow(pagingData).collectAsLazyPagingItems(),
             onDiveClicked = {},
-            query = "",
-            onQueryChanged = {},
+            onRetry = {},
         )
     }
 }

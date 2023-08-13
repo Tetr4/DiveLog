@@ -26,6 +26,9 @@ dependencies {
     // Dependency Injection
     implementation("io.insert-koin:koin-android:3.4.3")
 
+    // Paging
+    api("androidx.paging:paging-runtime-ktx:3.2.0")
+
     // Testing
     testImplementation("junit:junit:4.13.2")
 }

@@ -86,8 +86,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
-    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.paging:paging-compose:3.2.0")
 
     // Compose (https://developer.android.com/jetpack/compose/bom/bom-mapping)
     implementation(platform("androidx.compose:compose-bom:2023.06.01"))
@@ -98,7 +99,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
 
-    // Accommpanist (https://google.github.io/accompanist/)
+    // Accompanist (https://google.github.io/accompanist/)
     implementation("com.google.accompanist:accompanist-themeadapter-material3:0.30.1")
 
     // Testing
@@ -106,4 +107,5 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     testImplementation("org.mockito:mockito-inline:5.2.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
+    testImplementation("androidx.paging:paging-testing:3.2.0")
 }
