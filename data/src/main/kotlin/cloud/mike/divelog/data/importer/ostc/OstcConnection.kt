@@ -20,9 +20,9 @@ import kotlinx.coroutines.flow.withIndex
 import java.time.LocalDateTime
 import java.util.UUID
 
-private val UART_DATA_RX = UUID.fromString("00000001-0000-1000-8000-008025000000") // WRITE - NO RESPONSE
-private val UART_DATA_TX = UUID.fromString("00000002-0000-1000-8000-008025000000") // NOTIFY
-private val UART_CREDITS_RX = UUID.fromString("00000003-0000-1000-8000-008025000000") // WRITE
+private val dataRx = UUID.fromString("00000001-0000-1000-8000-008025000000") // WRITE - NO RESPONSE
+private val dataTx = UUID.fromString("00000002-0000-1000-8000-008025000000") // NOTIFY
+private val creditsRx = UUID.fromString("00000003-0000-1000-8000-008025000000") // WRITE
 
 private const val MAX_CREDITS = 254
 private const val MIN_CREDITS = 32
@@ -38,7 +38,7 @@ internal class OstcConnection(
     private val onDisconnect: () -> Unit,
 ) : ImportConnection {
 
-    private var uartCredits = 0
+    private var credits = 0
 
     /**
      * Workflow:
@@ -52,6 +52,7 @@ internal class OstcConnection(
         isAlreadyImported: suspend (LocalDateTime) -> Boolean,
         onProgress: suspend (Float) -> Unit,
     ): List<Dive> {
+        credits = 0
         startCommunication()
         val headers = fetchCompactHeaders()
             .filter { !isAlreadyImported(it.timestamp) }
@@ -89,9 +90,9 @@ internal class OstcConnection(
     ).parseProfile()
 
     private suspend fun ensureCredits() {
-        if (uartCredits <= MIN_CREDITS) {
-            connection.sendCredits(MAX_CREDITS - uartCredits)
-            uartCredits += (MAX_CREDITS - uartCredits)
+        if (credits <= MIN_CREDITS) {
+            connection.sendCredits(MAX_CREDITS - credits)
+            credits += (MAX_CREDITS - credits)
         }
     }
 
@@ -99,15 +100,15 @@ internal class OstcConnection(
      * This is an implementation of the Terminal IO and hwOS transfer protocol.
      *
      * Workflow:
-     * 1. Send credits to [UART_CREDITS_RX]
-     * 2. Set up [UART_DATA_TX] notification
-     * 3. Send [command] to [UART_DATA_RX]
-     * 4. Receive command echo via [UART_DATA_TX]
-     * 5. (Optional: Send [commandParameters] via [UART_DATA_RX]
-     * 6. Receive response payload (multiple BLE messages) and send UART credits if necessary
+     * 1. Send UART credits to [creditsRx]
+     * 2. Set up [dataTx] notification
+     * 3. Send [command] to [dataRx]
+     * 4. Receive command echo via [dataTx]
+     * 5. (Optional: Send [commandParameters] via [dataRx]
+     * 6. Receive response payload (multiple BLE messages) and send credits if necessary
      * 7. Receive stop byte (0x4D)
      *
-     * Note: We don't track UART client credits, because we send just a few bytes. Not sure why this system is even
+     * Note: We don't track client side credits, because we send just a few bytes. Not sure why this system is even
      * needed in the first place, as it should be handled by the bluetooth stack.
      */
     private suspend fun sendCommand(
@@ -117,10 +118,9 @@ internal class OstcConnection(
         commandParameters: ByteArray? = null,
     ): ByteArray {
         ensureCredits()
-        val combinedResponse = connection.subscribeData(
-            onSubscribed = { connection.sendByte(command) },
-        )
-            .onEach { uartCredits-- }
+        val combinedResponse = connection
+            .subscribeData(onSubscribed = { connection.sendByte(command) })
+            .onEach { credits-- }
             .onEach { ensureCredits() }
             .onFirst { commandParameters?.let { connection.sendData(it) } } // Send payload after command echo response
             .runningReduce { accumulator, value -> accumulator + value } // Combine message payloads
@@ -131,9 +131,9 @@ internal class OstcConnection(
 }
 
 private suspend fun Connection.sendByte(data: Int) = sendData(byteArrayOf(data.toByte()))
-private suspend fun Connection.sendData(bytes: ByteArray) = write(UART_DATA_RX, bytes)
-private suspend fun Connection.sendCredits(credits: Int) = write(UART_CREDITS_RX, byteArrayOf(credits.toByte()))
-private fun Connection.subscribeData(onSubscribed: suspend () -> Unit) = setupNotification(UART_DATA_TX, onSubscribed)
+private suspend fun Connection.sendData(bytes: ByteArray) = write(dataRx, bytes)
+private suspend fun Connection.sendCredits(credits: Int) = write(creditsRx, byteArrayOf(credits.toByte()))
+private fun Connection.subscribeData(onSubscribed: suspend () -> Unit) = setupNotification(dataTx, onSubscribed)
 
 private val ByteArray.isStopByte: Boolean
     get() = size == 1 && first() == 0x4D.toByte()
