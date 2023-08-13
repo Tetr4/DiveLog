@@ -14,8 +14,18 @@ import java.util.UUID
 interface DivesDao {
 
     @Transaction
-    @Query("SELECT * FROM dives ORDER BY number DESC")
-    fun loadDivesPages(): PagingSource<Int, DiveWithLocationAndProfile>
+    @Query(
+        """
+            SELECT * FROM dives
+            LEFT JOIN diveSpots on dives.locationId = diveSpots.id
+            WHERE
+                diveSpots.name LIKE '%' || :query || '%'
+                OR notes LIKE '%' || :query || '%'
+                OR STRFTIME('%d.%m.%Y', start) LIKE '%' || :query || '%'
+            ORDER BY number DESC
+        """,
+    )
+    fun loadDivesPages(query: String): PagingSource<Int, DiveWithLocationAndProfile>
 
     @Transaction
     @Query("SELECT * FROM dives WHERE id=:id")

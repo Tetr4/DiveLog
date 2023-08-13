@@ -18,11 +18,10 @@ class DiveRepository(
 
     fun getDiveStream(id: UUID): Flow<Dive?> = divesDao.loadDiveStream(id).map { it?.toEntity() }
 
-    // TODO use query
-    fun getDivePages(@Suppress("UNUSED_PARAMETER") query: String): Flow<PagingData<Dive>> {
+    fun getDivePages(query: String): Flow<PagingData<Dive>> {
         val pager = Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
-            pagingSourceFactory = { divesDao.loadDivesPages() },
+            pagingSourceFactory = { divesDao.loadDivesPages(query) },
         )
         return pager.flow.map { diveDtos -> diveDtos.map { it.toEntity() } }
     }
