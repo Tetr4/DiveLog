@@ -38,7 +38,7 @@ fun LocalDateTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = this
 
 @Composable
 @ReadOnlyComposable
-fun LocalDate.format(style: FormatStyle = FormatStyle.SHORT): String = this.format(
+fun LocalDate.format(style: FormatStyle = FormatStyle.MEDIUM): String = this.format(
     DateTimeFormatter
         .ofLocalizedDate(style)
         .withLocale(primaryLocale),
