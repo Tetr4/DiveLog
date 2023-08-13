@@ -25,14 +25,14 @@ fun Number.formatDepthMeters(): String {
     val numberFormat = NumberFormat.getInstance(primaryLocale).apply {
         maximumFractionDigits = 2
     }
-    return numberFormat.format(this) + " m"
+    return "${numberFormat.format(this)} m"
 }
 
 @Composable
 @ReadOnlyComposable
 fun LocalDateTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = this.format(
     DateTimeFormatter
-        .ofLocalizedDate(style)
+        .ofLocalizedDateTime(style)
         .withLocale(primaryLocale),
 )
 

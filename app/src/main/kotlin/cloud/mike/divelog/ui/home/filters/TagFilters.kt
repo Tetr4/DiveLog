@@ -31,26 +31,26 @@ fun TagFilters(modifier: Modifier = Modifier) {
     ) {
         FilterChip(
             selected = false,
-            onClick = { },
+            onClick = {},
             leadingIcon = { Icon(Icons.Default.Bedtime, contentDescription = null) },
             label = { Text("Night dive") },
         )
         FilterChip(
             selected = true,
-            onClick = { },
+            onClick = {},
             label = { Text("Cyprus") },
             leadingIcon = { Icon(Icons.Default.Check, contentDescription = null) },
         )
         FilterChip(
             selected = false,
-            onClick = { },
+            onClick = {},
             leadingIcon = { Icon(Icons.Default.Place, contentDescription = null) },
             label = { Text("Egypt") },
         )
         (0..5).map { index ->
             FilterChip(
                 selected = false,
-                onClick = { },
+                onClick = {},
                 label = { Text("Filter: $index") },
                 leadingIcon = { Icon(Icons.Default.Place, contentDescription = null) },
             )

@@ -33,7 +33,7 @@ fun BluetoothNotAvailableView(modifier: Modifier = Modifier) {
 
 @Composable
 fun MissingPermissionView(modifier: Modifier = Modifier) {
-    val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
+    val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
     fun requestBLuetoothPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissionLauncher.launch(Manifest.permission.BLUETOOTH_CONNECT)

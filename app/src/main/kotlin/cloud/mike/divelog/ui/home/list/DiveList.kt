@@ -42,7 +42,7 @@ fun DiveList(
             error = state.error,
             onRetry = onRetry,
         )
-        is LoadState.NotLoading -> if (items.itemSnapshotList.isEmpty()) {
+        is LoadState.NotLoading -> if (items.itemCount == 0) {
             InitialEmptyState(modifier = modifier)
         } else {
             ContentState(

@@ -23,7 +23,6 @@ import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.localization.formatDiveNumber
 import cloud.mike.divelog.ui.DiveTheme
 import java.time.LocalDateTime
-import java.time.format.FormatStyle
 import kotlin.time.Duration
 
 @Composable
@@ -39,7 +38,7 @@ fun InfoItem(
                 containerColor = Color.Transparent,
             ),
             leadingContent = { Icon(Icons.Default.Event, contentDescription = null) },
-            headlineContent = { Text(start.format(FormatStyle.LONG)) },
+            headlineContent = { Text(start.format()) },
             supportingContent = { Text(diveTime.format()) },
             trailingContent = { DiveNumber(number) },
         )

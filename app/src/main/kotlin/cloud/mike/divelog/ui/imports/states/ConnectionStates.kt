@@ -27,14 +27,13 @@ fun ConnectingView(
     deviceName: String?,
     modifier: Modifier = Modifier,
 ) {
-    val text = if (deviceName != null) {
-        stringResource(R.string.import_status_connecting, deviceName)
-    } else {
-        stringResource(R.string.import_status_connecting_no_device_name)
-    }
     Text(
         modifier = modifier,
-        text = text,
+        text = if (deviceName != null) {
+            stringResource(R.string.import_status_connecting, deviceName)
+        } else {
+            stringResource(R.string.import_status_connecting_no_device_name)
+        },
         textAlign = TextAlign.Center,
     )
 }
