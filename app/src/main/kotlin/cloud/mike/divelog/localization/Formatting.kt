@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.LocalContext
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
@@ -46,9 +47,17 @@ fun LocalDate.format(style: FormatStyle = FormatStyle.MEDIUM): String = this.for
 
 @Composable
 @ReadOnlyComposable
+fun LocalTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = this.format(
+    DateTimeFormatter
+        .ofLocalizedTime(style)
+        .withLocale(primaryLocale),
+)
+
+@Composable
+@ReadOnlyComposable
 fun Duration.format() = "$inWholeMinutes min"
 
-private val primaryLocale: Locale
+val primaryLocale: Locale
     @Composable
     @ReadOnlyComposable
     get() {

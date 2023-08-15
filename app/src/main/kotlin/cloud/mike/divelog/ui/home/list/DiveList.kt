@@ -1,20 +1,19 @@
 package cloud.mike.divelog.ui.home.list
 
 import android.content.res.Configuration
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.home.DiveItem
@@ -55,7 +54,6 @@ fun DiveList(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ContentState(
     items: LazyPagingItems<DiveItem>,
@@ -63,25 +61,15 @@ private fun ContentState(
     onRetry: () -> Unit,
     modifier: Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(vertical = 8.dp),
-    ) {
-        // Sticky headers with paging 3 are currently a bit awkward:
-        // https://issuetracker.google.com/issues/193785330
-        for (index in 0 until items.itemCount) {
-            when (val peekedItem = items.peek(index)) {
-                is DiveItem.Header -> stickyHeader(key = peekedItem.id, contentType = "header") {
-                    val header = items[index] as DiveItem.Header
-                    DateHeader(localDate = header.localDate)
-                }
-                is DiveItem.Item -> item(key = peekedItem.id, contentType = "item") {
-                    val item = items[index] as DiveItem.Item
-                    DiveListItem(
-                        dive = item.dive,
-                        onClick = { onDiveClicked(item.dive) },
-                    )
-                }
+    LazyColumn(modifier = modifier) {
+        items(
+            count = items.itemCount,
+            key = items.itemKey { it.id },
+            contentType = items.itemContentType { it.javaClass.simpleName },
+        ) { index ->
+            when (val item = items[index]) {
+                is DiveItem.Header -> DateHeader(localDate = item.localDate)
+                is DiveItem.Item -> DiveListItem(dive = item.dive, onClick = { onDiveClicked(item.dive) })
                 null -> Unit // Not needed as skeletons are not enabled
             }
         }

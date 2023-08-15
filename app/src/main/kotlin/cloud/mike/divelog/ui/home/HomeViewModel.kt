@@ -46,7 +46,7 @@ class HomeViewModel(
     }
 
     val uiState = query.map(::HomeState)
-        .stateIn(viewModelScope, SharingStarted.Eagerly, HomeState())
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HomeState())
 
     fun search(query: String) {
         this.query.value = query

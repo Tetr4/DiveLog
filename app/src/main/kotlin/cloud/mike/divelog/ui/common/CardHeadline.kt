@@ -23,9 +23,9 @@ import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
 fun CardHeadline(
-    modifier: Modifier = Modifier,
     imageVector: ImageVector,
     title: String,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier,

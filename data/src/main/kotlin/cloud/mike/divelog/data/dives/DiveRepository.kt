@@ -27,7 +27,8 @@ class DiveRepository(
     }
 
     suspend fun deleteDive(id: UUID) = divesDao.deleteDive(id)
-    suspend fun addDives(newDives: List<Dive>) = divesDao.insertDives(newDives.map { it.toDto() })
+    suspend fun addDive(dive: Dive) = addDives(listOf(dive))
+    suspend fun addDives(dives: List<Dive>) = divesDao.insertDives(dives.map { it.toDto() })
     suspend fun getCurrentDiveNumber(): Int = divesDao.loadMaxDiveNumber() ?: 0
     suspend fun containsDiveAt(timestamp: LocalDateTime): Boolean = divesDao.diveExists(timestamp)
 }

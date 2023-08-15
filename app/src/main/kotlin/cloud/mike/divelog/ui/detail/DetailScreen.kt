@@ -11,12 +11,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -96,9 +96,9 @@ private fun LoadingState(
 
 @Composable
 private fun ErrorState(
-    modifier: Modifier = Modifier,
     message: ErrorMessage,
     onRetry: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -107,7 +107,7 @@ private fun ErrorState(
     ) {
         Text(message.content)
         Spacer(Modifier.height(8.dp))
-        Button(onClick = onRetry) {
+        TextButton(onClick = onRetry) {
             Text(stringResource(R.string.common_button_retry))
         }
     }
@@ -160,7 +160,7 @@ private fun ContentState(
 private class PreviewProvider : PreviewParameterProvider<DiveState> {
     override val values = sequenceOf(
         DiveState.Loading,
-        DiveState.Error(ErrorMessage("Lorem ipsum")),
+        DiveState.Error(ErrorMessage("Lorem Ipsum")),
         DiveState.Content(Dive.sample),
         DiveState.Empty,
     )

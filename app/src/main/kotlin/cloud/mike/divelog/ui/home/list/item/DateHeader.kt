@@ -41,13 +41,14 @@ fun DateHeader(
         Text(
             modifier = Modifier
                 .semantics { heading() }
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 8.dp, top = 16.dp),
             text = if (localDate == today) {
                 stringResource(R.string.home_date_header_label_today)
             } else {
                 localDate.format()
             },
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onBackground,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

@@ -3,17 +3,23 @@ package cloud.mike.divelog.ui.home.search
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import cloud.mike.divelog.R
 import cloud.mike.divelog.ui.DiveTheme
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SearchView(
     value: String,
@@ -21,30 +27,27 @@ fun SearchView(
     placeholder: String,
     modifier: Modifier = Modifier,
 ) {
-    OutlinedTextField(
+    val keyboard = LocalSoftwareKeyboardController.current
+    SearchBar(
         modifier = modifier.fillMaxWidth(),
-        value = value,
-        onValueChange = onValueChange,
+        query = value,
+        onQueryChange = onValueChange,
+        onSearch = { keyboard?.hide() },
+        active = false,
+        onActiveChange = {},
         placeholder = { Text(placeholder) },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "",
-            )
-        },
+        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
         trailingIcon = {
             if (value.isNotBlank()) {
-                IconButton(
-                    onClick = { onValueChange("") },
-                ) {
+                IconButton(onClick = { onValueChange("") }) {
                     Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "",
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(R.string.common_button_clear),
                     )
                 }
             }
         },
-        singleLine = true,
+        content = {},
     )
 }
 
