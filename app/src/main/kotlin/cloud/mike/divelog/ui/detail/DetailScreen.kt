@@ -141,7 +141,6 @@ private fun ContentState(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         InfoItem(
-            number = dive.number,
             start = dive.start,
             diveTime = dive.diveTime,
         )
@@ -149,7 +148,11 @@ private fun ContentState(
             LocationItem(it)
         }
         dive.depthProfile?.let {
-            ProfileItem(it)
+            ProfileItem(
+                profile = it,
+                maxDepthMeters = dive.maxDepthMeters,
+                minTemperatureCelsius = dive.minTemperatureCelsius,
+            )
         }
         dive.notes?.let {
             NotesItem(it)

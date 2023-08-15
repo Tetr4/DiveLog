@@ -31,6 +31,15 @@ fun Number.formatDepthMeters(): String {
 
 @Composable
 @ReadOnlyComposable
+fun Number.formatTemperatureCelsius(): String {
+    val numberFormat = NumberFormat.getInstance(primaryLocale).apply {
+        maximumFractionDigits = 2
+    }
+    return "${numberFormat.format(this)} °C"
+}
+
+@Composable
+@ReadOnlyComposable
 fun LocalDateTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = this.format(
     DateTimeFormatter
         .ofLocalizedDateTime(style)
