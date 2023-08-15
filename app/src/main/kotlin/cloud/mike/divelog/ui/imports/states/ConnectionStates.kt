@@ -2,7 +2,7 @@ package cloud.mike.divelog.ui.imports.states
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -43,7 +43,7 @@ fun ConnectingView(
 @Composable
 private fun PreviewNotConnected() {
     DiveTheme {
-        Card {
+        Surface {
             NotConnectedView(Modifier.padding(16.dp))
         }
     }
@@ -54,7 +54,7 @@ private fun PreviewNotConnected() {
 @Composable
 private fun PreviewConnecting() {
     DiveTheme {
-        Card {
+        Surface {
             ConnectingView(
                 modifier = Modifier.padding(16.dp),
                 deviceName = "OSTC",

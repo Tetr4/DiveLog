@@ -49,7 +49,7 @@ class ImportViewModel(
         ::ImportState,
     ).stateIn(
         viewModelScope,
-        SharingStarted.Eagerly,
+        SharingStarted.WhileSubscribed(5000),
         ImportState(connectionState = importer.connectionState),
     )
 

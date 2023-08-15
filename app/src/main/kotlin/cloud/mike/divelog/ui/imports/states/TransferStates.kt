@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -97,7 +97,7 @@ fun TransferSuccessView(
 @Composable
 private fun PreviewIdle() {
     DiveTheme {
-        Card {
+        Surface {
             TransferIdleView(
                 modifier = Modifier.padding(16.dp),
                 onStartTransfer = {},
@@ -111,7 +111,7 @@ private fun PreviewIdle() {
 @Composable
 private fun PreviewProgress() {
     DiveTheme {
-        Card {
+        Surface {
             TransferProgressView(
                 modifier = Modifier.padding(16.dp),
                 progress = 0.66f,
@@ -125,7 +125,7 @@ private fun PreviewProgress() {
 @Composable
 private fun PreviewError() {
     DiveTheme {
-        Card {
+        Surface {
             TransferErrorView(
                 modifier = Modifier.padding(16.dp),
                 message = ErrorMessage("Lorem Ipsum"),
@@ -140,7 +140,7 @@ private fun PreviewError() {
 @Composable
 private fun PreviewSuccess() {
     DiveTheme {
-        Card {
+        Surface {
             TransferSuccessView(
                 modifier = Modifier.padding(16.dp),
                 importedDives = Dive.samples,

@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.material3.Card
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -86,8 +87,10 @@ private fun ImportSheet(
     }
 
     Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(64.dp, Alignment.CenterVertically),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         if (uiState.transferState is TransferState.Success) {
@@ -154,7 +157,7 @@ private fun Preview(
     @PreviewParameter(StateProvider::class) state: ImportConnectionState,
 ) {
     DiveTheme {
-        Card {
+        Surface {
             ImportSheet(
                 modifier = Modifier.heightIn(min = 300.dp),
                 uiState = ImportState(
