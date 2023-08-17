@@ -1,8 +1,10 @@
 package cloud.mike.divelog.ui.home.list.item
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -13,10 +15,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
@@ -37,7 +41,7 @@ fun DiveListItem(
             .fillMaxWidth()
             .clickable(onClick = onClick),
         leadingContent = {
-            Box(modifier = Modifier.size(64.dp)) {
+            LeadingImage {
                 when (val profile = dive.depthProfile) {
                     // TODO We could also show map marker or pictures here
                     null -> DiverIcon(modifier = Modifier.align(Alignment.Center))
@@ -45,16 +49,27 @@ fun DiveListItem(
                 }
             }
         },
-        headlineContent = { Text(dive.location?.name.orEmpty()) },
+        headlineContent = { Text(dive.location?.name ?: dive.start.toLocalTime().format()) },
         supportingContent = { Text(dive.formatInfoLine()) },
         trailingContent = { DiveNumber(dive.number) },
     )
 }
 
 @Composable
+private fun LeadingImage(content: @Composable BoxScope.() -> Unit) {
+    Box(
+        modifier = Modifier
+            .size(56.dp)
+            .clip(MaterialTheme.shapes.small)
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)),
+        content = content,
+    )
+}
+
+@Composable
 private fun DiverIcon(modifier: Modifier = Modifier) {
     Icon(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(8.dp),
         imageVector = Icons.Default.ScubaDiving,
         contentDescription = null,
         tint = MaterialTheme.colorScheme.onBackground,

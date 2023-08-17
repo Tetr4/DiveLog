@@ -23,6 +23,7 @@
     <string name="home_button_bluetooth_import">Bluetooth import</string>
     <string name="home_button_dive_spots">Dive Spots</string>
     <string name="home_date_header_label_today">Today</string>
+    <string name="home_date_header_label_yesterday">Yesterday</string>
     <string name="home_label_empty_title">No dives found</string>
     <string name="home_label_empty_description">Add a dive and it will show up here.</string>
     <string name="home_search_placeholder">Search dives</string>

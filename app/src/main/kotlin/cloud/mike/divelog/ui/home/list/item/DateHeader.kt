@@ -27,6 +27,7 @@ import kotlinx.coroutines.isActive
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit.MILLIS
 
 @Composable
@@ -35,19 +36,20 @@ fun DateHeader(
     modifier: Modifier = Modifier,
 ) {
     val today = rememberToday()
+    val yesterday = today.minusDays(1)
     Surface(modifier = modifier.fillMaxWidth()) {
         Text(
             modifier = Modifier
                 .semantics { heading() }
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 8.dp, top = 16.dp),
-            text = if (localDate == today) {
-                stringResource(R.string.home_date_header_label_today)
-            } else {
-                localDate.format()
+                .padding(bottom = 8.dp, top = 24.dp),
+            text = when (localDate) {
+                today -> stringResource(R.string.home_date_header_label_today)
+                yesterday -> stringResource(R.string.home_date_header_label_yesterday)
+                else -> localDate.format(FormatStyle.LONG)
             },
             style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = MaterialTheme.colorScheme.tertiary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
@@ -82,6 +84,6 @@ private fun PreviewToday() {
 @Composable
 private fun Preview() {
     DiveTheme {
-        DateHeader(localDate = LocalDate.now().minusDays(1))
+        DateHeader(localDate = LocalDate.now().minusDays(2))
     }
 }
