@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -79,7 +80,8 @@ fun HomeScreen(
         SearchableList(
             modifier = Modifier
                 .padding(appBarsPadding)
-                .consumeWindowInsets(ScaffoldDefaults.contentWindowInsets),
+                .consumeWindowInsets(ScaffoldDefaults.contentWindowInsets)
+                .safeDrawingPadding(),
             diveItems = diveItems,
             onDiveClicked = onShowDetail,
             query = uiState.query,

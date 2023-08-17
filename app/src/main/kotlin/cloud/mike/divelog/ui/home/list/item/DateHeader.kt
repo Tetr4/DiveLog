@@ -35,9 +35,7 @@ fun DateHeader(
     modifier: Modifier = Modifier,
 ) {
     val today = rememberToday()
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-    ) {
+    Surface(modifier = modifier.fillMaxWidth()) {
         Text(
             modifier = Modifier
                 .semantics { heading() }

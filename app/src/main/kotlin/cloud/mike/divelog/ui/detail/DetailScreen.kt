@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -61,21 +64,28 @@ fun DetailScreen(
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-    ) { appBarsPadding ->
+    ) { innerPadding ->
+        val fullPaddingModifier = Modifier
+            .padding(innerPadding)
+            .consumeWindowInsets(ScaffoldDefaults.contentWindowInsets)
+            .safeDrawingPadding()
         when (uiState.diveState) {
             is DiveState.Loading -> LoadingState(
-                modifier = Modifier.padding(appBarsPadding),
+                modifier = fullPaddingModifier,
             )
             is DiveState.Error -> ErrorState(
-                modifier = Modifier.padding(appBarsPadding),
+                modifier = fullPaddingModifier,
                 message = uiState.diveState.message,
                 onRetry = onFetchDive,
             )
             is DiveState.Empty -> EmptyState(
-                modifier = Modifier.padding(appBarsPadding),
+                modifier = fullPaddingModifier,
             )
             is DiveState.Content -> ContentState(
-                appBarsPadding = appBarsPadding,
+                modifier = Modifier
+                    .consumeWindowInsets(ScaffoldDefaults.contentWindowInsets)
+                    .safeDrawingPadding(),
+                contentPadding = innerPadding,
                 dive = uiState.diveState.dive,
             )
         }
@@ -128,15 +138,16 @@ private fun EmptyState(
 
 @Composable
 private fun ContentState(
-    appBarsPadding: PaddingValues,
+    contentPadding: PaddingValues,
     dive: Dive,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(appBarsPadding)
-            .padding(32.dp),
+            .padding(contentPadding)
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
