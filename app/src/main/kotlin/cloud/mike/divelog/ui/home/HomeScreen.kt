@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
@@ -167,8 +168,10 @@ private fun Sheets(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES, wallpaper = Wallpapers.RED_DOMINATED_EXAMPLE)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO, wallpaper = Wallpapers.RED_DOMINATED_EXAMPLE)
 @Composable
 private fun Preview() {
     val pagingData: PagingData<DiveItem> = PagingData.from(

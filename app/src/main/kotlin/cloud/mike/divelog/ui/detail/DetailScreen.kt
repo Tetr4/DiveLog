@@ -181,8 +181,8 @@ private class PreviewProvider : PreviewParameterProvider<DiveState> {
     )
 }
 
-@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview(
     @PreviewParameter(PreviewProvider::class) diveState: DiveState,
