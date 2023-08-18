@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -38,6 +39,7 @@ import cloud.mike.divelog.ui.detail.items.LocationItem
 import cloud.mike.divelog.ui.detail.items.NotesItem
 import cloud.mike.divelog.ui.detail.items.ProfileItem
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DetailScreen(
     uiState: DetailState,
@@ -66,9 +68,8 @@ fun DetailScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         val fullPaddingModifier = Modifier
+            .consumeWindowInsets(innerPadding)
             .padding(innerPadding)
-            .consumeWindowInsets(ScaffoldDefaults.contentWindowInsets)
-            .safeDrawingPadding()
         when (uiState.diveState) {
             is DiveState.Loading -> LoadingState(
                 modifier = fullPaddingModifier,

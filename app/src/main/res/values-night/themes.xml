@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Dark application theme -->
     <style name="Theme.DiveLog.DayNight">
 

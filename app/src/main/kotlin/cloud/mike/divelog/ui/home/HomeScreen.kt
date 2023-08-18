@@ -3,16 +3,15 @@ package cloud.mike.divelog.ui.home
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarHost
@@ -48,7 +47,7 @@ import kotlinx.coroutines.launch
 
 private val dragHandleVerticalPadding = 22.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
     uiState: HomeState,
@@ -76,12 +75,11 @@ fun HomeScreen(
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-    ) { appBarsPadding ->
+    ) { innerPadding ->
         SearchableList(
             modifier = Modifier
-                .padding(appBarsPadding)
-                .consumeWindowInsets(ScaffoldDefaults.contentWindowInsets)
-                .safeDrawingPadding(),
+                .consumeWindowInsets(innerPadding)
+                .padding(innerPadding),
             diveItems = diveItems,
             onDiveClicked = onShowDetail,
             query = uiState.query,
