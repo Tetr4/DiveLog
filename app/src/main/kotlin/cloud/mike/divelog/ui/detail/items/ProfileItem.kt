@@ -23,7 +23,7 @@ import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.formatDepthMeters
 import cloud.mike.divelog.localization.formatTemperatureCelsius
 import cloud.mike.divelog.ui.DiveTheme
-import cloud.mike.divelog.ui.common.DepthChart
+import cloud.mike.divelog.ui.common.chart.DepthChart
 
 @Composable
 fun ProfileItem(

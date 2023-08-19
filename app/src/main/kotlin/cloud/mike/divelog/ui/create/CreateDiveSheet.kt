@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.progressSemantics
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -29,6 +32,7 @@ import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.create.item.DiveStartItem
 import cloud.mike.divelog.ui.create.item.DiveTimeItem
+import cloud.mike.divelog.ui.spacing
 import com.sebaslogen.resaca.viewModelScoped
 import org.koin.java.KoinJavaComponent.getKoin
 
@@ -82,7 +86,7 @@ private fun CreateDiveSheet(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.sheetPadding),
             text = stringResource(R.string.create_dive_title),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
@@ -94,10 +98,30 @@ private fun CreateDiveSheet(
         DiveTimeItem(formState)
         Divider()
         Spacer(Modifier.height(24.dp))
-        Button(
+        SaveButton(
+            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.screenPadding),
             enabled = formState.isValid,
+            loading = uiState.saveState is SaveState.Saving,
             onClick = ::trySave,
-        ) {
+        )
+    }
+}
+
+@Composable
+private fun SaveButton(
+    enabled: Boolean,
+    loading: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Button(
+        modifier = if (loading) modifier.progressSemantics() else modifier,
+        onClick = onClick,
+        enabled = enabled && !loading,
+    ) {
+        if (loading) {
+            CircularProgressIndicator(Modifier.size(24.dp))
+        } else {
             Text(stringResource(R.string.create_dive_button_save))
         }
     }

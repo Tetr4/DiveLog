@@ -1,7 +1,8 @@
-package cloud.mike.divelog.ui.common.picker
+package cloud.mike.divelog.ui.common.dialogs
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -29,14 +31,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import cloud.mike.divelog.R
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.spacing
 
+/** Material dialog for modal pickers. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BasicDialog(
+fun PickerDialog(
     onDismissRequest: () -> Unit,
+    title: @Composable () -> Unit,
     buttons: @Composable RowScope.() -> Unit,
     modifier: Modifier = Modifier,
-    properties: DialogProperties = DialogProperties(usePlatformDefaultWidth = false),
     content: @Composable ColumnScope.() -> Unit,
 ) {
     AlertDialog(
@@ -44,14 +48,31 @@ fun BasicDialog(
             .width(IntrinsicSize.Min)
             .height(IntrinsicSize.Min),
         onDismissRequest = onDismissRequest,
-        properties = properties,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Surface(
             shape = MaterialTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                content()
+                // Title
+                CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
+                    ProvideTextStyle(MaterialTheme.typography.labelLarge) {
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.Start)
+                                .padding(horizontal = MaterialTheme.spacing.dialogPadding)
+                                .padding(top = 16.dp, bottom = 20.dp),
+                        ) {
+                            title()
+                        }
+                    }
+                }
+                // Content
+                CompositionLocalProvider(LocalContentColor provides AlertDialogDefaults.textContentColor) {
+                    content()
+                }
+                // Buttons
                 CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.primary) {
                     ProvideTextStyle(MaterialTheme.typography.labelLarge) {
                         Row(
@@ -74,8 +95,9 @@ fun BasicDialog(
 @Composable
 private fun Preview() {
     DiveTheme {
-        BasicDialog(
+        PickerDialog(
             onDismissRequest = {},
+            title = { Text("Title") },
             buttons = {
                 TextButton(onClick = {}) {
                     Text(stringResource(R.string.common_button_ok))
@@ -83,8 +105,8 @@ private fun Preview() {
             },
         ) {
             Text(
-                modifier = Modifier.padding(16.dp),
-                text = "Lorem Ipsum",
+                modifier = Modifier.padding(MaterialTheme.spacing.dialogPadding),
+                text = "Content",
             )
         }
     }

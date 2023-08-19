@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.common
+package cloud.mike.divelog.ui.common.card
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
@@ -20,6 +20,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.spacing
 
 @Composable
 fun CardHeadline(
@@ -53,7 +54,7 @@ private fun Preview() {
     DiveTheme {
         Card {
             CardHeadline(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(MaterialTheme.spacing.cardPadding),
                 imageVector = Icons.Default.ScubaDiving,
                 title = "Diving",
             )

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.DiveSpot
 import cloud.mike.divelog.ui.DiveTheme
-import cloud.mike.divelog.ui.common.CardHeadline
+import cloud.mike.divelog.ui.common.card.CardHeadline
 import cloud.mike.divelog.ui.spacing
 
 @Composable

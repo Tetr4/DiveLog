@@ -1,6 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
-package cloud.mike.divelog.ui.common.picker
+package cloud.mike.divelog.ui.common.dialogs
 
 import android.content.res.Configuration
 import androidx.compose.material3.DatePicker
@@ -20,8 +18,9 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerDialogSimple(
+fun DatePickerDialog(
     onCancel: () -> Unit,
     onConfirm: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
@@ -32,6 +31,13 @@ fun DatePickerDialogSimple(
         initialSelectedDateMillis = initial?.atStartOfDay(zone)?.toInstant()?.toEpochMilli(),
     )
 
+    fun onConfirmClicked() {
+        val instant = state.selectedDateMillis?.let(Instant::ofEpochMilli) ?: error("Missing date")
+        val localDate = instant.atZone(zone).toLocalDate()
+        onConfirm(localDate)
+    }
+
+    // We wrap the provided DatePickerDialog, instead of using our own PickerDialog.
     DatePickerDialog(
         modifier = modifier,
         onDismissRequest = onCancel,
@@ -43,16 +49,13 @@ fun DatePickerDialogSimple(
         confirmButton = {
             TextButton(
                 enabled = state.selectedDateMillis != null,
-                onClick = {
-                    val instant = state.selectedDateMillis?.let(Instant::ofEpochMilli) ?: error("Missing date")
-                    val localDate = instant.atZone(zone).toLocalDate()
-                    onConfirm(localDate)
-                },
+                onClick = ::onConfirmClicked,
             ) {
                 Text(stringResource(R.string.common_button_ok))
             }
         },
     ) {
+        // DatePicker provides its own title ("Supporting text" in M3 spec)
         DatePicker(state = state)
     }
 }
@@ -62,7 +65,7 @@ fun DatePickerDialogSimple(
 @Composable
 private fun Preview() {
     DiveTheme {
-        DatePickerDialogSimple(
+        DatePickerDialog(
             onCancel = {},
             onConfirm = {},
         )

@@ -28,7 +28,8 @@ import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.localization.formatDepthMeters
 import cloud.mike.divelog.localization.formatDiveNumber
 import cloud.mike.divelog.ui.DiveTheme
-import cloud.mike.divelog.ui.common.DepthChart
+import cloud.mike.divelog.ui.common.chart.DepthChart
+import java.time.format.FormatStyle
 
 @Composable
 fun DiveListItem(
@@ -49,7 +50,7 @@ fun DiveListItem(
                 }
             }
         },
-        headlineContent = { Text(dive.location?.name ?: dive.start.toLocalTime().format()) },
+        headlineContent = { Text(dive.location?.name ?: dive.start.toLocalTime().format(FormatStyle.SHORT)) },
         supportingContent = { Text(dive.formatInfoLine()) },
         trailingContent = { DiveNumber(dive.number) },
     )

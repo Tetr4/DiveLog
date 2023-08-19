@@ -20,14 +20,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @Immutable
-sealed interface DeleteState {
-    data object Idle : DeleteState
-    data object Loading : DeleteState
-    data class Error(val message: ErrorMessage) : DeleteState
-    data object Success : DeleteState
-}
-
-@Immutable
 sealed interface DiveState {
     val dive: Dive?
         get() = null
@@ -36,6 +28,14 @@ sealed interface DiveState {
     data class Error(val message: ErrorMessage) : DiveState
     data object Empty : DiveState
     data class Content(override val dive: Dive) : DiveState
+}
+
+@Immutable
+sealed interface DeleteState {
+    data object Idle : DeleteState
+    data object Loading : DeleteState
+    data class Error(val message: ErrorMessage) : DeleteState
+    data object Success : DeleteState
 }
 
 @Immutable

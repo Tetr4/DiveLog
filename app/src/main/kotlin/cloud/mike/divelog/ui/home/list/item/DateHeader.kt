@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.R
 import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.spacing
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import java.time.LocalDate
@@ -41,7 +42,7 @@ fun DateHeader(
         Text(
             modifier = Modifier
                 .semantics { heading() }
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = MaterialTheme.spacing.screenPadding)
                 .padding(bottom = 8.dp, top = 24.dp),
             text = when (localDate) {
                 today -> stringResource(R.string.home_date_header_label_today)
@@ -49,7 +50,7 @@ fun DateHeader(
                 else -> localDate.format(FormatStyle.LONG)
             },
             style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.tertiary,
+            color = MaterialTheme.colorScheme.secondary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

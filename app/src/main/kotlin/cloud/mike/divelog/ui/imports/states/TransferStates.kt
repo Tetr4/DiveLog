@@ -23,6 +23,7 @@ import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.spacing
 
 @Composable
 fun TransferIdleView(
@@ -30,7 +31,7 @@ fun TransferIdleView(
     modifier: Modifier = Modifier,
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
         onClick = onStartTransfer,
     ) {
         Text(stringResource(R.string.import_button_download_dives))
@@ -43,10 +44,12 @@ fun TransferProgressView(
     modifier: Modifier = Modifier,
 ) {
     if (progress == null) {
-        CircularProgressIndicator(modifier = modifier)
+        CircularProgressIndicator(
+            modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
+        )
     } else {
         CircularProgressIndicator(
-            modifier = modifier,
+            modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
             progress = progress,
             trackColor = MaterialTheme.colorScheme.onSurfaceVariant
                 .copy(alpha = 0.4f), // This matches the sheets drag handle
@@ -61,7 +64,7 @@ fun TransferErrorView(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -82,7 +85,7 @@ fun TransferSuccessView(
     modifier: Modifier = Modifier,
 ) {
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
         text = pluralStringResource(
             R.plurals.import_status_success,
             importedDives.size,
@@ -98,10 +101,7 @@ fun TransferSuccessView(
 private fun PreviewIdle() {
     DiveTheme {
         Surface {
-            TransferIdleView(
-                modifier = Modifier.padding(16.dp),
-                onStartTransfer = {},
-            )
+            TransferIdleView(onStartTransfer = {})
         }
     }
 }
@@ -112,10 +112,7 @@ private fun PreviewIdle() {
 private fun PreviewProgress() {
     DiveTheme {
         Surface {
-            TransferProgressView(
-                modifier = Modifier.padding(16.dp),
-                progress = 0.66f,
-            )
+            TransferProgressView(progress = 0.66f)
         }
     }
 }
@@ -127,7 +124,6 @@ private fun PreviewError() {
     DiveTheme {
         Surface {
             TransferErrorView(
-                modifier = Modifier.padding(16.dp),
                 message = ErrorMessage("Lorem Ipsum"),
                 onRetry = {},
             )
@@ -141,10 +137,7 @@ private fun PreviewError() {
 private fun PreviewSuccess() {
     DiveTheme {
         Surface {
-            TransferSuccessView(
-                modifier = Modifier.padding(16.dp),
-                importedDives = Dive.samples,
-            )
+            TransferSuccessView(importedDives = Dive.samples)
         }
     }
 }

@@ -2,6 +2,7 @@ package cloud.mike.divelog.ui.imports.states
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -9,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.R
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.spacing
 
 @Composable
 fun NotConnectedView(modifier: Modifier = Modifier) {
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
         text = stringResource(R.string.import_status_not_connected),
         textAlign = TextAlign.Center,
     )
@@ -28,7 +29,7 @@ fun ConnectingView(
     modifier: Modifier = Modifier,
 ) {
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
         text = if (deviceName != null) {
             stringResource(R.string.import_status_connecting, deviceName)
         } else {
@@ -44,7 +45,7 @@ fun ConnectingView(
 private fun PreviewNotConnected() {
     DiveTheme {
         Surface {
-            NotConnectedView(Modifier.padding(16.dp))
+            NotConnectedView()
         }
     }
 }
@@ -55,10 +56,7 @@ private fun PreviewNotConnected() {
 private fun PreviewConnecting() {
     DiveTheme {
         Surface {
-            ConnectingView(
-                modifier = Modifier.padding(16.dp),
-                deviceName = "OSTC",
-            )
+            ConnectingView(deviceName = "OSTC")
         }
     }
 }

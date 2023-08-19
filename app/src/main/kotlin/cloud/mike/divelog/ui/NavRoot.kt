@@ -19,6 +19,7 @@ fun NavRoot() {
             onShowDetail = mainController::showDetail,
         )
         detailScreen(
+            onShowEdit = {},
             onNavigateUp = mainController::navigateUp,
         )
     }

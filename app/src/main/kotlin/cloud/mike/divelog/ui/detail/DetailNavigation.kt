@@ -19,6 +19,7 @@ object DetailNavigation {
 
 fun NavGraphBuilder.detailScreen(
     onNavigateUp: () -> Unit,
+    onShowEdit: (Dive) -> Unit,
 ) {
     composable(
         route = "${DetailNavigation.route}/{${DetailNavigation.diveId}}",
@@ -31,6 +32,7 @@ fun NavGraphBuilder.detailScreen(
         DetailScreen(
             uiState = uiState,
             onNavigateUp = onNavigateUp,
+            onShowEdit = onShowEdit,
             onFetchDive = viewModel::fetchDive,
             onDeleteDive = viewModel::deleteDive,
             onDismissDeleteError = viewModel::dismissDeleteError,

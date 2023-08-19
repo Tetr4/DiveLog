@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import cloud.mike.divelog.R
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.spacing
 
 @Composable
 fun DurationPicker(
@@ -56,7 +57,7 @@ fun DurationPicker(
         hoursFocusRequester.requestFocus()
     }
 
-    Row(modifier = modifier.padding(bottom = 24.dp)) {
+    Row(modifier = modifier) {
         Column {
             HoursField(
                 modifier = Modifier.focusRequester(hoursFocusRequester),
@@ -158,7 +159,7 @@ private fun Separator() {
     Box(
         modifier = Modifier
             .size(24.dp, 72.0.dp)
-            .clearAndSetSemantics { },
+            .clearAndSetSemantics {},
         contentAlignment = Alignment.Center,
     ) {
         Text(
@@ -256,7 +257,7 @@ private fun Preview() {
     DiveTheme {
         Surface {
             DurationPicker(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(MaterialTheme.spacing.dialogPadding),
                 state = rememberDurationPickerState(),
             )
         }

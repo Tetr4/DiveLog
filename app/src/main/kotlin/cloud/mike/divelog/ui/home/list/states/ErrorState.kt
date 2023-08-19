@@ -22,6 +22,7 @@ import cloud.mike.divelog.R
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.localization.errors.ErrorService
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.spacing
 import org.koin.compose.koinInject
 
 @Composable
@@ -31,7 +32,9 @@ fun InitialErrorState(
     modifier: Modifier = Modifier,
 ) {
     ErrorState(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(MaterialTheme.spacing.screenPadding),
         error = error,
         onRetry = onRetry,
     )
@@ -44,7 +47,12 @@ fun TrailingErrorState(
     modifier: Modifier = Modifier,
 ) {
     ErrorState(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = MaterialTheme.spacing.screenPadding,
+                vertical = 16.dp,
+            ),
         error = error,
         onRetry = onRetry,
     )
@@ -64,7 +72,7 @@ private fun ErrorState(
         errorService.createMessage(error)
     }
     Column(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

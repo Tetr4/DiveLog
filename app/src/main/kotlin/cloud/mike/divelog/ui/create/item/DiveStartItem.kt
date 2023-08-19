@@ -22,8 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import cloud.mike.divelog.R
 import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.ui.DiveTheme
-import cloud.mike.divelog.ui.common.picker.DatePickerDialogSimple
-import cloud.mike.divelog.ui.common.picker.TimePickerDialogSimple
+import cloud.mike.divelog.ui.common.dialogs.DatePickerDialog
+import cloud.mike.divelog.ui.common.dialogs.TimePickerDialog
 import cloud.mike.divelog.ui.create.FormState
 import cloud.mike.divelog.ui.create.rememberFormState
 import java.time.format.FormatStyle
@@ -62,7 +62,7 @@ fun DiveStartItem(
     )
 
     if (showDatePicker) {
-        DatePickerDialogSimple(
+        DatePickerDialog(
             initial = formState.startDate,
             onCancel = { showDatePicker = false },
             onConfirm = {
@@ -73,7 +73,7 @@ fun DiveStartItem(
     }
 
     if (showTimePicker) {
-        TimePickerDialogSimple(
+        TimePickerDialog(
             initial = formState.startTime,
             onCancel = { showTimePicker = false },
             onConfirm = {

@@ -10,6 +10,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,14 +19,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.R
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.spacing
 
 @Composable
 fun BluetoothNotAvailableView(modifier: Modifier = Modifier) {
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
         text = stringResource(R.string.import_status_bluetooth_not_available),
         textAlign = TextAlign.Center,
     )
@@ -40,7 +41,7 @@ fun MissingPermissionView(modifier: Modifier = Modifier) {
         }
     }
     Button(
-        modifier = modifier,
+        modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
         onClick = ::requestBLuetoothPermission,
     ) {
         Text(stringResource(R.string.import_button_request_permission))
@@ -57,7 +58,7 @@ fun BluetoothDisabledView(modifier: Modifier = Modifier) {
         }
     }
     Button(
-        modifier = modifier,
+        modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
         onClick = ::requestEnableBluetooth,
     ) {
         Text(stringResource(R.string.import_button_enable_bluetooth))
@@ -70,7 +71,7 @@ fun BluetoothDisabledView(modifier: Modifier = Modifier) {
 private fun PreviewBluetoothNotAvailable() {
     DiveTheme {
         Surface {
-            BluetoothNotAvailableView(Modifier.padding(16.dp))
+            BluetoothNotAvailableView()
         }
     }
 }
@@ -81,7 +82,7 @@ private fun PreviewBluetoothNotAvailable() {
 private fun PreviewMissingPermission() {
     DiveTheme {
         Surface {
-            MissingPermissionView(Modifier.padding(16.dp))
+            MissingPermissionView()
         }
     }
 }
@@ -92,7 +93,7 @@ private fun PreviewMissingPermission() {
 private fun PreviewBluetoothDisabled() {
     DiveTheme {
         Surface {
-            BluetoothDisabledView(Modifier.padding(16.dp))
+            BluetoothDisabledView()
         }
     }
 }

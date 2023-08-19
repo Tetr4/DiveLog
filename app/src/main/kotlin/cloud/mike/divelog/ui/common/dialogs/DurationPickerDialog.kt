@@ -1,19 +1,20 @@
-package cloud.mike.divelog.ui.common.picker
+package cloud.mike.divelog.ui.common.dialogs
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.R
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.common.picker.DurationPicker
+import cloud.mike.divelog.ui.common.picker.rememberDurationPickerState
+import cloud.mike.divelog.ui.spacing
 import kotlin.time.Duration
 
 @Composable
@@ -24,29 +25,28 @@ fun DurationPickerDialog(
     initial: Duration? = null,
 ) {
     val state = rememberDurationPickerState(initial ?: Duration.ZERO)
-    BasicDialog(
+
+    fun onConfirmClicked() = onConfirm(state.duration)
+
+    PickerDialog(
+        modifier = modifier,
         onDismissRequest = onCancel,
+        title = {
+            Text(stringResource(R.string.duration_picker_title))
+        },
         buttons = {
             TextButton(onClick = onCancel) {
                 Text(stringResource(R.string.common_button_cancel))
             }
-            TextButton(
-                onClick = { onConfirm(state.duration) },
-            ) {
+            TextButton(onClick = ::onConfirmClicked) {
                 Text(stringResource(R.string.common_button_ok))
             }
         },
     ) {
-        Text(
-            modifier = modifier
-                .align(Alignment.Start)
-                .padding(start = 24.dp, end = 24.dp, top = 16.dp, bottom = 20.dp),
-            text = stringResource(R.string.duration_picker_title),
-            style = MaterialTheme.typography.labelLarge,
-            color = AlertDialogDefaults.titleContentColor,
-        )
         DurationPicker(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier
+                .padding(horizontal = MaterialTheme.spacing.dialogPadding)
+                .padding(bottom = 24.dp),
             state = state,
         )
     }

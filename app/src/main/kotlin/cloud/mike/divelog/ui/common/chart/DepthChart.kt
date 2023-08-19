@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.common
+package cloud.mike.divelog.ui.common.chart
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.DepthProfile
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.common.sample
 
 private const val MAX_DATA_POINTS = 200 // Reduce huge datasets
 private const val DEPTH_PADDING_PERCENT = 1.1f // Ensure chart never touches bottom

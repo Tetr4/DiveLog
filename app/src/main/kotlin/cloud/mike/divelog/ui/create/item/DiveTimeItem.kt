@@ -20,7 +20,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.ui.DiveTheme
-import cloud.mike.divelog.ui.common.picker.DurationPickerDialog
+import cloud.mike.divelog.ui.common.dialogs.DurationPickerDialog
 import cloud.mike.divelog.ui.create.FormState
 import cloud.mike.divelog.ui.create.rememberFormState
 

@@ -109,14 +109,13 @@ fun SearchableList(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         SearchView(
-            modifier = Modifier.padding(horizontal = 16.dp),
             value = query,
             onValueChange = onQueryChanged,
             placeholder = stringResource(R.string.home_search_placeholder),
         )
         Spacer(Modifier.height(8.dp))
         if (App.SHOW_FILTERS) {
-            TagFilters(modifier = Modifier.padding(horizontal = 16.dp))
+            TagFilters()
         }
         DiveList(
             items = diveItems,

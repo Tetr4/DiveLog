@@ -32,6 +32,8 @@ fun Number.formatDepthMeters(): String {
 @Composable
 @ReadOnlyComposable
 fun Number.formatTemperatureCelsius(): String {
+    // TODO Use new API once SDK 34 is stable:
+    //   https://developer.android.com/reference/androidx/core/text/util/LocalePreferences#getTemperatureUnit()
     val numberFormat = NumberFormat.getInstance(primaryLocale).apply {
         maximumFractionDigits = 2
     }
