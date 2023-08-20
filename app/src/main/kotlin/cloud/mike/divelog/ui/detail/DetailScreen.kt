@@ -8,12 +8,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -27,13 +25,13 @@ import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.common.states.ErrorState
+import cloud.mike.divelog.ui.common.states.LoadingState
 import cloud.mike.divelog.ui.detail.items.InfoItem
 import cloud.mike.divelog.ui.detail.items.LocationItem
 import cloud.mike.divelog.ui.detail.items.NotesItem
 import cloud.mike.divelog.ui.detail.items.ProfileItem
 import cloud.mike.divelog.ui.detail.states.EmptyState
-import cloud.mike.divelog.ui.detail.states.ErrorState
-import cloud.mike.divelog.ui.detail.states.LoadingState
 import cloud.mike.divelog.ui.detail.topbar.DetailAppBar
 import cloud.mike.divelog.ui.spacing
 
@@ -83,9 +81,7 @@ fun DetailScreen(
                 modifier = fullPaddingModifier,
             )
             is DiveState.Content -> ContentState(
-                modifier = Modifier
-                    .consumeWindowInsets(ScaffoldDefaults.contentWindowInsets)
-                    .safeDrawingPadding(),
+                modifier = Modifier.consumeWindowInsets(innerPadding),
                 contentPadding = innerPadding,
                 dive = uiState.diveState.dive,
             )
@@ -95,8 +91,8 @@ fun DetailScreen(
 
 @Composable
 private fun ContentState(
-    contentPadding: PaddingValues,
     dive: Dive,
+    contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
     Column(

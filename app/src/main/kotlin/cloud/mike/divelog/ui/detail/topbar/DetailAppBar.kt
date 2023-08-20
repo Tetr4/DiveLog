@@ -91,7 +91,7 @@ private fun EditButton(onClick: () -> Unit) {
     IconButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Filled.Edit,
-            contentDescription = stringResource(R.string.dive_detail_button_edit_dive),
+            contentDescription = stringResource(R.string.common_button_edit),
         )
     }
 }

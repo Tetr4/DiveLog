@@ -22,28 +22,31 @@ import cloud.mike.divelog.ui.DiveTheme
 
 @Composable
 fun HomeBottomBar(
-    showBluetoothImport: () -> Unit,
-    showDiveSpots: () -> Unit,
-    showAddDive: () -> Unit,
+    onShowImport: () -> Unit,
+    onShowDiveSpots: () -> Unit,
+    onShowAdd: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     BottomAppBar(
         modifier = modifier,
         actions = {
-            ButtonWithTooltip(
-                text = stringResource(R.string.home_button_bluetooth_import),
+            TooltipButton(
                 icon = Icons.Filled.Bluetooth,
-                onClick = showBluetoothImport,
+                description = stringResource(R.string.home_button_bluetooth_import),
+                onClick = onShowImport,
             )
-            ButtonWithTooltip(
-                text = stringResource(R.string.home_button_dive_spots),
-                onClick = showDiveSpots,
+            TooltipButton(
+                description = stringResource(R.string.home_button_dive_spots),
                 icon = Icons.Filled.Map,
+                onClick = onShowDiveSpots,
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = showAddDive) {
-                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.home_button_add_dive))
+            FloatingActionButton(onClick = onShowAdd) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(R.string.home_button_add_dive),
+                )
             }
         },
     )
@@ -51,19 +54,21 @@ fun HomeBottomBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ButtonWithTooltip(
-    text: String,
+private fun TooltipButton(
     icon: ImageVector,
+    description: String,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     PlainTooltipBox(
-        tooltip = { Text(text) },
+        modifier = modifier,
+        tooltip = { Text(description) },
     ) {
         IconButton(
             onClick = onClick,
             modifier = Modifier.tooltipAnchor(),
         ) {
-            Icon(icon, contentDescription = text)
+            Icon(icon, contentDescription = description)
         }
     }
 }
@@ -74,9 +79,9 @@ private fun ButtonWithTooltip(
 private fun Preview() {
     DiveTheme {
         HomeBottomBar(
-            showBluetoothImport = {},
-            showDiveSpots = {},
-            showAddDive = {},
+            onShowImport = {},
+            onShowDiveSpots = {},
+            onShowAdd = {},
         )
     }
 }

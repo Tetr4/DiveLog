@@ -9,14 +9,13 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import cloud.mike.divelog.data.dives.Dive
 import org.koin.androidx.compose.koinViewModel
 
-object HomeNavigation {
-    const val route = "home"
-}
+const val HOME_ROUTE = "home"
 
 fun NavGraphBuilder.homeScreen(
     onShowDetail: (Dive) -> Unit,
+    onShowAdd: () -> Unit,
 ) {
-    composable(HomeNavigation.route) {
+    composable(HOME_ROUTE) {
         val viewModel: HomeViewModel = koinViewModel()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val diveItems = viewModel.dives.collectAsLazyPagingItems()
@@ -24,11 +23,12 @@ fun NavGraphBuilder.homeScreen(
             uiState = uiState,
             diveItems = diveItems,
             onShowDetail = onShowDetail,
+            onShowAdd = onShowAdd,
             onSearch = viewModel::search,
         )
     }
 }
 
 fun NavController.showHome() {
-    navigate(HomeNavigation.route)
+    navigate(HOME_ROUTE)
 }

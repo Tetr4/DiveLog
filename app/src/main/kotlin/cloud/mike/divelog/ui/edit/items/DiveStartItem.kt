@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.create.item
+package cloud.mike.divelog.ui.edit.items
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -24,8 +24,8 @@ import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.dialogs.DatePickerDialog
 import cloud.mike.divelog.ui.common.dialogs.TimePickerDialog
-import cloud.mike.divelog.ui.create.FormState
-import cloud.mike.divelog.ui.create.rememberFormState
+import cloud.mike.divelog.ui.edit.FormState
+import cloud.mike.divelog.ui.edit.rememberFormState
 import java.time.format.FormatStyle
 
 @Composable
@@ -89,6 +89,6 @@ fun DiveStartItem(
 @Composable
 private fun Preview() {
     DiveTheme {
-        DiveStartItem(formState = rememberFormState())
+        DiveStartItem(formState = rememberFormState(dive = null))
     }
 }

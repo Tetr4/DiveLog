@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.detail.states
+package cloud.mike.divelog.ui.common.states
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
@@ -15,10 +15,17 @@ import cloud.mike.divelog.ui.spacing
 
 @Composable
 fun LoadingState(modifier: Modifier = Modifier) {
-    Box(
+    LoadingView(
         modifier = modifier
             .fillMaxSize()
             .padding(MaterialTheme.spacing.screenPadding),
+    )
+}
+
+@Composable
+fun LoadingView(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()

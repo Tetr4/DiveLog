@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.detail
+package cloud.mike.divelog.ui.edit
 
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.SavedStateHandle
@@ -12,35 +12,41 @@ import cloud.mike.divelog.data.dives.Dive
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 
-private const val DETAIL_ROUTE = "detail"
+private const val EDIT_ROUTE = "edit"
 private const val DIVE_ID = "diveId"
 
-fun NavGraphBuilder.detailScreen(
+fun NavGraphBuilder.editScreen(
     onNavigateUp: () -> Unit,
-    onShowEdit: (Dive) -> Unit,
+    onShowDetail: (Dive) -> Unit,
 ) {
     composable(
-        route = "$DETAIL_ROUTE/{$DIVE_ID}",
+        route = "$EDIT_ROUTE?$DIVE_ID={$DIVE_ID}",
         arguments = listOf(
-            navArgument(DIVE_ID) { type = NavType.StringType },
+            navArgument(DIVE_ID) {
+                type = NavType.StringType
+                nullable = true
+            },
         ),
     ) {
-        val viewModel: DetailViewModel = koinViewModel()
+        val viewModel: EditViewModel = koinViewModel()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-        DetailScreen(
+        EditScreen(
             uiState = uiState,
-            onNavigateUp = onNavigateUp,
-            onShowEdit = onShowEdit,
+            onClose = onNavigateUp,
+            onShowDetail = onShowDetail,
             onFetchDive = viewModel::fetchDive,
-            onDeleteDive = viewModel::deleteDive,
-            onDismissDeleteError = viewModel::dismissDeleteError,
+            onSave = viewModel::save,
         )
     }
 }
 
-fun NavController.showDetail(dive: Dive) {
-    navigate("$DETAIL_ROUTE/${dive.id}")
+fun NavController.showEdit(dive: Dive) {
+    navigate("$EDIT_ROUTE?$DIVE_ID=${dive.id}")
 }
 
-val SavedStateHandle.diveId: UUID
-    get() = UUID.fromString(get<String>(DIVE_ID))
+fun NavController.showAdd() {
+    navigate(EDIT_ROUTE)
+}
+
+val SavedStateHandle.diveId: UUID?
+    get() = get<String>(DIVE_ID)?.let { UUID.fromString(it) }

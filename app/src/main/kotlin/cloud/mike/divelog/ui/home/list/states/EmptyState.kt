@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -23,10 +24,12 @@ import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.spacing
 
 @Composable
-fun InitialEmptyState(modifier: Modifier = Modifier) {
+fun EmptyState(modifier: Modifier = Modifier) {
     // TODO improve responsiveness
     Column(
-        modifier = modifier.padding(MaterialTheme.spacing.screenPadding),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(MaterialTheme.spacing.screenPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
@@ -64,6 +67,6 @@ fun InitialEmptyState(modifier: Modifier = Modifier) {
 @Composable
 private fun Preview() {
     DiveTheme {
-        InitialEmptyState()
+        EmptyState()
     }
 }

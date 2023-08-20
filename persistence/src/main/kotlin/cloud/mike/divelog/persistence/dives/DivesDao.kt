@@ -2,10 +2,12 @@ package cloud.mike.divelog.persistence.dives
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 import java.util.UUID
@@ -22,7 +24,7 @@ interface DivesDao {
                 diveSpots.name LIKE '%' || :query || '%'
                 OR notes LIKE '%' || :query || '%'
                 OR STRFTIME('%d.%m.%Y', start) LIKE '%' || :query || '%'
-            ORDER BY number DESC
+            ORDER BY start DESC
         """,
     )
     fun loadDivesPages(query: String): PagingSource<Int, DiveWithLocationAndProfile>
@@ -31,24 +33,17 @@ interface DivesDao {
     @Query("SELECT * FROM dives WHERE id=:id")
     fun loadDiveStream(id: UUID): Flow<DiveWithLocationAndProfile?>
 
-    @Query("DELETE FROM dives WHERE id = :id")
-    suspend fun deleteDive(id: UUID)
+    @Update
+    suspend fun updateDive(dive: DiveDto)
+
+    @Delete
+    suspend fun deleteDive(id: DiveDto)
 
     @Query("SELECT MAX(number) FROM dives")
     suspend fun loadMaxDiveNumber(): Int?
 
     @Query("SELECT EXISTS(SELECT * FROM dives WHERE start = :timestamp)")
     suspend fun diveExists(timestamp: LocalDateTime): Boolean
-
-    @Query("DELETE FROM dives")
-    suspend fun clearDives()
-
-    @Transaction
-    suspend fun insertDives(dives: List<DiveWithLocationAndProfile>) = dives.forEach {
-        if (it.location != null) insertLocation(it.location)
-        insertDive(it.dive)
-        if (it.depthProfile != null) insertProfile(it.depthProfile)
-    }
 
     @Insert
     suspend fun insertDive(dive: DiveDto)
@@ -58,4 +53,11 @@ interface DivesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLocation(location: DiveSpotDto)
+
+    @Transaction
+    suspend fun insertDives(dives: List<DiveWithLocationAndProfile>) = dives.forEach {
+        if (it.location != null) insertLocation(it.location)
+        insertDive(it.dive)
+        if (it.depthProfile != null) insertProfile(it.depthProfile)
+    }
 }

@@ -42,7 +42,7 @@ class HomeViewModelTest {
             ),
         )
         val diveRepo: DiveRepository = mock {
-            on(mock.getDivePages(any())) doReturn flowOf(pagingData)
+            on(mock.getDivesPages(any())) doReturn flowOf(pagingData)
         }
         val viewModel = HomeViewModel(
             diveRepo = diveRepo,

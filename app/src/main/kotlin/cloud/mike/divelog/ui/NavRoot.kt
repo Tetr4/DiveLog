@@ -5,7 +5,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import cloud.mike.divelog.ui.detail.detailScreen
 import cloud.mike.divelog.ui.detail.showDetail
-import cloud.mike.divelog.ui.home.HomeNavigation
+import cloud.mike.divelog.ui.edit.editScreen
+import cloud.mike.divelog.ui.edit.showAdd
+import cloud.mike.divelog.ui.edit.showEdit
+import cloud.mike.divelog.ui.home.HOME_ROUTE
 import cloud.mike.divelog.ui.home.homeScreen
 
 @Composable
@@ -13,14 +16,19 @@ fun NavRoot() {
     val mainController = rememberNavController()
     NavHost(
         navController = mainController,
-        startDestination = HomeNavigation.route,
+        startDestination = HOME_ROUTE,
     ) {
         homeScreen(
             onShowDetail = mainController::showDetail,
+            onShowAdd = mainController::showAdd,
         )
         detailScreen(
-            onShowEdit = {},
+            onShowEdit = mainController::showEdit,
             onNavigateUp = mainController::navigateUp,
+        )
+        editScreen(
+            onNavigateUp = mainController::navigateUp,
+            onShowDetail = mainController::showDetail,
         )
     }
 }

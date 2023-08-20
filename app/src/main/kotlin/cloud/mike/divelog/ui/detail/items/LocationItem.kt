@@ -27,16 +27,16 @@ fun LocationItem(
     location: DiveSpot,
     modifier: Modifier = Modifier,
 ) {
+    // TODO show map
     Card(modifier = modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.padding(MaterialTheme.spacing.cardPadding),
         ) {
             CardHeadline(
                 imageVector = Icons.Default.Place,
-                title = stringResource(R.string.dive_detail_label_location), // TODO localize
+                title = stringResource(R.string.dive_detail_label_location),
             )
             Spacer(Modifier.height(8.dp))
-            // TODO show map
             Text(
                 text = location.name,
                 style = MaterialTheme.typography.bodyMedium,

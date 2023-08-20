@@ -84,10 +84,11 @@ class DetailViewModel(
     }
 
     fun deleteDive() {
+        val dive = diveState.value.dive ?: error("No dive")
         viewModelScope.launch {
             try {
                 deleteState.update { DeleteState.Loading }
-                diveRepo.deleteDive(savedStateHandle.diveId)
+                diveRepo.deleteDive(dive)
                 deleteState.update { DeleteState.Success }
             } catch (e: Exception) {
                 logError(e)

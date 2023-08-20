@@ -2,8 +2,8 @@ package cloud.mike.divelog
 
 import cloud.mike.divelog.data.dataModule
 import cloud.mike.divelog.localization.errors.ErrorService
-import cloud.mike.divelog.ui.create.CreateDiveViewModel
 import cloud.mike.divelog.ui.detail.DetailViewModel
+import cloud.mike.divelog.ui.edit.EditViewModel
 import cloud.mike.divelog.ui.home.HomeViewModel
 import cloud.mike.divelog.ui.imports.ImportViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -15,5 +15,5 @@ val appModule = dataModule + module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::DetailViewModel)
     viewModelOf(::ImportViewModel)
-    viewModelOf(::CreateDiveViewModel)
+    viewModelOf(::EditViewModel)
 }

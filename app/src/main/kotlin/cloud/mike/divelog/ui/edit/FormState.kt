@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.create
+package cloud.mike.divelog.ui.edit
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.ui.common.DurationSaver
 import cloud.mike.divelog.ui.common.LocalDateSaver
 import cloud.mike.divelog.ui.common.LocalTimeSaver
@@ -20,10 +21,12 @@ class FormState(
     startDate: MutableState<LocalDate?>,
     startTime: MutableState<LocalTime?>,
     diveTime: MutableState<Duration?>,
+    notes: MutableState<String>,
 ) {
     var startDate by startDate
     var startTime by startTime
     var diveTime by diveTime
+    var notes by notes
 
     val isValid
         get() = startDate != null && startTime != null && diveTime != null
@@ -37,8 +40,17 @@ class FormState(
 }
 
 @Composable
-fun rememberFormState() = FormState(
-    startDate = rememberSaveable(stateSaver = LocalDateSaver) { mutableStateOf(null) },
-    startTime = rememberSaveable(stateSaver = LocalTimeSaver) { mutableStateOf(null) },
-    diveTime = rememberSaveable(stateSaver = DurationSaver) { mutableStateOf(null) },
+fun rememberFormState(dive: Dive?) = FormState(
+    startDate = rememberSaveable(dive?.start, stateSaver = LocalDateSaver) {
+        mutableStateOf(dive?.start?.toLocalDate())
+    },
+    startTime = rememberSaveable(dive?.start, stateSaver = LocalTimeSaver) {
+        mutableStateOf(dive?.start?.toLocalTime())
+    },
+    diveTime = rememberSaveable(dive?.diveTime, stateSaver = DurationSaver) {
+        mutableStateOf(dive?.diveTime)
+    },
+    notes = rememberSaveable(dive?.notes) {
+        mutableStateOf(dive?.notes.orEmpty())
+    },
 )

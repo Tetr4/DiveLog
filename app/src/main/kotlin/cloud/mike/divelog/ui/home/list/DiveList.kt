@@ -15,13 +15,14 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import cloud.mike.divelog.data.dives.Dive
+import cloud.mike.divelog.localization.errors.localize
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.common.states.ErrorState
+import cloud.mike.divelog.ui.common.states.LoadingState
 import cloud.mike.divelog.ui.home.DiveItem
 import cloud.mike.divelog.ui.home.list.item.DateHeader
 import cloud.mike.divelog.ui.home.list.item.DiveListItem
-import cloud.mike.divelog.ui.home.list.states.InitialEmptyState
-import cloud.mike.divelog.ui.home.list.states.InitialErrorState
-import cloud.mike.divelog.ui.home.list.states.InitialLoadingState
+import cloud.mike.divelog.ui.home.list.states.EmptyState
 import cloud.mike.divelog.ui.home.list.states.TrailingErrorState
 import cloud.mike.divelog.ui.home.list.states.TrailingLoadingState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,14 +36,14 @@ fun DiveList(
     modifier: Modifier = Modifier,
 ) {
     when (val state = items.loadState.refresh) {
-        is LoadState.Loading -> InitialLoadingState(modifier = modifier)
-        is LoadState.Error -> InitialErrorState(
+        is LoadState.Loading -> LoadingState(modifier = modifier)
+        is LoadState.Error -> ErrorState(
             modifier = modifier,
-            error = state.error,
+            message = state.error.localize(),
             onRetry = onRetry,
         )
         is LoadState.NotLoading -> if (items.itemCount == 0) {
-            InitialEmptyState(modifier = modifier)
+            EmptyState(modifier = modifier)
         } else {
             ContentState(
                 modifier = modifier,
@@ -77,7 +78,7 @@ private fun ContentState(
         when (val state = items.loadState.append) {
             is LoadState.NotLoading -> Unit // No trailing empty state, list just ends
             is LoadState.Loading -> item { TrailingLoadingState() }
-            is LoadState.Error -> item { TrailingErrorState(error = state.error, onRetry = onRetry) }
+            is LoadState.Error -> item { TrailingErrorState(message = state.error.localize(), onRetry = onRetry) }
             else -> error("Unsupported state: $state")
         }
     }
@@ -141,8 +142,8 @@ private class PreviewProvider : PreviewParameterProvider<PagingData<DiveItem>> {
     )
 }
 
-@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun Preview(
     @PreviewParameter(PreviewProvider::class) pagingData: PagingData<DiveItem>,

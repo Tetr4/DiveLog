@@ -18,7 +18,7 @@ class DiveRepository(
 
     fun getDiveStream(id: UUID): Flow<Dive?> = divesDao.loadDiveStream(id).map { it?.toEntity() }
 
-    fun getDivePages(query: String): Flow<PagingData<Dive>> {
+    fun getDivesPages(query: String): Flow<PagingData<Dive>> {
         val pager = Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = { divesDao.loadDivesPages(query) },
@@ -26,9 +26,11 @@ class DiveRepository(
         return pager.flow.map { diveDtos -> diveDtos.map { it.toEntity() } }
     }
 
-    suspend fun deleteDive(id: UUID) = divesDao.deleteDive(id)
+    suspend fun deleteDive(dive: Dive) = divesDao.deleteDive(dive.toDto().dive)
     suspend fun addDive(dive: Dive) = addDives(listOf(dive))
     suspend fun addDives(dives: List<Dive>) = divesDao.insertDives(dives.map { it.toDto() })
+    suspend fun updateDive(dive: Dive) = divesDao.updateDive(dive.toDto().dive)
+
     suspend fun getCurrentDiveNumber(): Int = divesDao.loadMaxDiveNumber() ?: 0
     suspend fun containsDiveAt(timestamp: LocalDateTime): Boolean = divesDao.diveExists(timestamp)
 }

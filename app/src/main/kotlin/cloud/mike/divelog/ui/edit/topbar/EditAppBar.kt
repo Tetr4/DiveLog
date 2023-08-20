@@ -1,0 +1,134 @@
+package cloud.mike.divelog.ui.edit.topbar
+
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.progressSemantics
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import cloud.mike.divelog.R
+import cloud.mike.divelog.data.dives.Dive
+import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.edit.DiveState
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditDiveAppBar(
+    diveState: DiveState,
+    formValid: Boolean,
+    saving: Boolean,
+    onClose: () -> Unit,
+    onSave: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TopAppBar(
+        modifier = modifier,
+        navigationIcon = { CloseButton(onClick = onClose) },
+        title = { Title(diveState) },
+        actions = {
+            when (diveState) {
+                is DiveState.Error, is DiveState.Loading -> Unit
+                is DiveState.Create, is DiveState.Update -> SaveButton(
+                    enabled = formValid,
+                    loading = saving,
+                    onClick = onSave,
+                )
+            }
+        },
+    )
+}
+
+@Composable
+private fun Title(diveState: DiveState) {
+    when (diveState) {
+        is DiveState.Create -> Text(stringResource(R.string.create_dive_title))
+        is DiveState.Update -> Text(stringResource(R.string.edit_dive_title))
+        is DiveState.Loading, is DiveState.Error -> Unit
+    }
+}
+
+@Composable
+private fun CloseButton(onClick: () -> Unit) {
+    IconButton(onClick) {
+        Icon(
+            imageVector = Icons.Filled.Close,
+            contentDescription = stringResource(R.string.common_button_cancel),
+        )
+    }
+}
+
+@Composable
+private fun SaveButton(
+    enabled: Boolean,
+    loading: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TextButton(
+        modifier = if (loading) modifier.progressSemantics() else modifier,
+        enabled = enabled && !loading,
+        onClick = onClick,
+    ) {
+        if (loading) {
+            CircularProgressIndicator(Modifier.size(24.dp))
+        } else {
+            Text(stringResource(R.string.common_button_save))
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable
+private fun PreviewEmpty() {
+    DiveTheme {
+        EditDiveAppBar(
+            diveState = DiveState.Loading,
+            formValid = false,
+            saving = false,
+            onClose = {},
+            onSave = {},
+        )
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable
+private fun PreviewUpdate() {
+    DiveTheme {
+        EditDiveAppBar(
+            diveState = DiveState.Update(Dive.sample),
+            formValid = true,
+            saving = false,
+            onClose = {},
+            onSave = {},
+        )
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable
+private fun PreviewCreate() {
+    DiveTheme {
+        EditDiveAppBar(
+            diveState = DiveState.Create,
+            formValid = false,
+            saving = true,
+            onClose = {},
+            onSave = {},
+        )
+    }
+}

@@ -37,7 +37,6 @@ import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
-import cloud.mike.divelog.ui.create.CreateDiveSheet
 import cloud.mike.divelog.ui.home.bottombar.HomeBottomBar
 import cloud.mike.divelog.ui.home.filters.TagFilters
 import cloud.mike.divelog.ui.home.list.DiveList
@@ -54,25 +53,24 @@ fun HomeScreen(
     uiState: HomeState,
     diveItems: LazyPagingItems<DiveItem>,
     onShowDetail: (Dive) -> Unit,
+    onShowAdd: () -> Unit,
     onSearch: (query: String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val bluetoothSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val createDiveSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val importSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val snackbarHostState = remember { SnackbarHostState() }
 
-    fun showBluetoothImport() = scope.launch { bluetoothSheetState.show() }
-    fun showAddDive() = scope.launch { createDiveSheetState.show() }
+    fun showImport() = scope.launch { importSheetState.show() }
     fun showDiveSpots() = Toast.makeText(context, "Map not implemented", Toast.LENGTH_SHORT).show()
     suspend fun showError(message: ErrorMessage) = snackbarHostState.showSnackbar(message.content)
 
     Scaffold(
         bottomBar = {
             HomeBottomBar(
-                showBluetoothImport = ::showBluetoothImport,
-                showDiveSpots = ::showDiveSpots,
-                showAddDive = ::showAddDive,
+                onShowImport = ::showImport,
+                onShowDiveSpots = ::showDiveSpots,
+                onShowAdd = onShowAdd,
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -88,10 +86,8 @@ fun HomeScreen(
         )
     }
 
-    Sheets(
-        bluetoothSheetState = bluetoothSheetState,
-        createDiveSheetState = createDiveSheetState,
-        onShowDetail = onShowDetail,
+    ImportSheet(
+        state = importSheetState,
         onShowError = ::showError,
     )
 }
@@ -128,39 +124,19 @@ fun SearchableList(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Sheets(
-    bluetoothSheetState: SheetState,
-    createDiveSheetState: SheetState,
-    onShowDetail: (Dive) -> Unit,
+private fun ImportSheet(
+    state: SheetState,
     onShowError: suspend (ErrorMessage) -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-    if (!bluetoothSheetState.isCollapsed) {
+    if (!state.isCollapsed) {
         ModalBottomSheet(
-            sheetState = bluetoothSheetState,
+            sheetState = state,
             onDismissRequest = {},
         ) {
             ImportSheet(
                 modifier = Modifier
                     .heightIn(min = 192.dp)
                     .padding(bottom = dragHandleVerticalPadding),
-                onShowError = onShowError,
-            )
-        }
-    }
-    if (!createDiveSheetState.isCollapsed) {
-        ModalBottomSheet(
-            sheetState = createDiveSheetState,
-            onDismissRequest = {},
-        ) {
-            CreateDiveSheet(
-                modifier = Modifier.padding(bottom = dragHandleVerticalPadding),
-                onDiveCreated = { dive ->
-                    scope.launch {
-                        createDiveSheetState.hide()
-                        onShowDetail(dive)
-                    }
-                },
                 onShowError = onShowError,
             )
         }
@@ -186,6 +162,7 @@ private fun Preview() {
             uiState = HomeState(),
             diveItems = MutableStateFlow(pagingData).collectAsLazyPagingItems(),
             onShowDetail = {},
+            onShowAdd = {},
             onSearch = {},
         )
     }

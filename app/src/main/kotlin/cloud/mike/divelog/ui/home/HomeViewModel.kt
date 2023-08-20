@@ -40,7 +40,7 @@ class HomeViewModel(
     private val query = MutableStateFlow("")
 
     val dives = query.flatMapLatest { query ->
-        diveRepo.getDivePages(query)
+        diveRepo.getDivesPages(query)
             .map { it.addDateHeaders() }
             .cachedIn(viewModelScope)
     }

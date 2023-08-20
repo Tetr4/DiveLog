@@ -205,7 +205,6 @@ private fun PickerField(
         value = value,
         onValueChange = onValueChange,
         interactionSource = interactionSource,
-        enabled = true,
         singleLine = true,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
