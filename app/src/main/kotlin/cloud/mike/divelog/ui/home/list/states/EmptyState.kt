@@ -36,10 +36,10 @@ fun EmptyState(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .weight(2f)
                 .fillMaxWidth(),
-            painter = painterResource(R.drawable.ic_launcher_foreground),
+            painter = painterResource(R.drawable.ic_launcher_monochrome),
             contentDescription = null,
             contentScale = ContentScale.Fit,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primaryContainer),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
         )
         Column(
             modifier = Modifier.weight(1f),

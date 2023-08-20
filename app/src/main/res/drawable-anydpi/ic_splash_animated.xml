@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
-    android:drawable="@drawable/ic_launcher_foreground">
+    android:drawable="@drawable/ic_launcher_monochrome">
 
     <!-- Swimming animation-->
     <target android:name="group_fish">
