@@ -21,6 +21,14 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests {
+            // Required by Robolectric (https://robolectric.org/getting-started/)
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -32,8 +40,6 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
-
-    // Paging
     implementation("androidx.room:room-paging:$roomVersion")
 
     // Testing

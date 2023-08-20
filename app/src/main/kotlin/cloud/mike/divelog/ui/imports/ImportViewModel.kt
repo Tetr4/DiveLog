@@ -63,7 +63,7 @@ class ImportViewModel(
             try {
                 transferState.update { TransferState.Transfering(progress = null) }
                 val dives = connection.fetchDives(
-                    currentDiveNumber = diveRepo.getCurrentDiveNumber(),
+                    initialDiveNumber = diveRepo.getNextDiveNumber(),
                     isAlreadyImported = { timestamp -> diveRepo.containsDiveAt(timestamp) },
                     onProgress = { progress -> transferState.update { TransferState.Transfering(progress) } },
                 )

@@ -116,7 +116,7 @@ class EditViewModel(
             id = UUID.randomUUID(),
             start = data.start,
             diveTime = data.diveTime,
-            number = diveRepo.getCurrentDiveNumber() + 1,
+            number = diveRepo.getNextDiveNumber(),
             location = null,
             maxDepthMeters = null,
             minTemperatureCelsius = null,

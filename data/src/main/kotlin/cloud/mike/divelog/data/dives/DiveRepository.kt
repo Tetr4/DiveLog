@@ -16,21 +16,21 @@ class DiveRepository(
     private val divesDao: DivesDao,
 ) {
 
-    fun getDiveStream(id: UUID): Flow<Dive?> = divesDao.loadDiveStream(id).map { it?.toEntity() }
+    fun getDiveStream(id: UUID): Flow<Dive?> = divesDao.getDiveStream(id).map { it?.toEntity() }
 
     fun getDivesPages(query: String): Flow<PagingData<Dive>> {
         val pager = Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
-            pagingSourceFactory = { divesDao.loadDivesPages(query) },
+            pagingSourceFactory = { divesDao.getDivesPages(query) },
         )
         return pager.flow.map { diveDtos -> diveDtos.map { it.toEntity() } }
     }
 
-    suspend fun deleteDive(dive: Dive) = divesDao.deleteDive(dive.toDto().dive)
     suspend fun addDive(dive: Dive) = addDives(listOf(dive))
-    suspend fun addDives(dives: List<Dive>) = divesDao.insertDives(dives.map { it.toDto() })
-    suspend fun updateDive(dive: Dive) = divesDao.updateDive(dive.toDto().dive)
+    suspend fun addDives(dives: List<Dive>) = divesDao.upsertDives(dives.map(Dive::toDto))
+    suspend fun updateDive(dive: Dive) = divesDao.upsertDive(dive.toDto())
+    suspend fun deleteDive(dive: Dive) = divesDao.deleteDive(dive.toDto().dive)
 
-    suspend fun getCurrentDiveNumber(): Int = divesDao.loadMaxDiveNumber() ?: 0
+    suspend fun getNextDiveNumber(): Int = (divesDao.getMaxDiveNumber() ?: 0) + 1
     suspend fun containsDiveAt(timestamp: LocalDateTime): Boolean = divesDao.diveExists(timestamp)
 }

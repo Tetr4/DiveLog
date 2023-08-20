@@ -3,17 +3,19 @@ package cloud.mike.divelog.persistence.dives
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import androidx.room.Update
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 import java.util.UUID
 
 @Dao
 interface DivesDao {
+
+    @Transaction
+    @Query("SELECT * FROM dives WHERE id=:id")
+    fun getDiveStream(id: UUID): Flow<DiveWithLocationAndProfile?>
 
     @Transaction
     @Query(
@@ -27,37 +29,33 @@ interface DivesDao {
             ORDER BY start DESC
         """,
     )
-    fun loadDivesPages(query: String): PagingSource<Int, DiveWithLocationAndProfile>
-
-    @Transaction
-    @Query("SELECT * FROM dives WHERE id=:id")
-    fun loadDiveStream(id: UUID): Flow<DiveWithLocationAndProfile?>
-
-    @Update
-    suspend fun updateDive(dive: DiveDto)
-
-    @Delete
-    suspend fun deleteDive(id: DiveDto)
-
-    @Query("SELECT MAX(number) FROM dives")
-    suspend fun loadMaxDiveNumber(): Int?
+    fun getDivesPages(query: String): PagingSource<Int, DiveWithLocationAndProfile>
 
     @Query("SELECT EXISTS(SELECT * FROM dives WHERE start = :timestamp)")
     suspend fun diveExists(timestamp: LocalDateTime): Boolean
 
-    @Insert
-    suspend fun insertDive(dive: DiveDto)
+    @Query("SELECT MAX(number) FROM dives")
+    suspend fun getMaxDiveNumber(): Int?
 
-    @Insert
-    suspend fun insertProfile(profile: DepthProfileDto)
+    @Delete
+    suspend fun deleteDive(dive: DiveDto)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLocation(location: DiveSpotDto)
+    @Upsert
+    suspend fun upsertDiveHeader(dive: DiveDto)
+
+    @Upsert
+    suspend fun upsertProfile(profile: DepthProfileDto)
+
+    @Upsert
+    suspend fun upsertLocation(location: DiveSpotDto)
 
     @Transaction
-    suspend fun insertDives(dives: List<DiveWithLocationAndProfile>) = dives.forEach {
-        if (it.location != null) insertLocation(it.location)
-        insertDive(it.dive)
-        if (it.depthProfile != null) insertProfile(it.depthProfile)
+    suspend fun upsertDives(dives: List<DiveWithLocationAndProfile>) = dives.forEach { upsertDive(it) }
+
+    @Transaction
+    suspend fun upsertDive(data: DiveWithLocationAndProfile) {
+        if (data.location != null) upsertLocation(data.location)
+        upsertDiveHeader(data.dive)
+        if (data.depthProfile != null) upsertProfile(data.depthProfile)
     }
 }

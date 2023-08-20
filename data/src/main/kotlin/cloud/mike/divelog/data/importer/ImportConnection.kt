@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 interface ImportConnection {
     suspend fun fetchDives(
-        currentDiveNumber: Int,
+        initialDiveNumber: Int,
         isAlreadyImported: suspend (LocalDateTime) -> Boolean,
         onProgress: suspend (Float) -> Unit,
     ): List<Dive>

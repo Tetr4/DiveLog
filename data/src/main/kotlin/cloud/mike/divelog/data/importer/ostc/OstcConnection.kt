@@ -48,7 +48,7 @@ internal class OstcConnection(
      * 4. [exitCommunication]
      */
     override suspend fun fetchDives(
-        currentDiveNumber: Int,
+        initialDiveNumber: Int,
         isAlreadyImported: suspend (LocalDateTime) -> Boolean,
         onProgress: suspend (Float) -> Unit,
     ): List<Dive> {
@@ -61,7 +61,7 @@ internal class OstcConnection(
             fetchDiveProfile(header)
         }
         val dives = profiles.mapIndexed { index, profile ->
-            profile.toDive(currentDiveNumber + index + 1)
+            profile.toDive(initialDiveNumber + index)
         }
         exitCommunication()
         return dives

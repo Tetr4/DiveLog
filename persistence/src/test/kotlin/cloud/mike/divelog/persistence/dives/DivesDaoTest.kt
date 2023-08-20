@@ -39,22 +39,32 @@ class DivesDaoTest {
     fun `write and read dive`() = runTest {
         // given
         val dao = database.divesDao()
-        val dive = DiveDto(
-            id = UUID.randomUUID(),
-            number = 1,
-            locationId = null,
-            start = LocalDateTime.now(),
-            diveTime = 30.minutes,
-            maxDepthMeters = null,
-            minTemperatureCelsius = null,
-            notes = null,
+        val locationId = UUID.randomUUID()
+        val expected = DiveWithLocationAndProfile(
+            dive = DiveDto(
+                id = UUID.randomUUID(),
+                number = 1,
+                locationId = locationId,
+                start = LocalDateTime.now(),
+                diveTime = 30.minutes,
+                maxDepthMeters = null,
+                minTemperatureCelsius = null,
+                notes = null,
+            ),
+            location = DiveSpotDto(
+                id = locationId,
+                name = "Test",
+                latitude = 24.262363202339,
+                longitude = 35.51645954667073,
+            ),
+            depthProfile = null,
         )
 
         // when
-        dao.insertDive(dive)
-        val diveWithLocationAndProfile = dao.loadDiveStream(dive.id).first()
+        dao.upsertDive(expected)
+        val actual = dao.getDiveStream(expected.dive.id).first()
 
         // then
-        assertEquals(dive, diveWithLocationAndProfile?.dive)
+        assertEquals(expected, actual)
     }
 }
