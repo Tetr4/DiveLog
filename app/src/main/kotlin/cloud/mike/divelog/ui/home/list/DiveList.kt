@@ -79,7 +79,6 @@ private fun ContentState(
             is LoadState.NotLoading -> Unit // No trailing empty state, list just ends
             is LoadState.Loading -> item { TrailingLoadingState() }
             is LoadState.Error -> item { TrailingErrorState(message = state.error.localize(), onRetry = onRetry) }
-            else -> error("Unsupported state: $state")
         }
     }
 }

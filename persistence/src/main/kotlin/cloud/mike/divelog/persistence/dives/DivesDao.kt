@@ -20,7 +20,7 @@ interface DivesDao {
     @Transaction
     @Query(
         """
-            SELECT * FROM dives
+            SELECT dives.* FROM dives
             LEFT JOIN diveSpots on dives.locationId = diveSpots.id
             WHERE
                 diveSpots.name LIKE '%' || :query || '%'
