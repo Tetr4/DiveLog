@@ -22,8 +22,9 @@ internal data class DiveHeaderCompact(
 
 internal fun ByteArray.parseCompactHeaders(): List<DiveHeaderCompact> = this.toList()
     .chunked(DiveHeaderCompact.SIZE_BYTES)
-    .map { it.toByteArray() }
-    .mapIndexedNotNull { index, chunk -> chunk.parseCompactHeader(profileNumber = index) }
+    .mapIndexedNotNull { index, chunk ->
+        chunk.toByteArray().parseCompactHeader(profileNumber = index)
+    }
 
 // Example:
 //  0: 2C 18 00 # 6188 bytes in profile

@@ -20,6 +20,7 @@ import cloud.mike.divelog.data.importer.ImportConnectionState.ConnectionPermissi
 import cloud.mike.divelog.data.importer.ImportConnectionState.NotConnected
 import cloud.mike.divelog.data.importer.ImportConnectionState.NotPaired
 import cloud.mike.divelog.data.importer.ostc.OstcConnection
+import cloud.mike.divelog.data.importer.shearwater.ShearwaterConnection
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -74,6 +75,7 @@ class Importer(
             val device = deviceProvider.device ?: return null
             return when (device.diveComputerType) {
                 DiveComputerType.OSTC -> OstcConnection(bleConnection, onDisconnect = ::disconnect)
+                DiveComputerType.SHEARWATER -> ShearwaterConnection(bleConnection)
                 null -> error("Unsupported device ${device.nameOrNull}")
             }
         }

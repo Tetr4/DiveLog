@@ -53,5 +53,8 @@ class PayloadUtilsTest {
     fun bytearray_uInt24B_index_2() = assertEquals(UINT24_MAX_VALUE, byteArrayOf(0, 0, -1, -1, -1).uInt24B(2))
 
     @Test
-    fun bytearray_uInt32B_index_2() = assertEquals(UInt.MAX_VALUE.toLong(), byteArrayOf(0, 0, -1, -1, -1, -1).uInt32B(2))
+    fun bytearray_uInt32B_index_2() = assertEquals(
+        UInt.MAX_VALUE.toLong(),
+        byteArrayOf(0, 0, -1, -1, -1, -1).uInt32B(2),
+    )
 }

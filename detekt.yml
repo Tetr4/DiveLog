@@ -18,6 +18,11 @@ exceptions:
     # Allow top level catch all handlers
     active: false
 
+performance:
+  SpreadOperator:
+    # This is optimised since Kotlin 1.1.60
+    active: false
+
 formatting:
   MaximumLineLength:
     # Use style rule instead
