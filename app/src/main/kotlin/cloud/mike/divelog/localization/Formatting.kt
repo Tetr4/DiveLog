@@ -42,27 +42,24 @@ fun Number.formatTemperatureCelsius(): String {
 
 @Composable
 @ReadOnlyComposable
-fun LocalDateTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = this.format(
-    DateTimeFormatter
-        .ofLocalizedDateTime(style)
-        .withLocale(primaryLocale),
-)
+fun LocalDate.format(style: FormatStyle = FormatStyle.MEDIUM): String = DateTimeFormatter
+    .ofLocalizedDate(style)
+    .withLocale(primaryLocale)
+    .format(this)
 
 @Composable
 @ReadOnlyComposable
-fun LocalDate.format(style: FormatStyle = FormatStyle.MEDIUM): String = this.format(
-    DateTimeFormatter
-        .ofLocalizedDate(style)
-        .withLocale(primaryLocale),
-)
+fun LocalTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = DateTimeFormatter
+    .ofLocalizedTime(style)
+    .withLocale(primaryLocale)
+    .format(this)
 
 @Composable
 @ReadOnlyComposable
-fun LocalTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = this.format(
-    DateTimeFormatter
-        .ofLocalizedTime(style)
-        .withLocale(primaryLocale),
-)
+fun LocalDateTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = DateTimeFormatter
+    .ofLocalizedDateTime(style)
+    .withLocale(primaryLocale)
+    .format(this)
 
 @Composable
 @ReadOnlyComposable
