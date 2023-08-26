@@ -1,28 +1,10 @@
 package cloud.mike.divelog.data.dives
 
-import cloud.mike.divelog.data.importer.ostc.frames.DiveProfileFrame
 import cloud.mike.divelog.persistence.dives.DepthProfileDto
 import cloud.mike.divelog.persistence.dives.DiveDto
 import cloud.mike.divelog.persistence.dives.DiveSpotDto
 import cloud.mike.divelog.persistence.dives.DiveWithLocationAndProfile
 import java.util.UUID
-import kotlin.time.Duration.Companion.seconds
-
-internal fun DiveProfileFrame.toDive(number: Int) = Dive(
-    id = UUID.randomUUID(),
-    number = number,
-    location = null,
-    start = diveHeader.timestamp,
-    diveTime = diveHeader.diveTime,
-    maxDepthMeters = diveHeader.maxDepthCentimeters / 100f,
-    minTemperatureCelsius = diveHeader.minTemperatureCelsius,
-    depthProfile = DepthProfile(
-        id = UUID.randomUUID(),
-        samplingRate = profileHeader.samplingRateSeconds.seconds,
-        depthCentimeters = samples.map { it.depthCentimeters }.toIntArray(),
-    ),
-    notes = null,
-)
 
 internal fun DiveWithLocationAndProfile.toEntity() = Dive(
     id = dive.id,

@@ -2,13 +2,12 @@ package cloud.mike.divelog.data.importer.ostc
 
 import cloud.mike.divelog.bluetooth.connector.Connection
 import cloud.mike.divelog.data.dives.Dive
-import cloud.mike.divelog.data.dives.toDive
 import cloud.mike.divelog.data.importer.ImportConnection
-import cloud.mike.divelog.data.importer.ostc.frames.DiveHeaderCompactFrame
-import cloud.mike.divelog.data.importer.ostc.frames.DiveHeaderFullFrame
-import cloud.mike.divelog.data.importer.ostc.frames.DiveProfileFrame
-import cloud.mike.divelog.data.importer.ostc.frames.ProfileHeaderFrame
-import cloud.mike.divelog.data.importer.ostc.frames.ProfileSampleFrame
+import cloud.mike.divelog.data.importer.ostc.frames.DiveHeaderCompact
+import cloud.mike.divelog.data.importer.ostc.frames.DiveHeaderFull
+import cloud.mike.divelog.data.importer.ostc.frames.Profile
+import cloud.mike.divelog.data.importer.ostc.frames.ProfileHeader
+import cloud.mike.divelog.data.importer.ostc.frames.ProfileSample
 import cloud.mike.divelog.data.importer.ostc.frames.parseCompactHeaders
 import cloud.mike.divelog.data.importer.ostc.frames.parseProfile
 import kotlinx.coroutines.flow.Flow
@@ -28,8 +27,8 @@ private const val MAX_CREDITS = 254
 private const val MIN_CREDITS = 32
 
 /**
- * The "length of profile data" we get from the firmware includes the [ProfileHeaderFrame], all [ProfileSampleFrame]s
- * and two stop bytes. I have no idea where it gets these 3 additional bytes from. Off by one error?
+ * The "length of profile data" we get from the firmware should include the [ProfileHeader], all
+ * [ProfileSample]s and two stop bytes. But it somehow also includes these 3 additional bytes. Off by one error?
  */
 private const val UNACCOUNTED_PROFILE_SIZE_BYTES = 3
 
@@ -78,14 +77,14 @@ internal class OstcConnection(
         onDisconnect()
     }
 
-    private suspend fun fetchCompactHeaders(): List<DiveHeaderCompactFrame> = sendCommand(
+    private suspend fun fetchCompactHeaders(): List<DiveHeaderCompact> = sendCommand(
         command = 0x6D,
         responseLengthBytes = 4096,
     ).parseCompactHeaders()
 
-    private suspend fun fetchDiveProfile(header: DiveHeaderCompactFrame): DiveProfileFrame = sendCommand(
+    private suspend fun fetchDiveProfile(header: DiveHeaderCompact): Profile = sendCommand(
         command = 0x66,
-        responseLengthBytes = DiveHeaderFullFrame.SIZE_BYTES + header.profileSize - UNACCOUNTED_PROFILE_SIZE_BYTES,
+        responseLengthBytes = DiveHeaderFull.SIZE_BYTES + header.profileSize - UNACCOUNTED_PROFILE_SIZE_BYTES,
         commandParameters = byteArrayOf(header.profileNumber.toByte()),
     ).parseProfile()
 

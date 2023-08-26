@@ -1,11 +1,13 @@
 package cloud.mike.divelog.data.importer.ostc.frames
 
-import cloud.mike.divelog.data.importer.uInt24
+import cloud.mike.divelog.data.importer.uInt24L
 import cloud.mike.divelog.data.importer.uInt8
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
-internal data class ProfileHeaderFrame(
+internal data class ProfileHeader(
     val profileDataLength: Int,
-    val samplingRateSeconds: Int,
+    val samplingRate: Duration,
     val numDivisors: Int,
     val divisorTemperature: Int?,
     val divisorDeco: Int?,
@@ -20,8 +22,8 @@ internal data class ProfileHeaderFrame(
 }
 
 // Example:
-//  0: 2C 18 00 # 6188 bytes
-//  3: 02       # sampled every 2 seconds
+//  0: 2C 18 00 # 6188 bytes of profile data
+//  3: 02       # Sampled every 2 seconds
 //  4: 07       # 7 divisors
 //  5: 00 02 06 # Temperature
 //  8: 01 02 06 # Deco
@@ -30,7 +32,7 @@ internal data class ProfileHeaderFrame(
 // 17: 04 0F 0C # Deco Plan
 // 20: 05 02 0C # CNS
 // 23: 06 02 00 # Tank Pressure
-internal fun ByteArray.parseProfileHeader(): ProfileHeaderFrame {
+internal fun ByteArray.parseProfileHeader(): ProfileHeader {
     val numDivisors = uInt8(4)
     fun getDivisor(divisor: Int) = if (divisor <= numDivisors) {
         // 0: Data Type
@@ -40,9 +42,9 @@ internal fun ByteArray.parseProfileHeader(): ProfileHeaderFrame {
     } else {
         null
     }
-    return ProfileHeaderFrame(
-        profileDataLength = uInt24(0),
-        samplingRateSeconds = uInt8(3),
+    return ProfileHeader(
+        profileDataLength = uInt24L(0),
+        samplingRate = uInt8(3).seconds,
         numDivisors = numDivisors,
         divisorTemperature = getDivisor(1),
         divisorDeco = getDivisor(2),

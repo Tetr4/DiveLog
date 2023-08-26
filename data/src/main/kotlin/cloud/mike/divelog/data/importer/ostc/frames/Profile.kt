@@ -1,9 +1,9 @@
 package cloud.mike.divelog.data.importer.ostc.frames
 
-internal data class DiveProfileFrame(
-    val diveHeader: DiveHeaderFullFrame,
-    val profileHeader: ProfileHeaderFrame,
-    val samples: List<ProfileSampleFrame>,
+internal data class Profile(
+    val diveHeader: DiveHeaderFull,
+    val profileHeader: ProfileHeader,
+    val samples: List<ProfileSample>,
 )
 
 // <Full Header>
@@ -12,18 +12,18 @@ internal data class DiveProfileFrame(
 // <Sample 2>
 // ...
 // 0xFD 0xFD
-internal fun ByteArray.parseProfile(): DiveProfileFrame {
+internal fun ByteArray.parseProfile(): Profile {
     val fullHeader = this.parseFullHeader()
     val profileHeader = this
-        .copyOfRange(DiveHeaderFullFrame.SIZE_BYTES, this.size)
+        .copyOfRange(DiveHeaderFull.SIZE_BYTES, this.size)
         .parseProfileHeader()
     val samples = this
         .copyOfRange(
-            fromIndex = DiveHeaderFullFrame.SIZE_BYTES + profileHeader.sizeBytes,
+            fromIndex = DiveHeaderFull.SIZE_BYTES + profileHeader.sizeBytes,
             toIndex = this.size - 2, // Without stop bytes
         )
         .parseProfileSamples()
-    return DiveProfileFrame(
+    return Profile(
         diveHeader = fullHeader,
         profileHeader = profileHeader,
         samples = samples,
