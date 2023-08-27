@@ -11,16 +11,17 @@ import kotlinx.coroutines.flow.toList
 import java.util.UUID
 
 // Shearwater devices use a single serialPort characteristic for receiving (NOTIFY) and sending (WRITE) messages.
+//
 // Messages send to the device or received from the device are split into multiple frames and look like this:
 // <Frame header> (eg. frame number)
 // <Packet header> (e.g. payload size)
 // <Command header> (e.g. command byte and parameters)
 // <Command payload> (e.g. a block of memory)
 // 0xC0 (only on the last frame, this will be escaped in data between frame header an end of frame)
-
-// TODO Request max MTU (at least 80)
-//      Device tries to send up to 77 bytes per packet, which is larger than 20 BLE limit:
-//      https://www.b4x.com/android/forum/threads/ble2-dataavailable-buffer-truncated-after-20-bytes.110344/
+//
+// Note: The device tries to send up to 77 bytes per packet, which is larger than the 20 bytes MTU limit, so we have to
+// we negotiate a higher MTU after connecting:
+// https://www.b4x.com/android/forum/threads/ble2-dataavailable-buffer-truncated-after-20-bytes.110344/
 
 private val serialPort = UUID.fromString("27b7570b-359e-45a3-91bb-cf7e70049bd2") // WRITE / NOTIFY
 private const val END = 0xC0.toByte()

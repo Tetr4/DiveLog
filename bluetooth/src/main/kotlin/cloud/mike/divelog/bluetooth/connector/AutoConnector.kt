@@ -9,15 +9,22 @@ import cloud.mike.divelog.bluetooth.precondition.PreconditionService
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState
 import cloud.mike.divelog.bluetooth.utils.aliasOrNull
 import com.polidea.rxandroidble2.RxBleClient
+import com.polidea.rxandroidble2.RxBleConnection
+import com.polidea.rxandroidble2.RxBleConnection.GATT_MTU_MAXIMUM
+import com.polidea.rxandroidble2.RxBleConnection.GATT_MTU_MINIMUM
 import com.polidea.rxandroidble2.Timeout
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx2.asFlow
+import kotlinx.coroutines.rx2.await
 import java.util.concurrent.TimeUnit
 
 private val TAG = AutoConnector::class.java.simpleName
@@ -27,7 +34,7 @@ class AutoConnector(
     private val bleClient: RxBleClient,
     private val preconditionService: PreconditionService,
     private val deviceProvider: DeviceProvider,
-    appScope: CoroutineScope,
+    private val appScope: CoroutineScope,
 ) {
     var connection: Connection? = null
         private set
@@ -37,7 +44,7 @@ class AutoConnector(
     val error = MutableSharedFlow<Exception>(extraBufferCapacity = 1)
 
     private var autoConnect = false
-    private var connectionDisposable: Disposable? = null
+    private var connectionJob: Job? = null
 
     init {
         Log.i(TAG, "Init")
@@ -88,7 +95,7 @@ class AutoConnector(
     private fun ensureConnection(device: BluetoothDevice) {
         when {
             connection != null -> Log.w(TAG, "Already connected")
-            connectionDisposable != null -> Log.w(TAG, "Already connecting")
+            connectionJob != null -> Log.w(TAG, "Already connecting")
             else -> startConnection(device)
         }
     }
@@ -98,32 +105,33 @@ class AutoConnector(
         Log.i(TAG, "Start (${device.aliasOrNull})")
         connectionStateFlow.update { ConnectionState.CONNECTING }
         val timeout = Timeout(CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS)
-        // TODO replace RX with flow?
-        connectionDisposable = rxDevice
-            .establishConnection(false, timeout)
-            .subscribeOn(Schedulers.io())
-            .retryWhen { errorStream ->
-                errorStream
-                    .doOnNext { Log.e(TAG, "Could not connect", it) }
-                    .doOnNext { connectionStateFlow.update { ConnectionState.CONNECTING } }
-                    .takeWhile { autoConnect }
-                    .delay(2_000, TimeUnit.MILLISECONDS)
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.i(TAG, "Connected (${device.aliasOrNull})")
-                connection = Connection(it)
-                connectionStateFlow.update { ConnectionState.CONNECTED }
-            }, {
-                stopConnection()
-                showConnectionError(it)
-            })
+        connectionJob = appScope.launch {
+            rxDevice
+                .establishConnection(false, timeout)
+                .asFlow()
+                .retryWhen { cause, _ ->
+                    Log.e(TAG, "Could not connect", cause)
+                    connectionStateFlow.update { ConnectionState.CONNECTING }
+                    delay(2_000)
+                    autoConnect
+                }
+                .onEach { connection -> connection.tryRequestMaxMtu() }
+                .catch {
+                    stopConnection()
+                    showConnectionError(it)
+                }
+                .collect {
+                    Log.i(TAG, "Connected (${device.aliasOrNull})")
+                    connection = Connection(it)
+                    connectionStateFlow.update { ConnectionState.CONNECTED }
+                }
+        }
     }
 
     private fun stopConnection() {
         Log.i(TAG, "Stop")
-        connectionDisposable?.dispose()
-        connectionDisposable = null
+        connectionJob?.cancel()
+        connectionJob = null
         connection = null
         connectionStateFlow.update { ConnectionState.IDLE }
     }
@@ -131,5 +139,17 @@ class AutoConnector(
     private fun showConnectionError(error: Throwable) {
         Log.e(TAG, "Connection error", error)
         this.error.tryEmit(ConnectionException(message = error.message, cause = error))
+    }
+}
+
+private suspend fun RxBleConnection.tryRequestMaxMtu() {
+    val newMtu = try {
+        this.requestMtu(GATT_MTU_MAXIMUM).await()
+    } catch (e: Exception) {
+        Log.w(TAG, "Could not increase MTU", e)
+    }
+    when (newMtu) {
+        GATT_MTU_MINIMUM -> Log.w(TAG, "Device does not support larger MTU")
+        else -> Log.i(TAG, "Raised MTU to $newMtu")
     }
 }
