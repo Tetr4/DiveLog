@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notes
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +20,7 @@ import cloud.mike.divelog.ui.edit.FormState
 import cloud.mike.divelog.ui.edit.rememberFormState
 
 @Composable
-fun NotesItem(
+fun LocationItem(
     formState: FormState,
     modifier: Modifier = Modifier,
 ) {
@@ -28,23 +28,23 @@ fun NotesItem(
         modifier = modifier,
         verticalAlignment = Alignment.Top,
     ) {
-        NotesIcon()
+        LocationIcon()
         PlainTextField(
             modifier = Modifier.weight(1f),
-            value = formState.notes,
-            onValueChange = { formState.notes = it },
-            placeholder = stringResource(R.string.edit_dive_placeholder_add_notes),
+            value = formState.location,
+            onValueChange = { formState.location = it },
+            placeholder = stringResource(R.string.edit_dive_placeholder_add_location),
         )
     }
 }
 
 @Composable
-private fun NotesIcon() {
+private fun LocationIcon() {
     Box(
         modifier = Modifier.size(56.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(Icons.Default.Notes, contentDescription = null)
+        Icon(Icons.Default.LocationOn, contentDescription = null)
     }
 }
 
@@ -53,6 +53,6 @@ private fun NotesIcon() {
 @Composable
 private fun Preview() {
     DiveTheme {
-        NotesItem(formState = rememberFormState(dive = null))
+        LocationItem(formState = rememberFormState(dive = null))
     }
 }

@@ -21,11 +21,13 @@ class FormState(
     startDate: MutableState<LocalDate?>,
     startTime: MutableState<LocalTime?>,
     diveTime: MutableState<Duration?>,
+    location: MutableState<String>,
     notes: MutableState<String>,
 ) {
     var startDate by startDate
     var startTime by startTime
     var diveTime by diveTime
+    var location by location
     var notes by notes
 
     val isValid
@@ -49,6 +51,9 @@ fun rememberFormState(dive: Dive?) = FormState(
     },
     diveTime = rememberSaveable(dive?.diveTime, stateSaver = DurationSaver) {
         mutableStateOf(dive?.diveTime)
+    },
+    location = rememberSaveable(dive?.location) {
+        mutableStateOf(dive?.location?.name.orEmpty())
     },
     notes = rememberSaveable(dive?.notes) {
         mutableStateOf(dive?.notes.orEmpty())

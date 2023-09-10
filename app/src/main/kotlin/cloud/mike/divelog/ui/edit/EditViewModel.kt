@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.data.dives.DiveRepository
+import cloud.mike.divelog.data.dives.DiveSpot
 import cloud.mike.divelog.data.logging.logError
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.localization.errors.ErrorService
@@ -23,6 +24,7 @@ import kotlin.time.Duration
 data class FormData(
     val start: LocalDateTime,
     val diveTime: Duration,
+    val location: String?, // TODO allow selecting GPS coordinates
     val notes: String?,
 )
 
@@ -117,7 +119,13 @@ class EditViewModel(
             start = data.start,
             diveTime = data.diveTime,
             number = diveRepo.getNextDiveNumber(),
-            location = null,
+            location = data.location?.let {
+                DiveSpot(
+                    id = UUID.randomUUID(),
+                    name = data.location,
+                    coordinates = null,
+                )
+            },
             maxDepthMeters = null,
             minTemperatureCelsius = null,
             depthProfile = null,
@@ -131,6 +139,15 @@ class EditViewModel(
         val new = old.copy(
             start = data.start,
             diveTime = data.diveTime,
+            location = data.location?.let {
+                old.location?.copy(
+                    name = data.location,
+                ) ?: DiveSpot(
+                    id = UUID.randomUUID(),
+                    name = data.location,
+                    coordinates = null,
+                )
+            },
             notes = data.notes,
         )
         diveRepo.updateDive(new)

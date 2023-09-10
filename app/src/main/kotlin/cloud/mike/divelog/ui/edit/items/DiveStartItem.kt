@@ -45,7 +45,7 @@ fun DiveStartItem(
                     .clickable { showDatePicker = true }
                     .semantics { role = Role.Button },
                 text = formState.startDate?.format()
-                    ?: stringResource(R.string.create_dive_button_add_date),
+                    ?: stringResource(R.string.edit_dive_button_add_date),
             )
         },
         trailingContent = {
@@ -54,7 +54,7 @@ fun DiveStartItem(
                     .clickable { showTimePicker = true }
                     .semantics { role = Role.Button },
                 text = formState.startTime?.format(FormatStyle.SHORT)
-                    ?: stringResource(R.string.create_dive_button_add_time),
+                    ?: stringResource(R.string.edit_dive_button_add_time),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface,
             )

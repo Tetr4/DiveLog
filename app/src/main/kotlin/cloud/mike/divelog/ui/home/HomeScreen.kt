@@ -107,7 +107,7 @@ fun SearchableList(
         SearchView(
             value = query,
             onValueChange = onQueryChanged,
-            placeholder = stringResource(R.string.home_search_placeholder),
+            placeholder = stringResource(R.string.home_placeholder_search),
         )
         Spacer(Modifier.height(8.dp))
         if (App.SHOW_FILTERS) {

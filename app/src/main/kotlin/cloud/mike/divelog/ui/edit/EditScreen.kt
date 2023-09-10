@@ -25,6 +25,7 @@ import cloud.mike.divelog.ui.common.states.ErrorState
 import cloud.mike.divelog.ui.common.states.LoadingState
 import cloud.mike.divelog.ui.edit.items.DiveStartItem
 import cloud.mike.divelog.ui.edit.items.DiveTimeItem
+import cloud.mike.divelog.ui.edit.items.LocationItem
 import cloud.mike.divelog.ui.edit.items.NotesItem
 import cloud.mike.divelog.ui.edit.topbar.EditDiveAppBar
 
@@ -48,6 +49,7 @@ fun EditScreen(
         val data = FormData(
             start = formState.start ?: return,
             diveTime = formState.diveTime ?: return,
+            location = formState.location.trim().takeIf { it.isNotBlank() },
             notes = formState.notes.trim().takeIf { it.isNotBlank() },
         )
         onSave(data)
@@ -115,18 +117,36 @@ fun ContentState(
         Divider()
         DiveTimeItem(formState)
         Divider()
+        LocationItem(formState)
+        Divider()
         NotesItem(formState)
-        // TODO more data fields
     }
 }
 
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-private fun Preview() {
+private fun PreviewCreate() {
     DiveTheme {
         EditScreen(
             uiState = EditState(),
+            onClose = {},
+            onShowDetail = {},
+            onFetchDive = {},
+            onSave = {},
+        )
+    }
+}
+
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable
+private fun PreviewUpdate() {
+    DiveTheme {
+        EditScreen(
+            uiState = EditState(
+                diveState = DiveState.Update(dive = Dive.sample),
+            ),
             onClose = {},
             onShowDetail = {},
             onFetchDive = {},

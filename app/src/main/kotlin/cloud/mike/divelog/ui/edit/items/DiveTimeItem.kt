@@ -39,7 +39,7 @@ fun DiveTimeItem(
         headlineContent = {
             Text(
                 text = formState.diveTime?.format()
-                    ?: stringResource(cloud.mike.divelog.R.string.create_dive_button_add_duration),
+                    ?: stringResource(cloud.mike.divelog.R.string.edit_dive_button_add_duration),
             )
         },
     )

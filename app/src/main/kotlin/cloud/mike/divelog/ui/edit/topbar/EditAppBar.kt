@@ -1,16 +1,18 @@
 package cloud.mike.divelog.ui.edit.topbar
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.progressSemantics
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,6 +23,7 @@ import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.edit.DiveState
+import cloud.mike.divelog.ui.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,6 +43,7 @@ fun EditDiveAppBar(
             when (diveState) {
                 is DiveState.Error, is DiveState.Loading -> Unit
                 is DiveState.Create, is DiveState.Update -> SaveButton(
+                    modifier = Modifier.padding(end = MaterialTheme.spacing.screenPadding),
                     enabled = formValid,
                     loading = saving,
                     onClick = onSave,
@@ -52,8 +56,8 @@ fun EditDiveAppBar(
 @Composable
 private fun Title(diveState: DiveState) {
     when (diveState) {
-        is DiveState.Create -> Text(stringResource(R.string.create_dive_title))
-        is DiveState.Update -> Text(stringResource(R.string.edit_dive_title))
+        is DiveState.Create -> Text(stringResource(R.string.edit_dive_title_create))
+        is DiveState.Update -> Text(stringResource(R.string.edit_dive_title_update))
         is DiveState.Loading, is DiveState.Error -> Unit
     }
 }
@@ -75,7 +79,7 @@ private fun SaveButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    TextButton(
+    Button(
         modifier = if (loading) modifier.progressSemantics() else modifier,
         enabled = enabled && !loading,
         onClick = onClick,
