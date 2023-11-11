@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "def784b1be341e86aebb14c8286bc6ed",
+    "identityHash": "c9a5f47e6e0a2dddd09ad9281f705600",
     "entities": [
       {
         "tableName": "dives",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `number` INTEGER NOT NULL, `locationId` TEXT, `start` TEXT NOT NULL, `diveTime` TEXT NOT NULL, `maxDepthMeters` REAL, `minTemperatureCelsius` REAL, `notes` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`locationId`) REFERENCES `diveSpots`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `number` INTEGER NOT NULL, `locationId` TEXT, `startDate` TEXT NOT NULL, `startTime` TEXT, `duration` TEXT NOT NULL, `maxDepthMeters` REAL, `minTemperatureCelsius` REAL, `notes` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`locationId`) REFERENCES `locations`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
@@ -27,14 +27,20 @@
             "notNull": false
           },
           {
-            "fieldPath": "start",
-            "columnName": "start",
+            "fieldPath": "startDate",
+            "columnName": "startDate",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "diveTime",
-            "columnName": "diveTime",
+            "fieldPath": "startTime",
+            "columnName": "startTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -76,7 +82,7 @@
         ],
         "foreignKeys": [
           {
-            "table": "diveSpots",
+            "table": "locations",
             "onDelete": "SET NULL",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -89,7 +95,7 @@
         ]
       },
       {
-        "tableName": "diveSpots",
+        "tableName": "locations",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `latitude` REAL, `longitude` REAL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -127,7 +133,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "depthProfiles",
+        "tableName": "profiles",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `diveId` TEXT NOT NULL, `samplingRate` TEXT NOT NULL, `depthCentimeters` BLOB NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`diveId`) REFERENCES `dives`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
@@ -163,13 +169,13 @@
         },
         "indices": [
           {
-            "name": "index_depthProfiles_diveId",
+            "name": "index_profiles_diveId",
             "unique": false,
             "columnNames": [
               "diveId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_depthProfiles_diveId` ON `${TABLE_NAME}` (`diveId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_profiles_diveId` ON `${TABLE_NAME}` (`diveId`)"
           }
         ],
         "foreignKeys": [
@@ -190,7 +196,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'def784b1be341e86aebb14c8286bc6ed')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c9a5f47e6e0a2dddd09ad9281f705600')"
     ]
   }
 }

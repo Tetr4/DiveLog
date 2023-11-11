@@ -1,7 +1,7 @@
 plugins {
     // AGP (https://developer.android.com/build/releases/gradle-plugin)
-    id("com.android.application") version "8.1.1" apply false
-    id("com.android.library") version "8.1.1" apply false
+    id("com.android.application") version "8.1.2" apply false
+    id("com.android.library") version "8.1.2" apply false
 
     // Kotlin (https://kotlinlang.org/docs/releases.html#release-details)
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false

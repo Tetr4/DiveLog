@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cloud.mike.divelog.data.dives.DepthProfile
 import cloud.mike.divelog.data.dives.Dive
+import cloud.mike.divelog.data.dives.DiveProfile
 import cloud.mike.divelog.localization.formatDepthMeters
 import cloud.mike.divelog.localization.formatTemperatureCelsius
 import cloud.mike.divelog.ui.DiveTheme
@@ -27,7 +27,7 @@ import cloud.mike.divelog.ui.common.chart.DepthChart
 
 @Composable
 fun ProfileItem(
-    profile: DepthProfile,
+    profile: DiveProfile,
     maxDepthMeters: Float?,
     minTemperatureCelsius: Float?,
     modifier: Modifier = Modifier,
@@ -81,7 +81,7 @@ private fun Label(
 private fun Preview() {
     DiveTheme {
         ProfileItem(
-            profile = DepthProfile.sample,
+            profile = DiveProfile.sample,
             maxDepthMeters = Dive.sample.maxDepthMeters,
             minTemperatureCelsius = Dive.sample.minTemperatureCelsius,
         )

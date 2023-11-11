@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 /** A list item, which is either a date header or dive data. */
 @Immutable
@@ -60,11 +59,9 @@ private fun PagingData<Dive>.addDateHeaders(): PagingData<DiveItem> = this
             // no header at end of list
             bottom == null -> null
             // header at start of list or between items with different dates
-            top == null || !top.dive.start.sameDayAs(bottom.dive.start)
-            -> DiveItem.Header(bottom.dive.start.toLocalDate())
+            top == null || top.dive.startDate != bottom.dive.startDate
+            -> DiveItem.Header(bottom.dive.startDate)
             // no headers between items with same dates
             else -> null
         }
     }
-
-private fun LocalDateTime.sameDayAs(other: LocalDateTime) = toLocalDate() == other.toLocalDate()

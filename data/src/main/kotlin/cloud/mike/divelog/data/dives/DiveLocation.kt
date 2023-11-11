@@ -3,13 +3,13 @@ package cloud.mike.divelog.data.dives
 import androidx.annotation.FloatRange
 import java.util.UUID
 
-data class DiveSpot(
+data class DiveLocation(
     val id: UUID,
     val name: String,
     val coordinates: GeoCoordinates?,
 ) {
     companion object {
-        val sample = DiveSpot(
+        val sample = DiveLocation(
             id = UUID.randomUUID(),
             name = "Sha'ab Hamam, Egypt",
             coordinates = GeoCoordinates(

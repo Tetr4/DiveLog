@@ -43,14 +43,15 @@ fun DiveListItem(
             .clickable(onClick = onClick),
         leadingContent = {
             LeadingImage {
-                when (val profile = dive.depthProfile) {
+                when (val profile = dive.profile) {
                     // TODO We could also show map marker or pictures here
                     null -> DiverIcon(modifier = Modifier.align(Alignment.Center))
                     else -> DepthChart(profile = profile)
                 }
             }
         },
-        headlineContent = { Text(dive.location?.name ?: dive.start.toLocalTime().format(FormatStyle.SHORT)) },
+        // TODO clean up
+        headlineContent = { Text(dive.location?.name ?: dive.startTime?.format(FormatStyle.SHORT) ?: "") },
         supportingContent = { Text(dive.formatInfoLine()) },
         trailingContent = { DiveNumber(dive.number) },
     )
@@ -96,7 +97,7 @@ private fun DiveNumber(number: Int) {
 private fun PreviewNoProfile() {
     DiveTheme {
         DiveListItem(
-            dive = Dive.sample.copy(depthProfile = null),
+            dive = Dive.sample.copy(profile = null),
             onClick = {},
         )
     }
@@ -117,6 +118,6 @@ private fun Preview() {
 @Composable
 @ReadOnlyComposable
 private fun Dive.formatInfoLine(): String = listOfNotNull(
-    diveTime.format(),
+    duration.format(),
     maxDepthMeters?.formatDepthMeters(),
 ).joinToString(" | ")

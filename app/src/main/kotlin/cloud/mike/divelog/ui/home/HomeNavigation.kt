@@ -28,7 +28,3 @@ fun NavGraphBuilder.homeScreen(
         )
     }
 }
-
-fun NavController.showHome() {
-    navigate(HOME_ROUTE)
-}

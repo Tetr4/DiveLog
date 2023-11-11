@@ -1,4 +1,4 @@
-package cloud.mike.divelog.ui.common.text
+package cloud.mike.divelog.ui.common.form
 
 import android.content.res.Configuration
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,7 +27,7 @@ import cloud.mike.divelog.ui.DiveTheme
 /** This should look similar to textfields in the Google Calendar app. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlainTextField(
+fun FormTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
@@ -57,7 +57,7 @@ fun PlainTextField(
             .semantics { contentDescription = placeholder }
             .defaultMinSize(
                 minWidth = OutlinedTextFieldDefaults.MinWidth,
-                minHeight = OutlinedTextFieldDefaults.MinHeight,
+                minHeight = 48.dp,
             ),
         onValueChange = onValueChange,
         enabled = enabled,
@@ -99,7 +99,7 @@ fun PlainTextField(
 @Composable
 private fun PreviewPlaceholder() {
     DiveTheme {
-        PlainTextField(
+        FormTextField(
             value = "",
             onValueChange = {},
             placeholder = "Placeholder",
@@ -112,7 +112,7 @@ private fun PreviewPlaceholder() {
 @Composable
 private fun Preview() {
     DiveTheme {
-        PlainTextField(
+        FormTextField(
             value = "Lorem Ipsum",
             onValueChange = {},
             placeholder = "Placeholder",

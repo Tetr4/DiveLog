@@ -8,7 +8,7 @@ import java.util.UUID
 import kotlin.time.Duration
 
 @Entity(
-    tableName = "depthProfiles",
+    tableName = "profiles",
     foreignKeys = [
         ForeignKey(
             entity = DiveDto::class,
@@ -18,7 +18,7 @@ import kotlin.time.Duration
         ),
     ],
 )
-data class DepthProfileDto(
+data class DiveProfileDto(
     @PrimaryKey val id: UUID,
     @ColumnInfo(index = true) val diveId: UUID,
     val samplingRate: Duration,
@@ -30,7 +30,7 @@ data class DepthProfileDto(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as DepthProfileDto
+        other as DiveProfileDto
         if (id != other.id) return false
         if (diveId != other.diveId) return false
         if (samplingRate != other.samplingRate) return false

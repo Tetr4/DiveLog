@@ -5,8 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cloud.mike.divelog.data.dives.Dive
+import cloud.mike.divelog.data.dives.DiveLocation
 import cloud.mike.divelog.data.dives.DiveRepository
-import cloud.mike.divelog.data.dives.DiveSpot
 import cloud.mike.divelog.data.logging.logError
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.localization.errors.ErrorService
@@ -17,15 +17,18 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.UUID
 import kotlin.time.Duration
 
 data class FormData(
-    val start: LocalDateTime,
-    val diveTime: Duration,
+    val startDate: LocalDate,
+    val startTime: LocalTime?,
+    val duration: Duration,
     val location: String?, // TODO allow selecting GPS coordinates
     val notes: String?,
+    // TODO allow editing max depth
 )
 
 @Immutable
@@ -116,11 +119,12 @@ class EditViewModel(
     private suspend fun createDive(data: FormData): Dive {
         val new = Dive(
             id = UUID.randomUUID(),
-            start = data.start,
-            diveTime = data.diveTime,
+            startDate = data.startDate,
+            startTime = data.startTime,
+            duration = data.duration,
             number = diveRepo.getNextDiveNumber(),
             location = data.location?.let {
-                DiveSpot(
+                DiveLocation(
                     id = UUID.randomUUID(),
                     name = data.location,
                     coordinates = null,
@@ -128,7 +132,7 @@ class EditViewModel(
             },
             maxDepthMeters = null,
             minTemperatureCelsius = null,
-            depthProfile = null,
+            profile = null,
             notes = data.notes,
         )
         diveRepo.addDive(new)
@@ -137,12 +141,13 @@ class EditViewModel(
 
     private suspend fun updateDive(old: Dive, data: FormData) {
         val new = old.copy(
-            start = data.start,
-            diveTime = data.diveTime,
+            startDate = data.startDate,
+            startTime = data.startTime,
+            duration = data.duration,
             location = data.location?.let {
                 old.location?.copy(
                     name = data.location,
-                ) ?: DiveSpot(
+                ) ?: DiveLocation(
                     id = UUID.randomUUID(),
                     name = data.location,
                     coordinates = null,

@@ -7,7 +7,8 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.UUID
 
 @Dao
@@ -21,18 +22,18 @@ interface DivesDao {
     @Query(
         """
             SELECT dives.* FROM dives
-            LEFT JOIN diveSpots on dives.locationId = diveSpots.id
+            LEFT JOIN locations on dives.locationId = locations.id
             WHERE
-                diveSpots.name LIKE '%' || :query || '%'
+                locations.name LIKE '%' || :query || '%'
                 OR notes LIKE '%' || :query || '%'
-                OR STRFTIME('%d.%m.%Y', start) LIKE '%' || :query || '%'
-            ORDER BY start DESC
+                OR STRFTIME('%d.%m.%Y', startDate) LIKE '%' || :query || '%'
+            ORDER BY startDate DESC, startTime DESC
         """,
     )
     fun getDivesPages(query: String): PagingSource<Int, DiveWithLocationAndProfile>
 
-    @Query("SELECT EXISTS(SELECT * FROM dives WHERE start = :timestamp)")
-    suspend fun diveExists(timestamp: LocalDateTime): Boolean
+    @Query("SELECT EXISTS(SELECT * FROM dives WHERE startDate = :startDate AND startTime = :startTime)")
+    suspend fun diveExists(startDate: LocalDate, startTime: LocalTime): Boolean
 
     @Query("SELECT MAX(number) FROM dives")
     suspend fun getMaxDiveNumber(): Int?
@@ -44,10 +45,10 @@ interface DivesDao {
     suspend fun upsertDiveHeader(dive: DiveDto)
 
     @Upsert
-    suspend fun upsertProfile(profile: DepthProfileDto)
+    suspend fun upsertProfile(profile: DiveProfileDto)
 
     @Upsert
-    suspend fun upsertLocation(location: DiveSpotDto)
+    suspend fun upsertLocation(location: DiveLocationDto)
 
     @Transaction
     suspend fun upsertDives(dives: List<DiveWithLocationAndProfile>) = dives.forEach { upsertDive(it) }
@@ -56,6 +57,6 @@ interface DivesDao {
     suspend fun upsertDive(data: DiveWithLocationAndProfile) {
         if (data.location != null) upsertLocation(data.location)
         upsertDiveHeader(data.dive)
-        if (data.depthProfile != null) upsertProfile(data.depthProfile)
+        if (data.profile != null) upsertProfile(data.profile)
     }
 }

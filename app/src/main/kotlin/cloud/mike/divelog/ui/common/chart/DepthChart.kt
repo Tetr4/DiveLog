@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cloud.mike.divelog.data.dives.DepthProfile
+import cloud.mike.divelog.data.dives.DiveProfile
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.sample
 
@@ -25,7 +25,7 @@ private const val DEPTH_PADDING_PERCENT = 1.1f // Ensure chart never touches bot
 
 @Composable
 fun DepthChart(
-    profile: DepthProfile,
+    profile: DiveProfile,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
@@ -68,7 +68,7 @@ private fun Preview() {
     DiveTheme {
         DepthChart(
             modifier = Modifier.height(64.dp),
-            profile = DepthProfile.sample,
+            profile = DiveProfile.sample,
         )
     }
 }

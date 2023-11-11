@@ -5,6 +5,6 @@ import androidx.room.Relation
 
 data class DiveWithLocationAndProfile(
     @Embedded val dive: DiveDto,
-    @Relation(parentColumn = "locationId", entityColumn = "id") val location: DiveSpotDto?,
-    @Relation(parentColumn = "id", entityColumn = "diveId") val depthProfile: DepthProfileDto?,
+    @Relation(parentColumn = "locationId", entityColumn = "id") val location: DiveLocationDto?,
+    @Relation(parentColumn = "id", entityColumn = "diveId") val profile: DiveProfileDto?,
 )

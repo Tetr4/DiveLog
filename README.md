@@ -95,7 +95,7 @@ We have three options:
 - Send "get compact headers" command (`0x6D`):
     - Device will always send all 256 dive headers (4096 bytes total)
     - Unused headers consist of `0xFF` and must be filtered
-    - Includes date, divetime, max depth and dive number
+    - Includes date, duration, max depth and dive number
 - Send "get full headers" command (`0x61`):
     - 65536 bytes total
     - Includes more information than compact headers, like surface pressure, min. temperature, gas mix, deco model, etc.

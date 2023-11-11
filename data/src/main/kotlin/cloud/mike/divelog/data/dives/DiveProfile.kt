@@ -8,7 +8,7 @@ import kotlin.math.sin
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
-data class DepthProfile(
+data class DiveProfile(
     val id: UUID,
     val samplingRate: Duration,
     val depthCentimeters: IntArray,
@@ -18,7 +18,7 @@ data class DepthProfile(
         private const val NUM_SAMPLE_POINTS = 30
         private const val SAMPLE_DEPTH_METERS = 25
 
-        val sample = DepthProfile(
+        val sample = DiveProfile(
             id = UUID.randomUUID(),
             samplingRate = 1.minutes,
             depthCentimeters = IntArray(NUM_SAMPLE_POINTS) {
@@ -34,7 +34,7 @@ data class DepthProfile(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as DepthProfile
+        other as DiveProfile
         if (id != other.id) return false
         if (samplingRate != other.samplingRate) return false
         if (!depthCentimeters.contentEquals(other.depthCentimeters)) return false

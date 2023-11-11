@@ -13,7 +13,7 @@ internal data class DiveHeaderCompact(
     val profileSize: Int,
     val timestamp: LocalDateTime,
     val maxDepthCentimeters: Int,
-    val diveTime: Duration,
+    val duration: Duration,
 ) {
     companion object {
         const val SIZE_BYTES = 16
@@ -47,7 +47,7 @@ private fun ByteArray.parseCompactHeader(profileNumber: Int): DiveHeaderCompact?
             uInt8(7),
         ),
         maxDepthCentimeters = uInt16L(8),
-        diveTime = uInt16L(10).minutes + uInt8(12).seconds,
+        duration = uInt16L(10).minutes + uInt8(12).seconds,
     )
 }
 

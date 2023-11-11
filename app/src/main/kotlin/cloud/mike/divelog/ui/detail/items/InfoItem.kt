@@ -16,13 +16,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.ui.DiveTheme
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 import kotlin.time.Duration
 
 @Composable
 fun InfoItem(
-    start: LocalDateTime,
-    diveTime: Duration,
+    startDate: LocalDate,
+    startTime: LocalTime?,
+    duration: Duration,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
@@ -31,8 +33,11 @@ fun InfoItem(
                 containerColor = Color.Transparent,
             ),
             leadingContent = { Icon(Icons.Default.Event, contentDescription = null) },
-            headlineContent = { Text(start.format()) },
-            supportingContent = { Text(diveTime.format()) },
+            headlineContent = {
+                // TODO clean up
+                Text(text = if (startTime != null) startDate.atTime(startTime).format() else startDate.format())
+            },
+            supportingContent = { Text(duration.format()) },
         )
     }
 }
@@ -43,8 +48,9 @@ fun InfoItem(
 private fun Preview() {
     DiveTheme {
         InfoItem(
-            start = Dive.sample.start,
-            diveTime = Dive.sample.diveTime,
+            startDate = Dive.sample.startDate,
+            startTime = Dive.sample.startTime,
+            duration = Dive.sample.duration,
         )
     }
 }

@@ -17,14 +17,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.R
-import cloud.mike.divelog.data.dives.DiveSpot
+import cloud.mike.divelog.data.dives.DiveLocation
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.card.CardHeadline
 import cloud.mike.divelog.ui.spacing
 
 @Composable
 fun LocationItem(
-    location: DiveSpot,
+    location: DiveLocation,
     modifier: Modifier = Modifier,
 ) {
     // TODO show map
@@ -51,7 +51,7 @@ fun LocationItem(
 private fun Preview() {
     DiveTheme {
         LocationItem(
-            location = DiveSpot.sample,
+            location = DiveLocation.sample,
         )
     }
 }

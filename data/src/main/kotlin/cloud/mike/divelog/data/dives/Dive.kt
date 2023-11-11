@@ -1,18 +1,20 @@
 package cloud.mike.divelog.data.dives
 
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.UUID
 import kotlin.time.Duration
 
 data class Dive(
     val id: UUID,
     val number: Int,
-    val location: DiveSpot?,
-    val start: LocalDateTime,
-    val diveTime: Duration,
+    val startDate: LocalDate,
+    val startTime: LocalTime?,
+    val duration: Duration,
     val maxDepthMeters: Float?,
     val minTemperatureCelsius: Float?,
-    val depthProfile: DepthProfile?,
+    val location: DiveLocation?,
+    val profile: DiveProfile?,
     val notes: String?, // TODO DiveNotes class for observations/gear?
     // TODO more fields:
     //  - tags
@@ -23,12 +25,13 @@ data class Dive(
         val sample = Dive(
             id = UUID.randomUUID(),
             number = 1,
-            location = DiveSpot.sample,
-            start = LocalDateTime.now(),
-            diveTime = DepthProfile.sample.samplingRate.times(DepthProfile.sample.depthCentimeters.size),
-            maxDepthMeters = DepthProfile.sample.depthCentimeters.max() / 100f,
+            startDate = LocalDate.now(),
+            startTime = LocalTime.now(),
+            duration = DiveProfile.sample.samplingRate.times(DiveProfile.sample.depthCentimeters.size),
+            maxDepthMeters = DiveProfile.sample.depthCentimeters.max() / 100f,
             minTemperatureCelsius = 20f,
-            depthProfile = DepthProfile.sample,
+            location = DiveLocation.sample,
+            profile = DiveProfile.sample,
             notes = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt" +
                 " ut labore et dolore magna aliquyam erat, sed diam voluptua.",
         )

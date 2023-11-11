@@ -5,23 +5,25 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import cloud.mike.divelog.persistence.converters.DurationConverter
 import cloud.mike.divelog.persistence.converters.IntArrayConverter
-import cloud.mike.divelog.persistence.converters.LocalDateTimeConverter
+import cloud.mike.divelog.persistence.converters.LocalDateConverter
+import cloud.mike.divelog.persistence.converters.LocalTimeConverter
 import cloud.mike.divelog.persistence.converters.UuidConverter
-import cloud.mike.divelog.persistence.dives.DepthProfileDto
 import cloud.mike.divelog.persistence.dives.DiveDto
-import cloud.mike.divelog.persistence.dives.DiveSpotDto
+import cloud.mike.divelog.persistence.dives.DiveLocationDto
+import cloud.mike.divelog.persistence.dives.DiveProfileDto
 import cloud.mike.divelog.persistence.dives.DivesDao
 
 @Database(
     entities = [
         DiveDto::class,
-        DiveSpotDto::class,
-        DepthProfileDto::class,
+        DiveLocationDto::class,
+        DiveProfileDto::class,
     ],
     version = 1,
 )
 @TypeConverters(
-    LocalDateTimeConverter::class,
+    LocalDateConverter::class,
+    LocalTimeConverter::class,
     DurationConverter::class,
     IntArrayConverter::class,
     UuidConverter::class,

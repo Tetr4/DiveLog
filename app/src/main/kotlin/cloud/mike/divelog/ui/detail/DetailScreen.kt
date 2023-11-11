@@ -105,16 +105,17 @@ private fun ContentState(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         InfoItem(
-            start = dive.start,
-            diveTime = dive.diveTime,
+            startDate = dive.startDate,
+            startTime = dive.startTime,
+            duration = dive.duration,
         )
         dive.location?.let {
             LocationItem(it)
         }
-        dive.depthProfile?.let {
+        dive.profile?.let {
             ProfileItem(
                 profile = it,
-                maxDepthMeters = dive.maxDepthMeters,
+                maxDepthMeters = dive.maxDepthMeters, // TODO show max depth even without profile
                 minTemperatureCelsius = dive.minTemperatureCelsius,
             )
         }

@@ -10,7 +10,7 @@ import kotlin.time.Duration.Companion.seconds
 internal data class DiveHeaderFull(
     val timestamp: LocalDateTime,
     val maxDepthCentimeters: Int,
-    val diveTime: Duration,
+    val duration: Duration,
     val minTemperatureCelsius: Float,
     // Most fields omitted because we currently don't need them
 ) {
@@ -28,6 +28,6 @@ internal fun ByteArray.parseFullHeader() = DiveHeaderFull(
         uInt8(16),
     ),
     maxDepthCentimeters = uInt16L(17),
-    diveTime = uInt16L(19).minutes + uInt8(21).seconds,
+    duration = uInt16L(19).minutes + uInt8(21).seconds,
     minTemperatureCelsius = uInt16L(22) / 10f,
 )

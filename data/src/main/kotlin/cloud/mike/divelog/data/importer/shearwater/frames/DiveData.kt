@@ -20,7 +20,7 @@ private const val TYPE_CLOSING_0 = 0x20.toByte()
 
 internal data class DiveData(
     val timestamp: LocalDateTime,
-    val diveTime: Duration,
+    val duration: Duration,
     val maxDepthMeters: Float,
     val samplingRate: Duration,
     val samples: List<Sample>,
@@ -48,7 +48,7 @@ internal fun ByteArray.parseDiveData(): DiveData {
     return DiveData(
         timestamp = opening0.uInt32B(12).seconds.toUtcLocalDate(),
         samplingRate = opening5?.uInt16B(23)?.milliseconds ?: 10.seconds,
-        diveTime = closing0.uInt24B(6).seconds,
+        duration = closing0.uInt24B(6).seconds,
         maxDepthMeters = closing0.uInt16B(4).parseDepthMeters(imperial),
         samples = parseSamples(imperial = imperial),
     )

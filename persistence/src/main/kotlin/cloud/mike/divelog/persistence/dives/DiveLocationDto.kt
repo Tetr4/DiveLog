@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.UUID
 
-@Entity(tableName = "diveSpots")
-data class DiveSpotDto(
+@Entity(tableName = "locations")
+data class DiveLocationDto(
     @PrimaryKey val id: UUID,
     val name: String,
     @FloatRange(from = -90.0, to = 90.0) val latitude: Double?,

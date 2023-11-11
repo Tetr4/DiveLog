@@ -12,7 +12,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.UUID
 import kotlin.time.Duration.Companion.minutes
 
@@ -45,19 +46,20 @@ class DivesDaoTest {
                 id = UUID.randomUUID(),
                 number = 1,
                 locationId = locationId,
-                start = LocalDateTime.now(),
-                diveTime = 30.minutes,
+                startDate = LocalDate.now(),
+                startTime = LocalTime.now(),
+                duration = 30.minutes,
                 maxDepthMeters = null,
                 minTemperatureCelsius = null,
                 notes = null,
             ),
-            location = DiveSpotDto(
+            location = DiveLocationDto(
                 id = locationId,
                 name = "Test",
                 latitude = 24.262363202339,
                 longitude = 35.51645954667073,
             ),
-            depthProfile = null,
+            profile = null,
         )
 
         // when
