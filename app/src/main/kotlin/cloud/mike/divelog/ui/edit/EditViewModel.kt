@@ -28,7 +28,7 @@ data class FormData(
     val duration: Duration,
     val location: String?, // TODO allow selecting GPS coordinates
     val notes: String?,
-    // TODO allow editing max depth
+    val maxDepthMeters: Float?,
 )
 
 @Immutable
@@ -130,7 +130,7 @@ class EditViewModel(
                     coordinates = null,
                 )
             },
-            maxDepthMeters = null,
+            maxDepthMeters = data.maxDepthMeters,
             minTemperatureCelsius = null,
             profile = null,
             notes = data.notes,
@@ -153,6 +153,7 @@ class EditViewModel(
                     coordinates = null,
                 )
             },
+            maxDepthMeters = data.maxDepthMeters,
             notes = data.notes,
         )
         diveRepo.updateDive(new)

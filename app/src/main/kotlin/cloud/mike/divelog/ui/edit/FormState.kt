@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import cloud.mike.divelog.data.dives.Dive
+import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.ui.common.DurationSaver
 import cloud.mike.divelog.ui.common.LocalDateSaver
 import cloud.mike.divelog.ui.common.LocalTimeSaver
@@ -22,6 +23,7 @@ class FormState(
     startTime: MutableState<LocalTime?>,
     duration: MutableState<Duration?>,
     location: MutableState<String>,
+    maxDepthMeters: MutableState<String>,
     notes: MutableState<String>,
 ) {
     var startDate by startDate
@@ -29,6 +31,7 @@ class FormState(
     var duration by duration
     var location by location
     var notes by notes
+    var maxDepthMeters by maxDepthMeters
 
     val isValid
         get() = startDate != null && duration != null
@@ -39,20 +42,26 @@ fun rememberFormState(
     dive: Dive?,
     defaultDate: LocalDate? = LocalDate.now(),
     defaultDuration: Duration? = 1.hours,
-) = FormState(
-    startDate = rememberSaveable(dive?.startDate, stateSaver = LocalDateSaver) {
-        mutableStateOf(dive?.startDate ?: defaultDate)
-    },
-    startTime = rememberSaveable(dive?.startTime, stateSaver = LocalTimeSaver) {
-        mutableStateOf(dive?.startTime)
-    },
-    duration = rememberSaveable(dive?.duration, stateSaver = DurationSaver) {
-        mutableStateOf(dive?.duration ?: defaultDuration)
-    },
-    location = rememberSaveable(dive?.location) {
-        mutableStateOf(dive?.location?.name.orEmpty())
-    },
-    notes = rememberSaveable(dive?.notes) {
-        mutableStateOf(dive?.notes.orEmpty())
-    },
-)
+): FormState {
+    val maxDepthMetersFormatted = dive?.maxDepthMeters?.format().orEmpty()
+    return FormState(
+        startDate = rememberSaveable(dive?.startDate, stateSaver = LocalDateSaver) {
+            mutableStateOf(dive?.startDate ?: defaultDate)
+        },
+        startTime = rememberSaveable(dive?.startTime, stateSaver = LocalTimeSaver) {
+            mutableStateOf(dive?.startTime)
+        },
+        duration = rememberSaveable(dive?.duration, stateSaver = DurationSaver) {
+            mutableStateOf(dive?.duration ?: defaultDuration)
+        },
+        location = rememberSaveable(dive?.location) {
+            mutableStateOf(dive?.location?.name.orEmpty())
+        },
+        maxDepthMeters = rememberSaveable(maxDepthMetersFormatted) {
+            mutableStateOf(maxDepthMetersFormatted)
+        },
+        notes = rememberSaveable(dive?.notes) {
+            mutableStateOf(dive?.notes.orEmpty())
+        },
+    )
+}

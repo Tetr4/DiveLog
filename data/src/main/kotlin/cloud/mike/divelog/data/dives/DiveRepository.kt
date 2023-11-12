@@ -21,20 +21,18 @@ class DiveRepository(
 ) {
 
     fun getDiveStream(id: UUID): Flow<Dive?> = divesDao.getDiveStream(id).map { it?.toEntity() }
-    fun getDivesPages(query: String): Flow<PagingData<Dive>> {
-        return if (FAKE_PAGES) {
-            val pager = Pager(
-                config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
-                pagingSourceFactory = { FakePagingSource() },
-            )
-            pager.flow
-        } else {
-            val pager = Pager(
-                config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
-                pagingSourceFactory = { divesDao.getDivesPages(query) },
-            )
-            pager.flow.map { diveDtos -> diveDtos.map { it.toEntity() } }
-        }
+    fun getDivesPages(query: String): Flow<PagingData<Dive>> = if (FAKE_PAGES) {
+        val pager = Pager(
+            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
+            pagingSourceFactory = { FakePagingSource() },
+        )
+        pager.flow
+    } else {
+        val pager = Pager(
+            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
+            pagingSourceFactory = { divesDao.getDivesPages(query) },
+        )
+        pager.flow.map { diveDtos -> diveDtos.map { it.toEntity() } }
     }
 
     suspend fun addDive(dive: Dive) = addDives(listOf(dive))

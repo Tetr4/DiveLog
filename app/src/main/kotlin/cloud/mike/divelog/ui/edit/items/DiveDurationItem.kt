@@ -34,8 +34,8 @@ fun DiveDurationItem(
         FormTextButton(
             modifier = Modifier.weight(1f),
             onClick = { showDurationPicker = true },
-            text = formState.duration?.format()
-                ?: stringResource(R.string.edit_dive_button_add_duration),
+            value = formState.duration?.format().orEmpty(),
+            placeholder = stringResource(R.string.edit_dive_button_add_duration),
         )
     }
 

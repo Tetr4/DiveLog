@@ -29,6 +29,7 @@ import cloud.mike.divelog.ui.common.states.ErrorState
 import cloud.mike.divelog.ui.common.states.LoadingState
 import cloud.mike.divelog.ui.detail.items.InfoItem
 import cloud.mike.divelog.ui.detail.items.LocationItem
+import cloud.mike.divelog.ui.detail.items.MaxDepthItem
 import cloud.mike.divelog.ui.detail.items.NotesItem
 import cloud.mike.divelog.ui.detail.items.ProfileItem
 import cloud.mike.divelog.ui.detail.states.EmptyState
@@ -115,9 +116,14 @@ private fun ContentState(
         dive.profile?.let {
             ProfileItem(
                 profile = it,
-                maxDepthMeters = dive.maxDepthMeters, // TODO show max depth even without profile
+                maxDepthMeters = dive.maxDepthMeters,
                 minTemperatureCelsius = dive.minTemperatureCelsius,
             )
+        }
+        if (dive.profile == null) {
+            dive.maxDepthMeters?.let {
+                MaxDepthItem(it)
+            }
         }
         dive.notes?.let {
             NotesItem(it)

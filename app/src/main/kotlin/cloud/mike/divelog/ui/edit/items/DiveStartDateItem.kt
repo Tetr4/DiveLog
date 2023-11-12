@@ -34,8 +34,8 @@ fun DiveStartDateItem(
         FormTextButton(
             modifier = Modifier.weight(1f),
             onClick = { showDatePicker = true },
-            text = formState.startDate?.format()
-                ?: stringResource(R.string.edit_dive_button_add_date),
+            value = formState.startDate?.format().orEmpty(),
+            placeholder = stringResource(R.string.edit_dive_button_add_date),
         )
     }
 

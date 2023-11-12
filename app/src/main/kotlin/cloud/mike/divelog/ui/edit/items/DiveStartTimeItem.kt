@@ -44,8 +44,8 @@ fun DiveStartTimeItem(
             FormTextButton(
                 modifier = Modifier.weight(1f),
                 onClick = { showTimePicker = true },
-                text = formState.startTime?.format(FormatStyle.SHORT)
-                    ?: stringResource(R.string.edit_dive_button_add_time),
+                value = formState.startTime?.format(FormatStyle.SHORT).orEmpty(),
+                placeholder = stringResource(R.string.edit_dive_button_add_time),
             )
             if (formState.startTime != null) {
                 IconButton(onClick = { formState.startTime = null }) {

@@ -16,7 +16,7 @@ import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
@@ -30,10 +30,10 @@ class HomeViewModelTest {
         val pagingData = PagingData.from(
             data = listOf(
                 // <HEADER EXPECTED HERE>
-                Dive.sample.copy(start = LocalDateTime.parse("2000-12-01T10:00:00.00")),
-                Dive.sample.copy(start = LocalDateTime.parse("2000-12-01T18:00:00.00")),
+                Dive.sample.copy(startDate = LocalDate.parse("2000-12-01")),
+                Dive.sample.copy(startDate = LocalDate.parse("2000-12-01")),
                 // <HEADER EXPECTED HERE>
-                Dive.sample.copy(start = LocalDateTime.parse("2000-12-02T12:00:00.00")),
+                Dive.sample.copy(startDate = LocalDate.parse("2000-12-02")),
             ),
             sourceLoadStates = LoadStates(
                 refresh = LoadState.NotLoading(endOfPaginationReached = false),

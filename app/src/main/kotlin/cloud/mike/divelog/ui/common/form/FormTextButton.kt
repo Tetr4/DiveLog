@@ -21,7 +21,8 @@ import cloud.mike.divelog.ui.DiveTheme
 @Composable
 fun FormTextButton(
     onClick: () -> Unit,
-    text: String,
+    value: String,
+    placeholder: String,
     modifier: Modifier = Modifier,
 ) {
     Surface(
@@ -37,10 +38,27 @@ fun FormTextButton(
         ) {
             Text(
                 modifier = Modifier.padding(vertical = 16.dp),
-                text = text,
-                color = MaterialTheme.colorScheme.onSurface,
+                text = value.ifBlank { placeholder },
+                color = if (value.isBlank()) {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                } else {
+                    MaterialTheme.colorScheme.onSurface
+                },
             )
         }
+    }
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable
+private fun PreviewEmpty() {
+    DiveTheme {
+        FormTextButton(
+            value = "",
+            placeholder = "Placeholder",
+            onClick = {},
+        )
     }
 }
 
@@ -50,7 +68,8 @@ fun FormTextButton(
 private fun Preview() {
     DiveTheme {
         FormTextButton(
-            text = "Lorem Ipsum",
+            value = "Lorem Ipsum",
+            placeholder = "Placeholder",
             onClick = {},
         )
     }

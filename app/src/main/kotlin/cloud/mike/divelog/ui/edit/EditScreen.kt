@@ -21,6 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
+import cloud.mike.divelog.localization.primaryLocale
+import cloud.mike.divelog.localization.toNumberOrNull
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.states.ErrorState
 import cloud.mike.divelog.ui.common.states.LoadingState
@@ -28,6 +30,7 @@ import cloud.mike.divelog.ui.edit.items.DiveDurationItem
 import cloud.mike.divelog.ui.edit.items.DiveStartDateItem
 import cloud.mike.divelog.ui.edit.items.DiveStartTimeItem
 import cloud.mike.divelog.ui.edit.items.LocationItem
+import cloud.mike.divelog.ui.edit.items.MaxDepthItem
 import cloud.mike.divelog.ui.edit.items.NotesItem
 import cloud.mike.divelog.ui.edit.topbar.EditDiveAppBar
 
@@ -42,6 +45,7 @@ fun EditScreen(
 ) {
     val formState = rememberFormState(dive = uiState.diveState.dive)
     val snackbarHostState = remember { SnackbarHostState() }
+    val locale = primaryLocale
 
     suspend fun showError(message: ErrorMessage) {
         snackbarHostState.showSnackbar(message.content)
@@ -53,6 +57,8 @@ fun EditScreen(
             startTime = formState.startTime,
             duration = formState.duration ?: return,
             location = formState.location.trim().takeIf { it.isNotBlank() },
+            maxDepthMeters = formState.maxDepthMeters.trim().takeIf { it.isNotBlank() }
+                ?.toNumberOrNull(locale)?.toFloat(), // validation is done in text field
             notes = formState.notes.trim().takeIf { it.isNotBlank() },
         )
         onSave(data)
@@ -122,6 +128,8 @@ fun ContentState(
         DiveDurationItem(formState)
         Divider(Modifier.padding(vertical = 4.dp))
         LocationItem(formState)
+        Divider(Modifier.padding(vertical = 4.dp))
+        MaxDepthItem(formState)
         Divider(Modifier.padding(vertical = 4.dp))
         NotesItem(formState)
     }

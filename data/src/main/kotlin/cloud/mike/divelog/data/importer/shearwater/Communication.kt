@@ -20,7 +20,7 @@ import java.util.UUID
 // 0xC0 (only on the last frame, this will be escaped in data between frame header an end of frame)
 //
 // Note: The device tries to send up to 77 bytes per packet, which is larger than the 20 bytes MTU limit, so we have to
-// we negotiate a higher MTU after connecting:
+// negotiate a higher MTU after connecting:
 // https://www.b4x.com/android/forum/threads/ble2-dataavailable-buffer-truncated-after-20-bytes.110344/
 
 private val serialPort = UUID.fromString("27b7570b-359e-45a3-91bb-cf7e70049bd2") // WRITE / NOTIFY
