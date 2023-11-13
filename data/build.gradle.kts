@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "cloud.mike.divelog.data"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
@@ -24,10 +24,10 @@ dependencies {
     implementation(project(":bluetooth"))
 
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:3.4.3")
+    implementation("io.insert-koin:koin-android:3.5.0")
 
     // Paging
-    api("androidx.paging:paging-runtime-ktx:3.2.0")
+    api("androidx.paging:paging-runtime-ktx:3.2.1")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "cloud.mike.divelog.bluetooth"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
@@ -20,7 +20,7 @@ android {
 
 dependencies {
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:3.4.3")
+    implementation("io.insert-koin:koin-android:3.5.0")
 
     // Coroutines + Rx
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")

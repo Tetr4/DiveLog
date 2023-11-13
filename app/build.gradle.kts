@@ -13,7 +13,7 @@ val buildTag = System.getenv("GITHUB_RUN_NUMBER") ?: DateTimeFormatter.ISO_LOCAL
 
 android {
     namespace = "cloud.mike.divelog"
-    compileSdk = 33
+    compileSdk = 34
 
     signingConfigs {
         create("release") {
@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId = "cloud.mike.divelog"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = versionCodeProp
         versionName = "$versionNameProp+$buildTag"
         archivesName.set("divelog-$versionName")
@@ -56,7 +56,7 @@ android {
 
     composeOptions {
         // Compose (https://developer.android.com/jetpack/androidx/releases/compose-kotlin)
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
 
     kotlin {
@@ -75,23 +75,23 @@ dependencies {
     implementation(project(":data"))
 
     // Dependency Injection (https://insert-koin.io/)
-    implementation("io.insert-koin:koin-android:3.4.3")
-    implementation("io.insert-koin:koin-androidx-compose:3.4.6")
+    implementation("io.insert-koin:koin-android:3.5.0")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.0")
 
     // ViewModel Scoping (https://github.com/sebaslogen/resaca)
-    implementation("com.github.sebaslogen.resaca:resaca:2.4.5")
+    implementation("com.github.sebaslogen.resaca:resaca:3.0.0")
 
     // AndroidX (https://developer.android.com/jetpack/androidx/versions)
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.paging:paging-compose:3.2.0")
+    implementation("androidx.paging:paging-compose:3.2.1")
 
     // Compose (https://developer.android.com/jetpack/compose/bom/bom-mapping)
-    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
+    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
@@ -107,5 +107,5 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     testImplementation("org.mockito:mockito-inline:5.2.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
-    testImplementation("androidx.paging:paging-testing:3.2.0")
+    testImplementation("androidx.paging:paging-testing:3.2.1")
 }
