@@ -25,6 +25,7 @@ internal class ShearwaterConnection(
     private val connection: Connection,
 ) : ImportConnection {
 
+    // TODO This was not tested yet.
     override suspend fun fetchDives(
         initialDiveNumber: Int,
         isAlreadyImported: suspend (LocalDateTime) -> Boolean,
