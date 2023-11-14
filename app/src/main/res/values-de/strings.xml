@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Tauchbuch</string>
+
+    <!-- Common -->
+    <string name="common_button_cancel">Abbrechen</string>
+    <string name="common_button_clear">Löschen</string>
+    <string name="common_button_edit">Bearbeiten</string>
+    <string name="common_button_navigate_up">Zurück</string>
+    <string name="common_button_ok">OK</string>
+    <string name="common_button_retry">Erneut versuchen</string>
+    <string name="common_button_save">Speichern</string>
+    <string name="common_error_connectivity">Verbindungsfehler. Bitte überprüfe deine Internetverbindung.</string>
+
+    <!-- Pickers -->
+    <string name="duration_picker_label_hours">Stunden</string>
+    <string name="duration_picker_label_minutes">Minuten</string>
+    <string name="duration_picker_title">Dauer eingeben</string>
+    <string name="time_picker_button_select_input_mode">Zur Texteingabe wechseln</string>
+    <string name="time_picker_button_select_picker_mode">Zu Berührungseingabe wechseln</string>
+    <string name="time_picker_title">Zeit auswählen</string>
+
+    <!-- Home -->
+    <string name="home_button_add_dive">Tauchgang hinzufügen</string>
+    <string name="home_button_bluetooth_import">Bluetooth-Import</string>
+    <string name="home_button_dive_spots">Tauchplätze</string>
+    <string name="home_date_header_label_today">Heute</string>
+    <string name="home_date_header_label_yesterday">Gestern</string>
+    <string name="home_label_empty_title">Keine Tauchgänge gefunden</string>
+    <string name="home_label_empty_description">Füge einen Tauchgang hinzu und er wird hier angezeigt.</string>
+    <string name="home_placeholder_search">Tauchgänge durchsuchen</string>
+
+    <!-- Import -->
+    <string name="import_button_download_dives">Tauchgänge herunterladen</string>
+    <string name="import_button_enable_bluetooth">Bluetooth aktivieren</string>
+    <string name="import_button_pair">Gerät koppeln</string>
+    <string name="import_button_request_permission">Bluetooth-Berechtigung erteilen</string>
+    <string name="import_status_bluetooth_not_available">Bluetooth ist auf deinem Gerät nicht verfügbar.</string>
+    <string name="import_status_connecting">Verbindung zu %1$s wird hergestellt…</string>
+    <string name="import_status_connecting_no_device_name">Mit Gerät verbinden…</string>
+    <string name="import_status_not_connected">Nicht verbunden</string>
+    <plurals name="import_status_success">
+        <item quantity="one">%1$s Tauchgang wurde importiert</item>
+        <item quantity="other">%1$s Tauchgänge wurden importiert</item>
+    </plurals>
+
+    <!-- Detail -->
+    <string name="dive_detail_button_delete_dive">Tauchgang löschen</string>
+    <string name="dive_detail_error_empty">Tauchgang nicht gefunden.</string>
+    <string name="dive_detail_label_location">Ort</string>
+    <string name="dive_detail_label_max_depth">Maximale Tiefe</string>
+    <string name="dive_detail_label_notes">Notizen</string>
+    <string name="dive_detail_title">Tauchgang %1$s</string>
+
+    <!-- Edit -->
+    <string name="edit_dive_button_add_date">Startdatum hinzufügen</string>
+    <string name="edit_dive_button_add_time">Startzeit hinzufügen</string>
+    <string name="edit_dive_button_add_duration">Dauer hinzufügen</string>
+    <string name="edit_dive_placeholder_add_notes">Notizen hinzufügen</string>
+    <string name="edit_dive_placeholder_add_location">Ort hinzufügen</string>
+    <string name="edit_dive_placeholder_add_max_depth">Maximale Tiefe hinzufügen</string>
+    <string name="edit_dive_title_create">Neuer Tauchgang</string>
+    <string name="edit_dive_title_update">Tauchgang bearbeiten</string>
+
+</resources>
