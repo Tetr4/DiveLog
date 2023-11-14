@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "cloud.mike.divelog.persistence"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
@@ -33,10 +33,10 @@ android {
 
 dependencies {
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:3.4.3")
+    implementation("io.insert-koin:koin-android:3.5.0")
 
     // Room (https://developer.android.com/jetpack/androidx/releases/room)
-    val roomVersion = "2.6.0-alpha01" // alpha version because this supports value classes (e.g. kotlin.time.Duration)
+    val roomVersion = "2.6.0"
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
