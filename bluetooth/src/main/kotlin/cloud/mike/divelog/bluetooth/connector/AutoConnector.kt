@@ -8,11 +8,11 @@ import cloud.mike.divelog.bluetooth.pairing.bonding
 import cloud.mike.divelog.bluetooth.precondition.PreconditionService
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState
 import cloud.mike.divelog.bluetooth.utils.aliasOrNull
-import com.polidea.rxandroidble2.RxBleClient
-import com.polidea.rxandroidble2.RxBleConnection
-import com.polidea.rxandroidble2.RxBleConnection.GATT_MTU_MAXIMUM
-import com.polidea.rxandroidble2.RxBleConnection.GATT_MTU_MINIMUM
-import com.polidea.rxandroidble2.Timeout
+import com.polidea.rxandroidble3.RxBleClient
+import com.polidea.rxandroidble3.RxBleConnection
+import com.polidea.rxandroidble3.RxBleConnection.GATT_MTU_MAXIMUM
+import com.polidea.rxandroidble3.RxBleConnection.GATT_MTU_MINIMUM
+import com.polidea.rxandroidble3.Timeout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -23,8 +23,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx2.asFlow
-import kotlinx.coroutines.rx2.await
+import kotlinx.coroutines.rx3.asFlow
+import kotlinx.coroutines.rx3.await
 import java.util.concurrent.TimeUnit
 
 private val TAG = AutoConnector::class.java.simpleName

@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notes
+import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,7 +30,7 @@ fun NotesItem(
     Card(modifier = modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(MaterialTheme.spacing.cardPadding)) {
             CardHeadline(
-                imageVector = Icons.Default.Notes,
+                imageVector = Icons.AutoMirrored.Filled.Notes,
                 title = stringResource(R.string.dive_detail_label_notes),
             )
             Spacer(Modifier.height(8.dp))

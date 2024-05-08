@@ -1,6 +1,7 @@
 package cloud.mike.divelog.ui
 
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +30,7 @@ fun DiveTheme(content: @Composable () -> Unit) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 @ReadOnlyComposable
 private fun dynamicColorScheme(): ColorScheme {

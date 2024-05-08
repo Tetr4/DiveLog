@@ -56,11 +56,11 @@ android {
 
     composeOptions {
         // Compose (https://developer.android.com/jetpack/androidx/releases/compose-kotlin)
-        kotlinCompilerExtensionVersion = "1.5.4"
+        kotlinCompilerExtensionVersion = "1.5.13"
     }
 
     kotlin {
-        // Required by AGP 8.0+
+        // Required by AGP and Compose
         jvmToolchain(17)
     }
 
@@ -75,23 +75,23 @@ dependencies {
     implementation(project(":data"))
 
     // Dependency Injection (https://insert-koin.io/)
-    implementation("io.insert-koin:koin-android:3.5.0")
-    implementation("io.insert-koin:koin-androidx-compose:3.5.0")
+    implementation("io.insert-koin:koin-android:3.5.6")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.6")
 
     // ViewModel Scoping (https://github.com/sebaslogen/resaca)
-    implementation("com.github.sebaslogen.resaca:resaca:3.0.0")
+    implementation("io.github.sebaslogen:resaca:3.2.1")
 
     // AndroidX (https://developer.android.com/jetpack/androidx/versions)
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.0")
-    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.paging:paging-compose:3.2.1")
 
     // Compose (https://developer.android.com/jetpack/compose/bom/bom-mapping)
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
+    implementation(platform("androidx.compose:compose-bom:2024.05.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")

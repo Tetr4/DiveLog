@@ -11,7 +11,7 @@ import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_NOT
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_NOT_ENABLED
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState.READY
 import cloud.mike.divelog.bluetooth.utils.bluetoothAdapter
-import com.polidea.rxandroidble2.RxBleClient
+import com.polidea.rxandroidble3.RxBleClient
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.delay

@@ -50,7 +50,7 @@ fun TransferProgressView(
     } else {
         CircularProgressIndicator(
             modifier = modifier.padding(MaterialTheme.spacing.sheetPadding),
-            progress = progress,
+            progress = { progress },
             trackColor = MaterialTheme.colorScheme.onSurfaceVariant
                 .copy(alpha = 0.4f), // This matches the sheets drag handle
         )

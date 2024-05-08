@@ -4,7 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notes
+import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,7 +24,7 @@ fun NotesItem(
     modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier) {
-        FormIcon(Icons.Default.Notes)
+        FormIcon(Icons.AutoMirrored.Filled.Notes)
         FormTextField(
             modifier = Modifier.weight(1f),
             value = formState.notes,

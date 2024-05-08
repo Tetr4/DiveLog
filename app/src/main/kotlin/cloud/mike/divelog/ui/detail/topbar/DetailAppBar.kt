@@ -4,7 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.progressSemantics
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.CircularProgressIndicator
@@ -80,7 +80,7 @@ private fun Title(dive: Dive) {
 private fun NavButton(onClick: () -> Unit) {
     IconButton(onClick) {
         Icon(
-            imageVector = Icons.Filled.ArrowBack,
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = stringResource(R.string.common_button_navigate_up),
         )
     }

@@ -3,7 +3,6 @@ package cloud.mike.divelog.ui.detail
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,7 +35,6 @@ import cloud.mike.divelog.ui.detail.states.EmptyState
 import cloud.mike.divelog.ui.detail.topbar.DetailAppBar
 import cloud.mike.divelog.ui.spacing
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DetailScreen(
     uiState: DetailState,

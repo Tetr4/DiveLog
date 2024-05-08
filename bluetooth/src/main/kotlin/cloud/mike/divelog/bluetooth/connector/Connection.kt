@@ -2,14 +2,14 @@ package cloud.mike.divelog.bluetooth.connector
 
 import android.util.Log
 import cloud.mike.divelog.bluetooth.utils.toHexString
-import com.polidea.rxandroidble2.NotificationSetupMode
-import com.polidea.rxandroidble2.RxBleConnection
+import com.polidea.rxandroidble3.NotificationSetupMode
+import com.polidea.rxandroidble3.RxBleConnection
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.rx2.asFlow
-import kotlinx.coroutines.rx2.await
+import kotlinx.coroutines.rx3.asFlow
+import kotlinx.coroutines.rx3.await
 import java.util.UUID
 
 private val TAG = Connection::class.java.simpleName

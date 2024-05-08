@@ -9,7 +9,7 @@ import android.util.Log
 import cloud.mike.divelog.bluetooth.precondition.PreconditionService
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState
 import cloud.mike.divelog.bluetooth.utils.getParcelableExtraCompat
-import com.polidea.rxandroidble2.RxBleClient
+import com.polidea.rxandroidble3.RxBleClient
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow

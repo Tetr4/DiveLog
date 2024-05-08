@@ -10,8 +10,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.PlainTooltipBox
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults.rememberPlainTooltipPositionProvider
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -60,14 +63,17 @@ private fun TooltipButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    PlainTooltipBox(
+    TooltipBox(
         modifier = modifier,
-        tooltip = { Text(description) },
+        positionProvider = rememberPlainTooltipPositionProvider(),
+        tooltip = {
+            PlainTooltip {
+                Text(description)
+            }
+        },
+        state = rememberTooltipState(),
     ) {
-        IconButton(
-            onClick = onClick,
-            modifier = Modifier.tooltipAnchor(),
-        ) {
+        IconButton(onClick = onClick) {
             Icon(icon, contentDescription = description)
         }
     }

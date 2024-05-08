@@ -3,7 +3,7 @@ package cloud.mike.divelog.bluetooth
 import cloud.mike.divelog.bluetooth.connector.AutoConnector
 import cloud.mike.divelog.bluetooth.pairing.PairingService
 import cloud.mike.divelog.bluetooth.precondition.PreconditionService
-import com.polidea.rxandroidble2.RxBleClient
+import com.polidea.rxandroidble3.RxBleClient
 import kotlinx.coroutines.MainScope
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module

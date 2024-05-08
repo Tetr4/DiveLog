@@ -24,7 +24,7 @@ dependencies {
     implementation(project(":bluetooth"))
 
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:3.5.0")
+    implementation("io.insert-koin:koin-android:3.5.6")
 
     // Paging
     api("androidx.paging:paging-runtime-ktx:3.2.1")

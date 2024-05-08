@@ -3,7 +3,6 @@ package cloud.mike.divelog.ui.home
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.height
@@ -47,7 +46,7 @@ import kotlinx.coroutines.launch
 
 private val dragHandleVerticalPadding = 22.dp
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     uiState: HomeState,
@@ -144,9 +143,9 @@ private fun ImportSheet(
 }
 
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO, wallpaper = Wallpapers.BLUE_DOMINATED_EXAMPLE)
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES, wallpaper = Wallpapers.RED_DOMINATED_EXAMPLE)
-@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO, wallpaper = Wallpapers.RED_DOMINATED_EXAMPLE)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO, wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE)
 @Composable
 private fun Preview() {
     val pagingData: PagingData<DiveItem> = PagingData.from(
