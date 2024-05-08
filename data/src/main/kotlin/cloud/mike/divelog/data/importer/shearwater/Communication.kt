@@ -125,7 +125,7 @@ private suspend fun Connection.sendCommand(payload: ByteArray): ByteArray {
         require(uInt8(3) == 0x00)
     }
     val packetLength = response.uInt8(2)
-    return response.copyOfRange(4, packetLength - 1) // Drop packet header
+    return response.copyOfRange(4, 4 + packetLength - 1) // Drop packet header
 }
 
 private suspend fun Connection.writeFrames(payload: ByteArray) {
