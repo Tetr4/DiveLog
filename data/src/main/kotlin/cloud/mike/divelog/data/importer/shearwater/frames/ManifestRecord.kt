@@ -44,6 +44,6 @@ private fun ByteArray.parseManifestRecord(): ManifestRecord = when (uInt16B(0)) 
 }
 
 internal fun Duration.toUtcLocalDate() = Instant
-    .ofEpochSecond(this.inWholeMilliseconds)
+    .ofEpochMilli(this.inWholeMilliseconds)
     .atZone(ZoneOffset.UTC)
     .toLocalDateTime()
