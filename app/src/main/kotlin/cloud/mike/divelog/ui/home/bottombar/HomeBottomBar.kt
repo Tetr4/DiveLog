@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Bluetooth
+import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +28,7 @@ import cloud.mike.divelog.ui.DiveTheme
 fun HomeBottomBar(
     onShowImport: () -> Unit,
     onShowDiveSpots: () -> Unit,
+    onShowBackup: () -> Unit,
     onShowAdd: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -37,6 +39,11 @@ fun HomeBottomBar(
                 icon = Icons.Filled.Bluetooth,
                 description = stringResource(R.string.home_button_bluetooth_import),
                 onClick = onShowImport,
+            )
+            TooltipButton(
+                icon = Icons.Filled.ImportExport,
+                description = stringResource(R.string.home_button_backup),
+                onClick = onShowBackup,
             )
             TooltipButton(
                 description = stringResource(R.string.home_button_dive_spots),
@@ -87,6 +94,7 @@ private fun Preview() {
         HomeBottomBar(
             onShowImport = {},
             onShowDiveSpots = {},
+            onShowBackup = {},
             onShowAdd = {},
         )
     }

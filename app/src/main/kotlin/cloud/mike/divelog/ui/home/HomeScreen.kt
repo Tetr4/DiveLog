@@ -36,6 +36,7 @@ import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.backup.BackupSheet
 import cloud.mike.divelog.ui.home.bottombar.HomeBottomBar
 import cloud.mike.divelog.ui.home.filters.TagFilters
 import cloud.mike.divelog.ui.home.list.DiveList
@@ -58,10 +59,12 @@ fun HomeScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val importSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val backupSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val snackbarHostState = remember { SnackbarHostState() }
 
     fun showImport() = scope.launch { importSheetState.show() }
     fun showDiveSpots() = Toast.makeText(context, "Map not implemented", Toast.LENGTH_SHORT).show()
+    fun showBackup() = scope.launch { backupSheetState.show() }
     suspend fun showError(message: ErrorMessage) = snackbarHostState.showSnackbar(message.content)
 
     Scaffold(
@@ -69,6 +72,7 @@ fun HomeScreen(
             HomeBottomBar(
                 onShowImport = ::showImport,
                 onShowDiveSpots = ::showDiveSpots,
+                onShowBackup = ::showBackup,
                 onShowAdd = onShowAdd,
             )
         },
@@ -88,6 +92,10 @@ fun HomeScreen(
     ImportSheet(
         state = importSheetState,
         onShowError = ::showError,
+    )
+
+    BackupSheet(
+        state = backupSheetState,
     )
 }
 
@@ -137,6 +145,23 @@ private fun ImportSheet(
                     .heightIn(min = 192.dp)
                     .padding(bottom = dragHandleVerticalPadding),
                 onShowError = onShowError,
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun BackupSheet(
+    state: SheetState,
+) {
+    if (!state.isCollapsed) {
+        ModalBottomSheet(
+            sheetState = state,
+            onDismissRequest = {},
+        ) {
+            BackupSheet(
+                modifier = Modifier.padding(bottom = dragHandleVerticalPadding),
             )
         }
     }

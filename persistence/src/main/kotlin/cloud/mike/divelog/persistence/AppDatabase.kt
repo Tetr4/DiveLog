@@ -30,4 +30,8 @@ import cloud.mike.divelog.persistence.dives.DivesDao
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun divesDao(): DivesDao
+
+    companion object {
+        const val FILE_NAME = "divelog.db"
+    }
 }

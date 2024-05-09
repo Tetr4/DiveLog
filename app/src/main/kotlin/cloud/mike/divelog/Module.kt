@@ -2,6 +2,7 @@ package cloud.mike.divelog
 
 import cloud.mike.divelog.data.dataModule
 import cloud.mike.divelog.localization.errors.ErrorService
+import cloud.mike.divelog.ui.backup.BackupViewModel
 import cloud.mike.divelog.ui.detail.DetailViewModel
 import cloud.mike.divelog.ui.edit.EditViewModel
 import cloud.mike.divelog.ui.home.HomeViewModel
@@ -16,4 +17,5 @@ val appModule = dataModule + module {
     viewModelOf(::DetailViewModel)
     viewModelOf(::ImportViewModel)
     viewModelOf(::EditViewModel)
+    viewModelOf(::BackupViewModel)
 }

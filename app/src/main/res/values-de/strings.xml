@@ -22,6 +22,7 @@
     <!-- Home -->
     <string name="home_button_add_dive">Tauchgang hinzufügen</string>
     <string name="home_button_bluetooth_import">Bluetooth-Import</string>
+    <string name="home_button_backup">Sicherung</string>
     <string name="home_button_dive_spots">Tauchplätze</string>
     <string name="home_date_header_label_today">Heute</string>
     <string name="home_date_header_label_yesterday">Gestern</string>
@@ -42,6 +43,12 @@
         <item quantity="one">%1$s Tauchgang wurde importiert</item>
         <item quantity="other">%1$s Tauchgänge wurden importiert</item>
     </plurals>
+
+    <!-- Backup -->
+    <string name="backup_button_create_backup">Sicherung erstellen</string>
+    <string name="backup_button_restore_backup">Sicherung wiederherstellen</string>
+    <string name="backup_status_backup_created">Sicherung erstellt</string>
+    <string name="backup_status_backup_restored">Sicherung wiederhergestellt</string>
 
     <!-- Detail -->
     <string name="dive_detail_button_delete_dive">Tauchgang löschen</string>
