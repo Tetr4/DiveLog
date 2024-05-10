@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -50,12 +48,6 @@ private fun BackupSheet(
     onRestoreBackup: (Uri) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
-    LaunchedEffect(uiState) {
-        if (uiState is BackupState.BackupRestored && uiState.restartRequired) {
-            context.restartApp()
-        }
-    }
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
@@ -86,7 +78,7 @@ private class StateProvider : PreviewParameterProvider<BackupState> {
         BackupState.InProgress,
         BackupState.Error(ErrorMessage("Error message")),
         BackupState.BackupCreated,
-        BackupState.BackupRestored(restartRequired = false),
+        BackupState.BackupRestored,
     )
 }
 

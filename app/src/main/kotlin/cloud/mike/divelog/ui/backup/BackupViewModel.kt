@@ -3,7 +3,6 @@ package cloud.mike.divelog.ui.backup
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cloud.mike.divelog.data.backup.BackupResult
 import cloud.mike.divelog.data.backup.BackupService
 import cloud.mike.divelog.data.logging.logError
 import cloud.mike.divelog.localization.errors.ErrorMessage
@@ -17,7 +16,7 @@ sealed interface BackupState {
     data object InProgress : BackupState
     data class Error(val message: ErrorMessage) : BackupState
     data object BackupCreated : BackupState
-    data class BackupRestored(val restartRequired: Boolean) : BackupState
+    data object BackupRestored : BackupState
 }
 
 class BackupViewModel(
@@ -44,11 +43,8 @@ class BackupViewModel(
         viewModelScope.launch {
             try {
                 uiState.update { BackupState.InProgress }
-                val result = backupService.restoreBackup(uri)
-                val restartRequired = when (result) {
-                    BackupResult.RESTART_REQUIRED -> true
-                }
-                uiState.update { BackupState.BackupRestored(restartRequired = restartRequired) }
+                backupService.restoreBackup(uri)
+                uiState.update { BackupState.BackupRestored }
             } catch (e: Exception) {
                 logError(e)
                 uiState.update { BackupState.Error(errorService.createMessage(e)) }

@@ -1,11 +1,12 @@
 package cloud.mike.divelog.data.backup
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
-import androidx.annotation.CheckResult
 import cloud.mike.divelog.persistence.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.system.exitProcess
 
 class BackupService(
     private val context: Context,
@@ -22,8 +23,7 @@ class BackupService(
         }
     }
 
-    @CheckResult
-    suspend fun restoreBackup(uri: Uri): BackupResult {
+    suspend fun restoreBackup(uri: Uri) {
         withContext(Dispatchers.IO) {
             val databaseFile = context.getDatabasePath(AppDatabase.FILE_NAME)
             context.contentResolver.openInputStream(uri)?.use { externalFileStream ->
@@ -34,8 +34,13 @@ class BackupService(
         }
         // Running migrations would require rebuilding the database. Also open data streams need to be reopened.
         // To resolve this we could add a complex abstraction layer, or we can just restart the app.
-        return BackupResult.RESTART_REQUIRED
+        context.restartApp()
     }
 }
 
-enum class BackupResult { RESTART_REQUIRED }
+private fun Context.restartApp() {
+    val intent = packageManager.getLaunchIntentForPackage(packageName) ?: error("App has no launcher intent")
+    val mainIntent = Intent.makeRestartActivityTask(intent.component)
+    startActivity(mainIntent)
+    exitProcess(0)
+}
