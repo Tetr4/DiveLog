@@ -27,7 +27,7 @@ interface DivesDao {
                 locations.name LIKE '%' || :query || '%'
                 OR notes LIKE '%' || :query || '%'
                 OR STRFTIME('%d.%m.%Y', startDate) LIKE '%' || :query || '%'
-            ORDER BY startDate DESC, startTime DESC
+            ORDER BY startDate DESC, startTime DESC, number DESC
         """,
     )
     fun getDivesPages(query: String): PagingSource<Int, DiveWithLocationAndProfile>
