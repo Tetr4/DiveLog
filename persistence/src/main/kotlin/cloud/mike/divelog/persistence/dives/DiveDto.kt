@@ -29,5 +29,6 @@ data class DiveDto(
     val duration: Duration,
     val maxDepthMeters: Float?,
     val minTemperatureCelsius: Float?,
+    val buddy: String?,
     val notes: String?,
 )

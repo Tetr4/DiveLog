@@ -18,20 +18,23 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
 @Stable
+@Suppress("LongParameterList") // Form has lots of fields
 class FormState(
     startDate: MutableState<LocalDate?>,
     startTime: MutableState<LocalTime?>,
     duration: MutableState<Duration?>,
     location: MutableState<String>,
     maxDepthMeters: MutableState<String>,
+    buddy: MutableState<String>,
     notes: MutableState<String>,
 ) {
     var startDate by startDate
     var startTime by startTime
     var duration by duration
     var location by location
-    var notes by notes
     var maxDepthMeters by maxDepthMeters
+    var buddy by buddy
+    var notes by notes
 
     val isValid
         get() = startDate != null && duration != null
@@ -59,6 +62,9 @@ fun rememberFormState(
         },
         maxDepthMeters = rememberSaveable(maxDepthMetersFormatted) {
             mutableStateOf(maxDepthMetersFormatted)
+        },
+        buddy = rememberSaveable(dive?.buddy) {
+            mutableStateOf(dive?.buddy.orEmpty())
         },
         notes = rememberSaveable(dive?.notes) {
             mutableStateOf(dive?.notes.orEmpty())

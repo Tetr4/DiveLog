@@ -27,6 +27,7 @@ data class FormData(
     val startTime: LocalTime?,
     val duration: Duration,
     val location: String?, // TODO allow selecting GPS coordinates
+    val buddy: String?,
     val notes: String?,
     val maxDepthMeters: Float?,
 )
@@ -133,6 +134,7 @@ class EditViewModel(
             maxDepthMeters = data.maxDepthMeters,
             minTemperatureCelsius = null,
             profile = null,
+            buddy = data.buddy,
             notes = data.notes,
         )
         diveRepo.addDive(new)
@@ -154,6 +156,7 @@ class EditViewModel(
                 )
             },
             maxDepthMeters = data.maxDepthMeters,
+            buddy = data.buddy,
             notes = data.notes,
         )
         diveRepo.updateDive(new)

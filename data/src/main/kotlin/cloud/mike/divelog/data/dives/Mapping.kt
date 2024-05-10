@@ -16,6 +16,7 @@ internal fun DiveWithLocationAndProfile.toEntity() = Dive(
     minTemperatureCelsius = dive.minTemperatureCelsius,
     location = location?.toEntity(),
     profile = profile?.toEntity(),
+    buddy = dive.buddy,
     notes = dive.notes,
 )
 
@@ -41,6 +42,7 @@ internal fun Dive.toDto() = DiveWithLocationAndProfile(
         duration = duration,
         maxDepthMeters = maxDepthMeters,
         minTemperatureCelsius = minTemperatureCelsius,
+        buddy = buddy,
         notes = notes,
     ),
     location = location?.toDto(),

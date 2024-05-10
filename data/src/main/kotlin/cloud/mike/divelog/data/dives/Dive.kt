@@ -15,11 +15,8 @@ data class Dive(
     val minTemperatureCelsius: Float?,
     val location: DiveLocation?,
     val profile: DiveProfile?,
-    val notes: String?, // TODO DiveNotes class for observations/gear?
-    // TODO more fields:
-    //  - tags
-    //  - buddy signature?
-    //  - mark as favorite?
+    val buddy: String?,
+    val notes: String?,
 ) {
     companion object {
         val sample = Dive(
@@ -32,6 +29,7 @@ data class Dive(
             minTemperatureCelsius = 20f,
             location = DiveLocation.sample,
             profile = DiveProfile.sample,
+            buddy = "John Doe",
             notes = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt" +
                 " ut labore et dolore magna aliquyam erat, sed diam voluptua.",
         )

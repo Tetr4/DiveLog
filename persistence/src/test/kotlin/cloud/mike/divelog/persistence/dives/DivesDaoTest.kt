@@ -49,6 +49,7 @@ class DivesDaoTest {
                 duration = 30.minutes,
                 maxDepthMeters = null,
                 minTemperatureCelsius = null,
+                buddy = null,
                 notes = null,
             ),
             location = DiveLocationDto(

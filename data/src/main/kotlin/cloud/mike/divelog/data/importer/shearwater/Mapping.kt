@@ -20,5 +20,6 @@ internal fun DiveData.toDive(number: Int) = Dive(
         samplingRate = samplingRate,
         depthCentimeters = samples.map { (it.depthMeters * 100).roundToInt() }.toIntArray(),
     ),
+    buddy = null,
     notes = null,
 )

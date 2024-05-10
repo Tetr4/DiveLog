@@ -19,5 +19,6 @@ internal fun Profile.toDive(number: Int) = Dive(
         samplingRate = profileHeader.samplingRate,
         depthCentimeters = samples.map { it.depthCentimeters }.toIntArray(),
     ),
+    buddy = null,
     notes = null,
 )

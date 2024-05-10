@@ -25,6 +25,7 @@ import cloud.mike.divelog.localization.toNumberOrNull
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.states.ErrorState
 import cloud.mike.divelog.ui.common.states.LoadingState
+import cloud.mike.divelog.ui.edit.items.BuddyItem
 import cloud.mike.divelog.ui.edit.items.DiveDurationItem
 import cloud.mike.divelog.ui.edit.items.DiveStartDateItem
 import cloud.mike.divelog.ui.edit.items.DiveStartTimeItem
@@ -57,6 +58,7 @@ fun EditScreen(
             location = formState.location.trim().takeIf { it.isNotBlank() },
             maxDepthMeters = formState.maxDepthMeters.trim().takeIf { it.isNotBlank() }
                 ?.toNumberOrNull(locale)?.toFloat(), // validation is done in text field
+            buddy = formState.buddy.trim().takeIf { it.isNotBlank() },
             notes = formState.notes.trim().takeIf { it.isNotBlank() },
         )
         onSave(data)
@@ -128,6 +130,8 @@ fun ContentState(
         LocationItem(formState)
         HorizontalDivider(Modifier.padding(vertical = 4.dp))
         MaxDepthItem(formState)
+        HorizontalDivider(Modifier.padding(vertical = 4.dp))
+        BuddyItem(formState)
         HorizontalDivider(Modifier.padding(vertical = 4.dp))
         NotesItem(formState)
     }

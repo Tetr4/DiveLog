@@ -55,6 +55,7 @@
     <string name="dive_detail_error_empty">Tauchgang nicht gefunden.</string>
     <string name="dive_detail_label_location">Ort</string>
     <string name="dive_detail_label_max_depth">Maximale Tiefe</string>
+    <string name="dive_detail_label_buddy">Buddy</string>
     <string name="dive_detail_label_notes">Notizen</string>
     <string name="dive_detail_title">Tauchgang %1$s</string>
 
@@ -62,6 +63,7 @@
     <string name="edit_dive_button_add_date">Startdatum hinzufügen</string>
     <string name="edit_dive_button_add_time">Startzeit hinzufügen</string>
     <string name="edit_dive_button_add_duration">Dauer hinzufügen</string>
+    <string name="edit_dive_placeholder_add_buddy">Buddy hinzufügen</string>
     <string name="edit_dive_placeholder_add_notes">Notizen hinzufügen</string>
     <string name="edit_dive_placeholder_add_location">Ort hinzufügen</string>
     <string name="edit_dive_placeholder_add_max_depth">Maximale Tiefe hinzufügen</string>

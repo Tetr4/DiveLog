@@ -1,5 +1,6 @@
 package cloud.mike.divelog.persistence
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -19,7 +20,10 @@ import cloud.mike.divelog.persistence.dives.DivesDao
         DiveLocationDto::class,
         DiveProfileDto::class,
     ],
-    version = 1,
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2), // Add buddy field
+    ],
 )
 @TypeConverters(
     LocalDateConverter::class,

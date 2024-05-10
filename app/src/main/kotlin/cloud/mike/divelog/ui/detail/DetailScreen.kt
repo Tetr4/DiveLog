@@ -26,6 +26,7 @@ import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.states.ErrorState
 import cloud.mike.divelog.ui.common.states.LoadingState
+import cloud.mike.divelog.ui.detail.items.BuddyItem
 import cloud.mike.divelog.ui.detail.items.InfoItem
 import cloud.mike.divelog.ui.detail.items.LocationItem
 import cloud.mike.divelog.ui.detail.items.MaxDepthItem
@@ -122,6 +123,9 @@ private fun ContentState(
             dive.maxDepthMeters?.let {
                 MaxDepthItem(it)
             }
+        }
+        dive.buddy?.let {
+            BuddyItem(it)
         }
         dive.notes?.let {
             NotesItem(it)

@@ -26,6 +26,7 @@ interface DivesDao {
             WHERE
                 locations.name LIKE '%' || :query || '%'
                 OR notes LIKE '%' || :query || '%'
+                OR buddy LIKE '%' || :query || '%'
                 OR STRFTIME('%d.%m.%Y', startDate) LIKE '%' || :query || '%'
             ORDER BY startDate DESC, startTime DESC, number DESC
         """,
