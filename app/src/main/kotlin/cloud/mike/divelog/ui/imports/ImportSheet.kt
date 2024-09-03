@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cloud.mike.divelog.data.importer.ImportConnectionState
 import cloud.mike.divelog.data.importer.ImportConnectionState.BluetoothNotAvailable
@@ -27,7 +28,6 @@ import cloud.mike.divelog.data.importer.ImportConnectionState.NotConnected
 import cloud.mike.divelog.data.importer.ImportConnectionState.NotPaired
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
-import cloud.mike.divelog.ui.common.LifecycleEffect
 import cloud.mike.divelog.ui.imports.states.BluetoothDisabledView
 import cloud.mike.divelog.ui.imports.states.BluetoothNotAvailableView
 import cloud.mike.divelog.ui.imports.states.ConnectingView
@@ -72,8 +72,8 @@ private fun ImportSheet(
 
     // Autoconnect when app is in foreground
     if (!transferFinished) {
-        LifecycleEffect(Lifecycle.Event.ON_RESUME, onConnect)
-        LifecycleEffect(Lifecycle.Event.ON_PAUSE, onDisconnect)
+        LifecycleEventEffect(Lifecycle.Event.ON_RESUME, onEvent = onConnect)
+        LifecycleEventEffect(Lifecycle.Event.ON_PAUSE, onEvent = onDisconnect)
     }
 
     // Disconnect after transmission

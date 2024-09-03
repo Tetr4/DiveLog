@@ -7,7 +7,6 @@ import androidx.paging.testing.asSnapshot
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.data.dives.DiveRepository
 import cloud.mike.divelog.ui.MainDispatcherRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertArrayEquals
@@ -18,7 +17,6 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import java.time.LocalDate
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
 
     @get:Rule

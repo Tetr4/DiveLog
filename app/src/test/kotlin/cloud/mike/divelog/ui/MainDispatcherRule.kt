@@ -30,7 +30,7 @@ import org.junit.runner.Description
  * @see [TestScope.advanceTimeBy]
  * @see [TestScope.advanceUntilIdle]
  */
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainDispatcherRule(
     private val testDispatcher: TestDispatcher = StandardTestDispatcher(),
 ) : TestWatcher() {

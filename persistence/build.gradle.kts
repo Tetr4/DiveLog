@@ -13,6 +13,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         ksp {
+            // See https://developer.android.com/jetpack/androidx/releases/room#compiler-options
             arg("room.schemaLocation", "$projectDir/schemas")
             arg("room.generateKotlin", "true")
         }
@@ -43,8 +44,8 @@ dependencies {
     implementation("androidx.room:room-paging:$roomVersion")
 
     // Testing
-    testImplementation("androidx.test:core-ktx:1.5.0")
-    testImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    testImplementation("androidx.test:core-ktx:1.6.1")
+    testImplementation("androidx.test.ext:junit-ktx:1.2.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     testImplementation("org.robolectric:robolectric:4.10.3")
 }

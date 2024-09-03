@@ -13,6 +13,9 @@
 !.idea/icon.svg
 !.idea/.name
 
+# Kotlin
+.kotlin
+
 # Keystore
 *.jks
 

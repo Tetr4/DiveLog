@@ -27,7 +27,7 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.5.6")
 
     // Paging
-    api("androidx.paging:paging-runtime-ktx:3.2.1")
+    api("androidx.paging:paging-runtime-ktx:3.3.2")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

@@ -1,10 +1,10 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 val versionCodeProp = property("version.code").toString().toInt()
@@ -30,7 +30,6 @@ android {
         targetSdk = 34
         versionCode = versionCodeProp
         versionName = "$versionNameProp+$buildTag"
-        archivesName.set("divelog-$versionName")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
@@ -54,11 +53,6 @@ android {
         compose = true
     }
 
-    composeOptions {
-        // Compose (https://developer.android.com/jetpack/androidx/releases/compose-kotlin)
-        kotlinCompilerExtensionVersion = "1.5.13"
-    }
-
     kotlin {
         // Required by AGP and Compose
         jvmToolchain(17)
@@ -67,6 +61,12 @@ android {
     packaging {
         // Prevent collision if multiple Jar libs have the same license files
         resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" }
+    }
+
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        // Prevent logging (e.g. Log.i) from breaking tests)
+        unitTests.isReturnDefaultValues = true
     }
 }
 
@@ -79,19 +79,19 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-compose:3.5.6")
 
     // ViewModel Scoping (https://github.com/sebaslogen/resaca)
-    implementation("io.github.sebaslogen:resaca:3.2.1")
+    implementation("io.github.sebaslogen:resaca:4.1.3")
 
     // AndroidX (https://developer.android.com/jetpack/androidx/versions)
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
-    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
+    implementation("androidx.activity:activity-compose:1.9.1")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.paging:paging-compose:3.2.1")
+    implementation("androidx.paging:paging-compose:3.3.2")
 
     // Compose (https://developer.android.com/jetpack/compose/bom/bom-mapping)
-    implementation(platform("androidx.compose:compose-bom:2024.05.00"))
+    implementation(platform("androidx.compose:compose-bom:2024.08.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
@@ -106,6 +106,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     testImplementation("org.mockito:mockito-inline:5.2.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
-    testImplementation("androidx.paging:paging-testing:3.2.1")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("androidx.paging:paging-testing:3.3.2")
 }
