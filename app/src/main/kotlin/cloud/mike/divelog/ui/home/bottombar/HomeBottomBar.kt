@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import cloud.mike.divelog.App
 import cloud.mike.divelog.R
 import cloud.mike.divelog.ui.DiveTheme
 
@@ -45,11 +46,13 @@ fun HomeBottomBar(
                 description = stringResource(R.string.home_button_backup),
                 onClick = onShowBackup,
             )
-            TooltipButton(
-                description = stringResource(R.string.home_button_dive_spots),
-                icon = Icons.Filled.Map,
-                onClick = onShowDiveSpots,
-            )
+            if (App.SHOW_DIVE_SPOTS) {
+                TooltipButton(
+                    description = stringResource(R.string.home_button_dive_spots),
+                    icon = Icons.Filled.Map,
+                    onClick = onShowDiveSpots,
+                )
+            }
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onShowAdd) {

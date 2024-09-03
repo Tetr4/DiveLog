@@ -16,5 +16,6 @@ class App : Application() {
     companion object {
         // Feature flags
         const val SHOW_FILTERS = false
+        const val SHOW_DIVE_SPOTS = false
     }
 }
