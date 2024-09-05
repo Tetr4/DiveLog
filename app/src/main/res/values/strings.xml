@@ -5,6 +5,7 @@
     <string name="common_button_cancel">Cancel</string>
     <string name="common_button_clear">Clear</string>
     <string name="common_button_edit">Edit</string>
+    <string name="common_button_delete">Delete</string>
     <string name="common_button_navigate_up">Go back</string>
     <string name="common_button_ok">OK</string>
     <string name="common_button_retry">Try again</string>
@@ -52,6 +53,7 @@
 
     <!-- Detail -->
     <string name="dive_detail_button_delete_dive">Delete dive</string>
+    <string name="dive_detail_dialog_deletion_title">Delete dive?</string>
     <string name="dive_detail_error_empty">Dive not found.</string>
     <string name="dive_detail_label_location">Location</string>
     <string name="dive_detail_label_max_depth">Max depth</string>

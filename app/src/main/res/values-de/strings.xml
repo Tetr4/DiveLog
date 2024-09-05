@@ -5,6 +5,7 @@
     <string name="common_button_cancel">Abbrechen</string>
     <string name="common_button_clear">Löschen</string>
     <string name="common_button_edit">Bearbeiten</string>
+    <string name="common_button_delete">Löschen</string>
     <string name="common_button_navigate_up">Zurück</string>
     <string name="common_button_ok">OK</string>
     <string name="common_button_retry">Erneut versuchen</string>
@@ -52,6 +53,7 @@
 
     <!-- Detail -->
     <string name="dive_detail_button_delete_dive">Tauchgang löschen</string>
+    <string name="dive_detail_dialog_deletion_title">Tauchgang löschen?</string>
     <string name="dive_detail_error_empty">Tauchgang nicht gefunden.</string>
     <string name="dive_detail_label_location">Ort</string>
     <string name="dive_detail_label_max_depth">Maximale Tiefe</string>

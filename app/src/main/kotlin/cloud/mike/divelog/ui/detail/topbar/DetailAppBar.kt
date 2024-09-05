@@ -16,6 +16,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,6 +44,8 @@ fun DetailAppBar(
     onDismissDeleteError: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var showDeletionDialog by remember { mutableStateOf(false) }
+
     LaunchedEffect(deleteState) {
         when (deleteState) {
             is DeleteState.Success -> onNavigateUp() // leave screen after dive was deleted
@@ -67,11 +73,21 @@ fun DetailAppBar(
                 EditButton(onClick = { onShowEdit(dive) })
                 DeleteButton(
                     loading = deleteState is DeleteState.Loading,
-                    onClick = onDeleteDive,
+                    onClick = { showDeletionDialog = true },
                 )
             }
         },
     )
+
+    if (showDeletionDialog) {
+        DeletionDialog(
+            onDismiss = { showDeletionDialog = false },
+            onConfirm = {
+                showDeletionDialog = false
+                onDeleteDive()
+            },
+        )
+    }
 }
 
 @Composable
