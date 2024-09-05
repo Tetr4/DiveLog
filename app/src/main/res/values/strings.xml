@@ -30,6 +30,7 @@
     <string name="home_label_empty_title">No dives found</string>
     <string name="home_label_empty_description">Add a dive and it will show up here.</string>
     <string name="home_placeholder_search">Search dives</string>
+    <string name="home_dive_title_empty">Dive %1$s</string>
 
     <!-- Import -->
     <string name="import_button_download_dives">Download dives</string>

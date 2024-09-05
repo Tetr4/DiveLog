@@ -17,19 +17,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
+import cloud.mike.divelog.data.dives.DiveLocation
 import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.localization.formatDepthMeters
 import cloud.mike.divelog.localization.formatDiveNumber
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.chart.DepthChart
+import java.time.LocalTime
 import java.time.format.FormatStyle
+import kotlin.time.Duration
 
 @Composable
 fun DiveListItem(
@@ -44,15 +48,13 @@ fun DiveListItem(
         leadingContent = {
             LeadingImage {
                 when (val profile = dive.profile) {
-                    // TODO We could also show map marker or pictures here
                     null -> DiverIcon(modifier = Modifier.align(Alignment.Center))
                     else -> DepthChart(profile = profile)
                 }
             }
         },
-        // TODO clean up
-        headlineContent = { Text(dive.location?.name ?: dive.startTime?.format(FormatStyle.SHORT) ?: "") },
-        supportingContent = { Text(dive.formatInfoLine()) },
+        headlineContent = { Headline(location = dive.location, time = dive.startTime, number = dive.number) },
+        supportingContent = { Infoline(duration = dive.duration, maxDepthMeters = dive.maxDepthMeters) },
         trailingContent = { DiveNumber(dive.number) },
     )
 }
@@ -76,6 +78,23 @@ private fun DiverIcon(modifier: Modifier = Modifier) {
         contentDescription = null,
         tint = MaterialTheme.colorScheme.onBackground,
     )
+}
+
+@Composable
+private fun Headline(location: DiveLocation?, time: LocalTime?, number: Int) {
+    val formatted = location?.name
+        ?: time?.format(FormatStyle.SHORT)
+        ?: stringResource(R.string.home_dive_title_empty, number.formatDiveNumber())
+    Text(formatted)
+}
+
+@Composable
+private fun Infoline(duration: Duration?, maxDepthMeters: Float?) {
+    val formatted = listOfNotNull(
+        duration?.format(),
+        maxDepthMeters?.formatDepthMeters(),
+    ).joinToString(" | ")
+    Text(formatted)
 }
 
 @Composable
@@ -114,10 +133,3 @@ private fun Preview() {
         )
     }
 }
-
-@Composable
-@ReadOnlyComposable
-private fun Dive.formatInfoLine(): String = listOfNotNull(
-    duration.format(),
-    maxDepthMeters?.formatDepthMeters(),
-).joinToString(" | ")

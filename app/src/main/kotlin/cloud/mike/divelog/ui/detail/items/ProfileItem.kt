@@ -33,7 +33,6 @@ fun ProfileItem(
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
-        // TODO points of interest?
         Box {
             DepthChart(
                 modifier = Modifier.height(128.dp),

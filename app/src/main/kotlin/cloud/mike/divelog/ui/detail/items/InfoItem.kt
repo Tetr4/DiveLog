@@ -33,13 +33,20 @@ fun InfoItem(
                 containerColor = Color.Transparent,
             ),
             leadingContent = { Icon(Icons.Default.Event, contentDescription = null) },
-            headlineContent = {
-                // TODO clean up
-                Text(text = if (startTime != null) startDate.atTime(startTime).format() else startDate.format())
-            },
-            supportingContent = { Text(duration.format()) },
+            headlineContent = { Headline(date = startDate, time = startTime) },
+            supportingContent = { Infoline(duration = duration) },
         )
     }
+}
+
+@Composable
+private fun Headline(date: LocalDate, time: LocalTime?) {
+    Text(if (time != null) date.atTime(time).format() else date.format())
+}
+
+@Composable
+private fun Infoline(duration: Duration) {
+    Text(duration.format())
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)

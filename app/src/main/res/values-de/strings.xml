@@ -30,6 +30,7 @@
     <string name="home_label_empty_title">Keine Tauchgänge gefunden</string>
     <string name="home_label_empty_description">Füge einen Tauchgang hinzu und er wird hier angezeigt.</string>
     <string name="home_placeholder_search">Tauchgänge durchsuchen</string>
+    <string name="home_dive_title_empty">Tauchgang %1$s</string>
 
     <!-- Import -->
     <string name="import_button_download_dives">Tauchgänge herunterladen</string>
