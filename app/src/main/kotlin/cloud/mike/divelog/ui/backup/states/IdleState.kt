@@ -10,8 +10,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.Restore
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemColors
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,11 +28,15 @@ import java.time.LocalDate
 
 private const val DB_MIME_TYPE = "application/octet-stream"
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BackupIdleView(
     onStartBackup: (Uri) -> Unit,
     onRestoreBackup: (Uri) -> Unit,
     modifier: Modifier = Modifier,
+    itemColors: ListItemColors = ListItemDefaults.colors(
+        containerColor = BottomSheetDefaults.ContainerColor,
+    ),
 ) {
     val createDocumentLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(DB_MIME_TYPE),
@@ -58,11 +66,13 @@ fun BackupIdleView(
             modifier = Modifier.clickable(onClick = ::showCreateDocument),
             leadingContent = { Icon(Icons.Default.Backup, contentDescription = null) },
             headlineContent = { Text(stringResource(R.string.backup_button_create_backup)) },
+            colors = itemColors,
         )
         ListItem(
             modifier = Modifier.clickable(onClick = ::showOpenDocument),
             leadingContent = { Icon(Icons.Default.Restore, contentDescription = null) },
             headlineContent = { Text(stringResource(R.string.backup_button_restore_backup)) },
+            colors = itemColors,
         )
     }
 }
