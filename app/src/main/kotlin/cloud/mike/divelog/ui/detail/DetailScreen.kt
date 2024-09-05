@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.common.contentWindowInsetsWithCutout
 import cloud.mike.divelog.ui.common.states.ErrorState
 import cloud.mike.divelog.ui.common.states.LoadingState
 import cloud.mike.divelog.ui.detail.items.BuddyItem
@@ -52,6 +54,7 @@ fun DetailScreen(
     }
 
     Scaffold(
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsetsWithCutout,
         topBar = {
             DetailAppBar(
                 dive = uiState.diveState.dive,

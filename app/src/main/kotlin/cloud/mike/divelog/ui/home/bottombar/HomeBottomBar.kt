@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import cloud.mike.divelog.App
 import cloud.mike.divelog.R
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.common.windowInsetsWithCutout
 
 @Composable
 fun HomeBottomBar(
@@ -35,6 +37,7 @@ fun HomeBottomBar(
 ) {
     BottomAppBar(
         modifier = modifier,
+        windowInsets = BottomAppBarDefaults.windowInsetsWithCutout,
         actions = {
             TooltipButton(
                 icon = Icons.Filled.Bluetooth,

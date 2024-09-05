@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarHost
@@ -37,6 +38,7 @@ import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.backup.BackupSheet
+import cloud.mike.divelog.ui.common.contentWindowInsetsWithCutout
 import cloud.mike.divelog.ui.home.bottombar.HomeBottomBar
 import cloud.mike.divelog.ui.home.filters.TagFilters
 import cloud.mike.divelog.ui.home.list.DiveList
@@ -68,6 +70,7 @@ fun HomeScreen(
     suspend fun showError(message: ErrorMessage) = snackbarHostState.showSnackbar(message.content)
 
     Scaffold(
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsetsWithCutout,
         bottomBar = {
             HomeBottomBar(
                 onShowImport = ::showImport,

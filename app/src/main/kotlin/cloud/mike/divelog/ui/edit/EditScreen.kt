@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.localization.primaryLocale
 import cloud.mike.divelog.localization.toNumberOrNull
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.common.contentWindowInsetsWithCutout
 import cloud.mike.divelog.ui.common.states.ErrorState
 import cloud.mike.divelog.ui.common.states.LoadingState
 import cloud.mike.divelog.ui.edit.items.BuddyItem
@@ -78,6 +80,7 @@ fun EditScreen(
 
     Scaffold(
         // TODO show confirmation dialog if unsaved data
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsetsWithCutout,
         topBar = {
             EditDiveAppBar(
                 diveState = uiState.diveState,

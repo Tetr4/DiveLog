@@ -14,6 +14,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.common.windowInsetsWithCutout
 import cloud.mike.divelog.ui.edit.DiveState
 import cloud.mike.divelog.ui.spacing
 
@@ -37,6 +39,7 @@ fun EditDiveAppBar(
 ) {
     TopAppBar(
         modifier = modifier,
+        windowInsets = TopAppBarDefaults.windowInsetsWithCutout,
         navigationIcon = { CloseButton(onClick = onClose) },
         title = { Title(diveState) },
         actions = {

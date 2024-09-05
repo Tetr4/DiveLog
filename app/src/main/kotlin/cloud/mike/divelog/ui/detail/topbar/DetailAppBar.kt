@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -24,6 +25,7 @@ import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.localization.formatDiveNumber
 import cloud.mike.divelog.ui.DiveTheme
+import cloud.mike.divelog.ui.common.windowInsetsWithCutout
 import cloud.mike.divelog.ui.detail.DeleteState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,6 +53,7 @@ fun DetailAppBar(
 
     TopAppBar(
         modifier = modifier,
+        windowInsets = TopAppBarDefaults.windowInsetsWithCutout,
         navigationIcon = {
             NavButton(onClick = onNavigateUp)
         },
