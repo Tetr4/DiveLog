@@ -55,7 +55,7 @@ android {
 
     kotlin {
         // Required by AGP and Compose
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
 
     packaging {
@@ -75,23 +75,23 @@ dependencies {
     implementation(project(":data"))
 
     // Dependency Injection (https://insert-koin.io/)
-    implementation("io.insert-koin:koin-android:3.5.6")
-    implementation("io.insert-koin:koin-androidx-compose:3.5.6")
+    implementation("io.insert-koin:koin-android:4.0.0")
+    implementation("io.insert-koin:koin-androidx-compose:4.0.0")
 
     // ViewModel Scoping (https://github.com/sebaslogen/resaca)
-    implementation("io.github.sebaslogen:resaca:4.1.3")
+    implementation("io.github.sebaslogen:resaca:4.3.4")
 
     // AndroidX (https://developer.android.com/jetpack/androidx/versions)
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.5")
-    implementation("androidx.activity:activity-compose:1.9.2")
-    implementation("androidx.navigation:navigation-compose:2.8.0")
+    implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.navigation:navigation-compose:2.8.3")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.paging:paging-compose:3.3.2")
 
     // Compose (https://developer.android.com/jetpack/compose/bom/bom-mapping)
-    implementation(platform("androidx.compose:compose-bom:2024.09.00"))
+    implementation(platform("androidx.compose:compose-bom:2024.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")

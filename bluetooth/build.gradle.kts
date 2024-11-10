@@ -14,18 +14,18 @@ android {
     }
 
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
 }
 
 dependencies {
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:3.5.6")
+    implementation("io.insert-koin:koin-android:4.0.0")
 
-    // Coroutines + Rx
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.8.1")
+    // Coroutines (https://github.com/Kotlin/kotlinx.coroutines)
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.9.0")
 
     // RxAndroidBle (https://github.com/dariuszseweryn/RxAndroidBle)
-    implementation("com.polidea.rxandroidble3:rxandroidble:1.18.1")
+    implementation("com.polidea.rxandroidble3:rxandroidble:1.19.0")
 }

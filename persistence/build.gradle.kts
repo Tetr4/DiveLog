@@ -20,7 +20,7 @@ android {
     }
 
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
 
     @Suppress("UnstableApiUsage")
@@ -34,7 +34,7 @@ android {
 
 dependencies {
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:3.5.6")
+    implementation("io.insert-koin:koin-android:4.0.0")
 
     // Room (https://developer.android.com/jetpack/androidx/releases/room)
     val roomVersion = "2.6.1"

@@ -14,7 +14,7 @@ android {
     }
 
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
 }
 
@@ -24,7 +24,7 @@ dependencies {
     implementation(project(":bluetooth"))
 
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:3.5.6")
+    implementation("io.insert-koin:koin-android:4.0.0")
 
     // Paging
     api("androidx.paging:paging-runtime-ktx:3.3.2")
