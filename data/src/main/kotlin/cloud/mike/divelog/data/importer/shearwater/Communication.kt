@@ -65,6 +65,7 @@ private suspend fun Connection.startDownload(address: Long, sizeBytes: Int) {
     // 2: PP # Command size
     val response = sendCommand(request)
     response.run {
+        // TODO This returns 7F 35 31 after download dive. What does it mean?
         require(size == 3)
         require(uInt8(0) == 0x75)
         require(uInt8(1) == 0x10)

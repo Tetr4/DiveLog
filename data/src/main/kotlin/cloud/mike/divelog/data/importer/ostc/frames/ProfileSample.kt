@@ -69,5 +69,4 @@ private fun ByteArray.sampleSize(sampleStartIndex: Int): Int {
 // - Tank Pressure High
 private fun ByteArray.parseProfileSample() = ProfileSample(
     depthCentimeters = uInt16L(0),
-    // TODO Parse more data
 )

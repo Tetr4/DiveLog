@@ -42,7 +42,7 @@ internal class ShearwaterConnection(
 
 private suspend fun Connection.fetchManifestRecords(): List<ManifestRecord> = buildList {
     do {
-        // TODO Check if this actually gives a different result every time. Seems fishy.
+        // TODO This is broken. Fetch a different page every time.
         val page = fetchManifestPage()
         addAll(page)
     } while (page.size == RECORDS_PER_MANIFEST) // last page is only partially filled or empty

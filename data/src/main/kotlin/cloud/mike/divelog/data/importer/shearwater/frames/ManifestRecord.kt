@@ -35,6 +35,8 @@ internal fun ByteArray.parseManifestRecords(): List<ManifestRecord> = this.toLis
 // ...
 // 31: ??          # Unknown data
 private fun ByteArray.parseManifestRecord(): ManifestRecord = when (uInt16B(0)) {
+    // TODO Parsing fails for the following record:
+    //  A5 C4 0B 66 64 DC B7 E8 64 DC C5 4D 00 00 0D 6A 00 BC 00 CC 00 29 E8 A0 00 2A 22 40 00 02 06 02
     TYPE_DELETED -> ManifestRecord.Deleted
     TYPE_DIVE -> ManifestRecord.Dive(
         timestamp = uInt32B(4).seconds.toUtcLocalDate(),
