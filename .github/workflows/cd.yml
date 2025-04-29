@@ -13,11 +13,11 @@ jobs:
       SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
       KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Decode keystore
         run: echo $KEYSTORE_BASE64 | base64 --decode > keystore.jks
       - name: Build AAB
         run: ./gradlew bundleRelease
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         with:
           files: app/build/outputs/bundle/release/*.aab

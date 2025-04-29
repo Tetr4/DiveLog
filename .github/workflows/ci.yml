@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     container: alvrme/alpine-android:android-35-jdk21
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run Detekt
         run: ./gradlew detekt
 
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     container: alvrme/alpine-android:android-35-jdk21
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
 
@@ -29,12 +29,12 @@ jobs:
       SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
       KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Decode keystore
         run: echo $KEYSTORE_BASE64 | base64 --decode > keystore.jks
       - name: Build AAB
         run: ./gradlew bundleRelease
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: App Bundle
           path: app/build/outputs/bundle/release/*.aab
