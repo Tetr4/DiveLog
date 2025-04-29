@@ -7,8 +7,8 @@ import cloud.mike.divelog.ui.detail.DetailViewModel
 import cloud.mike.divelog.ui.edit.EditViewModel
 import cloud.mike.divelog.ui.home.HomeViewModel
 import cloud.mike.divelog.ui.imports.ImportViewModel
-import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = dataModule + module {

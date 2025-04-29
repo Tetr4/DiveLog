@@ -20,10 +20,10 @@ android {
 
 dependencies {
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:4.0.0")
+    implementation("io.insert-koin:koin-android:4.0.3")
 
     // Coroutines (https://github.com/Kotlin/kotlinx.coroutines)
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.9.0")
 
     // RxAndroidBle (https://github.com/dariuszseweryn/RxAndroidBle)

@@ -24,10 +24,10 @@ dependencies {
     implementation(project(":bluetooth"))
 
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:4.0.0")
+    implementation("io.insert-koin:koin-android:4.0.3")
 
     // Paging
-    api("androidx.paging:paging-runtime-ktx:3.3.2")
+    api("androidx.paging:paging-runtime-ktx:3.3.6")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
