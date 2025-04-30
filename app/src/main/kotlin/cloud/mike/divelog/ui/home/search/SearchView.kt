@@ -10,6 +10,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,28 +31,40 @@ fun SearchView(
     modifier: Modifier = Modifier,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
-    SearchBarDefaults.InputField(
+    SearchBar(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = MaterialTheme.spacing.screenPadding),
-        query = value,
-        onQueryChange = onValueChange,
-        onSearch = { keyboard?.hide() },
-        placeholder = { Text(placeholder) },
-        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
         expanded = false,
-        onExpandedChange = {},
-        trailingIcon = {
-            if (value.isNotBlank()) {
-                IconButton(onClick = { onValueChange("") }) {
-                    Icon(
-                        imageVector = Icons.Default.Clear,
-                        contentDescription = stringResource(R.string.common_button_clear),
-                    )
-                }
-            }
+        onExpandedChange = { },
+        inputField = {
+            SearchBarDefaults.InputField(
+                query = value,
+                onQueryChange = onValueChange,
+                onSearch = { keyboard?.hide() },
+                expanded = false,
+                onExpandedChange = { },
+                placeholder = { Text(placeholder) },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                trailingIcon = if (value.isNotBlank()) {
+                    { ClearButton(onClick = { onValueChange("") }) }
+                } else {
+                    null
+                },
+            )
         },
+        content = {},
     )
+}
+
+@Composable
+private fun ClearButton(onClick: () -> Unit) {
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = Icons.Default.Clear,
+            contentDescription = stringResource(R.string.common_button_clear),
+        )
+    }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)

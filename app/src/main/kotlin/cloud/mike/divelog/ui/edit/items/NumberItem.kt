@@ -51,7 +51,9 @@ fun NumberItem(
             isError = isEmpty,
             trailingIcon = if (isEmpty) {
                 { ErrorIcon() }
-            } else null,
+            } else {
+                null
+            },
         )
     }
 }
