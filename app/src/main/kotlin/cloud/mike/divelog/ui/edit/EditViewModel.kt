@@ -22,7 +22,8 @@ import java.time.LocalTime
 import java.util.UUID
 import kotlin.time.Duration
 
-data class FormData(
+data class DiveData(
+    val number: Int,
     val startDate: LocalDate,
     val startTime: LocalTime?,
     val duration: Duration,
@@ -34,13 +35,10 @@ data class FormData(
 
 @Immutable
 sealed interface DiveState {
-    val dive: Dive?
-        get() = null
-
     data object Loading : DiveState
     data class Error(val message: ErrorMessage) : DiveState
-    data object Create : DiveState
-    data class Update(override val dive: Dive) : DiveState
+    data class Create(val nextDiveNumber: Int) : DiveState
+    data class Update(val dive: Dive) : DiveState
 }
 
 @Immutable
@@ -54,7 +52,7 @@ sealed interface SaveState {
 
 @Immutable
 data class EditState(
-    val diveState: DiveState = DiveState.Create,
+    val diveState: DiveState = DiveState.Loading,
     val saveState: SaveState = SaveState.Idle,
 )
 
@@ -64,7 +62,7 @@ class EditViewModel(
     private val errorService: ErrorService,
 ) : ViewModel() {
 
-    private val diveState = MutableStateFlow<DiveState>(DiveState.Create)
+    private val diveState = MutableStateFlow<DiveState>(DiveState.Loading)
     private val saveState = MutableStateFlow<SaveState>(SaveState.Idle)
 
     val uiState = combine(
@@ -74,20 +72,22 @@ class EditViewModel(
     ).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), EditState())
 
     init {
-        fetchDive()
+        fetchDiveData()
     }
 
-    fun fetchDive() {
-        // If diveId is given, we are editing an existing dive. Otherwise we are creating a new dive.
-        savedStateHandle.diveId?.let(::fetchDive)
-    }
-
-    private fun fetchDive(id: UUID) {
+    fun fetchDiveData() {
         viewModelScope.launch {
             try {
                 diveState.update { DiveState.Loading }
-                val dive = diveRepo.getDiveStream(id).first() ?: error("Dive not found")
-                diveState.update { DiveState.Update(dive) }
+                // If diveId is given, we are editing an existing dive. Otherwise we are creating a new dive.
+                val diveId = savedStateHandle.diveId
+                if (diveId != null) {
+                    val dive = diveRepo.getDiveStream(diveId).first() ?: error("Dive not found")
+                    diveState.update { DiveState.Update(dive) }
+                } else {
+                    val nextDiveNumber = diveRepo.getNextDiveNumber()
+                    diveState.update { DiveState.Create(nextDiveNumber) }
+                }
             } catch (e: Exception) {
                 logError(e)
                 diveState.update { DiveState.Error(errorService.createMessage(e)) }
@@ -95,7 +95,7 @@ class EditViewModel(
         }
     }
 
-    fun save(data: FormData) {
+    fun save(data: DiveData) {
         viewModelScope.launch {
             try {
                 saveState.update { SaveState.Saving }
@@ -117,13 +117,13 @@ class EditViewModel(
         }
     }
 
-    private suspend fun createDive(data: FormData): Dive {
+    private suspend fun createDive(data: DiveData): Dive {
         val new = Dive(
             id = UUID.randomUUID(),
             startDate = data.startDate,
             startTime = data.startTime,
             duration = data.duration,
-            number = diveRepo.getNextDiveNumber(),
+            number = data.number,
             location = data.location?.let {
                 DiveLocation(
                     id = UUID.randomUUID(),
@@ -141,8 +141,9 @@ class EditViewModel(
         return new
     }
 
-    private suspend fun updateDive(old: Dive, data: FormData) {
+    private suspend fun updateDive(old: Dive, data: DiveData) {
         val new = old.copy(
+            number = data.number,
             startDate = data.startDate,
             startTime = data.startTime,
             duration = data.duration,

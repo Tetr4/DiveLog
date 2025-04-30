@@ -31,7 +31,7 @@ import cloud.mike.divelog.ui.spacing
 @Composable
 fun EditDiveAppBar(
     diveState: DiveState,
-    formValid: Boolean,
+    saveEnabled: Boolean,
     saving: Boolean,
     onClose: () -> Unit,
     onSave: () -> Unit,
@@ -47,7 +47,7 @@ fun EditDiveAppBar(
                 is DiveState.Error, is DiveState.Loading -> Unit
                 is DiveState.Create, is DiveState.Update -> SaveButton(
                     modifier = Modifier.padding(end = MaterialTheme.spacing.screenPadding),
-                    enabled = formValid,
+                    enabled = saveEnabled,
                     loading = saving,
                     onClick = onSave,
                 )
@@ -102,7 +102,7 @@ private fun PreviewEmpty() {
     DiveTheme {
         EditDiveAppBar(
             diveState = DiveState.Loading,
-            formValid = false,
+            saveEnabled = false,
             saving = false,
             onClose = {},
             onSave = {},
@@ -117,7 +117,7 @@ private fun PreviewUpdate() {
     DiveTheme {
         EditDiveAppBar(
             diveState = DiveState.Update(Dive.sample),
-            formValid = true,
+            saveEnabled = true,
             saving = false,
             onClose = {},
             onSave = {},
@@ -131,8 +131,8 @@ private fun PreviewUpdate() {
 private fun PreviewCreate() {
     DiveTheme {
         EditDiveAppBar(
-            diveState = DiveState.Create,
-            formValid = false,
+            diveState = DiveState.Create(nextDiveNumber = 42),
+            saveEnabled = false,
             saving = true,
             onClose = {},
             onSave = {},

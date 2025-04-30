@@ -3,7 +3,7 @@ package cloud.mike.divelog.ui.edit.items
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Timelapse
+import androidx.compose.material.icons.filled.Event
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,36 +16,36 @@ import cloud.mike.divelog.R
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.format
 import cloud.mike.divelog.ui.DiveTheme
-import cloud.mike.divelog.ui.common.dialogs.DurationPickerDialog
+import cloud.mike.divelog.ui.common.dialogs.DatePickerDialog
 import cloud.mike.divelog.ui.common.form.FormIcon
 import cloud.mike.divelog.ui.common.form.FormTextButton
 import cloud.mike.divelog.ui.edit.FormState
 import cloud.mike.divelog.ui.edit.rememberFormState
 
 @Composable
-fun DiveDurationItem(
+fun StartDateItem(
     formState: FormState,
     modifier: Modifier = Modifier,
 ) {
-    var showDurationPicker by rememberSaveable { mutableStateOf(false) }
+    var showDatePicker by rememberSaveable { mutableStateOf(false) }
 
     Row(modifier = modifier) {
-        FormIcon(imageVector = Icons.Default.Timelapse)
+        FormIcon(imageVector = Icons.Default.Event)
         FormTextButton(
             modifier = Modifier.weight(1f),
-            onClick = { showDurationPicker = true },
-            value = formState.duration?.format().orEmpty(),
-            placeholder = stringResource(R.string.edit_dive_button_add_duration),
+            onClick = { showDatePicker = true },
+            value = formState.startDate?.format().orEmpty(),
+            placeholder = stringResource(R.string.edit_dive_button_add_date),
         )
     }
 
-    if (showDurationPicker) {
-        DurationPickerDialog(
-            initial = formState.duration,
-            onCancel = { showDurationPicker = false },
+    if (showDatePicker) {
+        DatePickerDialog(
+            initial = formState.startDate,
+            onCancel = { showDatePicker = false },
             onConfirm = {
-                formState.duration = it
-                showDurationPicker = false
+                formState.startDate = it
+                showDatePicker = false
             },
         )
     }
@@ -56,7 +56,7 @@ fun DiveDurationItem(
 @Composable
 private fun PreviewEmpty() {
     DiveTheme {
-        DiveDurationItem(formState = rememberFormState(dive = null))
+        StartDateItem(formState = rememberFormState(dive = null))
     }
 }
 
@@ -65,6 +65,6 @@ private fun PreviewEmpty() {
 @Composable
 private fun PreviewFilled() {
     DiveTheme {
-        DiveDurationItem(formState = rememberFormState(dive = Dive.sample))
+        StartDateItem(formState = rememberFormState(dive = Dive.sample))
     }
 }

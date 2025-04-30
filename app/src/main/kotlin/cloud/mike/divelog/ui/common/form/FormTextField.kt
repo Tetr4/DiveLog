@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -103,6 +106,21 @@ private fun PreviewPlaceholder() {
             value = "",
             onValueChange = {},
             placeholder = "Placeholder",
+        )
+    }
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable
+private fun PreviewError() {
+    DiveTheme {
+        FormTextField(
+            value = "123",
+            onValueChange = {},
+            placeholder = "Placeholder",
+            isError = true,
+            trailingIcon = { Icon(Icons.Default.Error, "Error") },
         )
     }
 }

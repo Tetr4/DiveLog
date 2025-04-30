@@ -1,3 +1,5 @@
+@file:Suppress("IllegalIdentifier") // False positive in tests
+
 package cloud.mike.divelog.ui.common
 
 import org.junit.Assert.assertEquals

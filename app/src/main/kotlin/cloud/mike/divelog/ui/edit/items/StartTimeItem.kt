@@ -29,7 +29,7 @@ import cloud.mike.divelog.ui.edit.rememberFormState
 import java.time.format.FormatStyle
 
 @Composable
-fun DiveStartTimeItem(
+fun StartTimeItem(
     formState: FormState,
     modifier: Modifier = Modifier,
 ) {
@@ -75,7 +75,7 @@ fun DiveStartTimeItem(
 @Composable
 private fun PreviewEmpty() {
     DiveTheme {
-        DiveStartTimeItem(formState = rememberFormState(dive = null))
+        StartTimeItem(formState = rememberFormState(dive = null))
     }
 }
 
@@ -84,6 +84,6 @@ private fun PreviewEmpty() {
 @Composable
 private fun PreviewFilled() {
     DiveTheme {
-        DiveStartTimeItem(formState = rememberFormState(dive = Dive.sample))
+        StartTimeItem(formState = rememberFormState(dive = Dive.sample))
     }
 }

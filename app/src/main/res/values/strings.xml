@@ -11,6 +11,7 @@
     <string name="common_button_retry">Try again</string>
     <string name="common_button_save">Save</string>
     <string name="common_error_connectivity">Connection error. Please check your internet connection.</string>
+    <string name="common_error_field_required">Field is required</string>
 
     <!-- Pickers -->
     <string name="duration_picker_label_hours">Hours</string>
@@ -63,6 +64,7 @@
     <string name="dive_detail_title">Dive %1$s</string>
 
     <!-- Edit -->
+    <string name="edit_dive_placeholder_add_number">Add number</string>
     <string name="edit_dive_button_add_date">Add start date</string>
     <string name="edit_dive_button_add_time">Add start time</string>
     <string name="edit_dive_button_add_duration">Add duration</string>

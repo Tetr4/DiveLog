@@ -34,7 +34,7 @@ fun NavGraphBuilder.editScreen(
             uiState = uiState,
             onClose = onNavigateUp,
             onShowDetail = onShowDetail,
-            onFetchDive = viewModel::fetchDive,
+            onFetchDiveData = viewModel::fetchDiveData,
             onSave = viewModel::save,
         )
     }

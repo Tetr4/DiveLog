@@ -22,18 +22,20 @@ import androidx.compose.ui.unit.dp
 import cloud.mike.divelog.data.dives.Dive
 import cloud.mike.divelog.localization.errors.ErrorMessage
 import cloud.mike.divelog.localization.primaryLocale
+import cloud.mike.divelog.localization.toIntegerOrNull
 import cloud.mike.divelog.localization.toNumberOrNull
 import cloud.mike.divelog.ui.DiveTheme
 import cloud.mike.divelog.ui.common.contentWindowInsetsWithCutout
 import cloud.mike.divelog.ui.common.states.ErrorState
 import cloud.mike.divelog.ui.common.states.LoadingState
 import cloud.mike.divelog.ui.edit.items.BuddyItem
-import cloud.mike.divelog.ui.edit.items.DiveDurationItem
-import cloud.mike.divelog.ui.edit.items.DiveStartDateItem
-import cloud.mike.divelog.ui.edit.items.DiveStartTimeItem
+import cloud.mike.divelog.ui.edit.items.DurationItem
 import cloud.mike.divelog.ui.edit.items.LocationItem
 import cloud.mike.divelog.ui.edit.items.MaxDepthItem
 import cloud.mike.divelog.ui.edit.items.NotesItem
+import cloud.mike.divelog.ui.edit.items.NumberItem
+import cloud.mike.divelog.ui.edit.items.StartDateItem
+import cloud.mike.divelog.ui.edit.items.StartTimeItem
 import cloud.mike.divelog.ui.edit.topbar.EditDiveAppBar
 
 @Composable
@@ -41,10 +43,13 @@ fun EditScreen(
     uiState: EditState,
     onClose: () -> Unit,
     onShowDetail: (Dive) -> Unit,
-    onFetchDive: () -> Unit,
-    onSave: (FormData) -> Unit,
+    onFetchDiveData: () -> Unit,
+    onSave: (DiveData) -> Unit,
 ) {
-    val formState = rememberFormState(dive = uiState.diveState.dive)
+    val formState = rememberFormState(
+        dive = (uiState.diveState as? DiveState.Update)?.dive,
+        defaultNumber = (uiState.diveState as? DiveState.Create)?.nextDiveNumber,
+    )
     val snackbarHostState = remember { SnackbarHostState() }
     val locale = primaryLocale
 
@@ -53,13 +58,18 @@ fun EditScreen(
     }
 
     fun onSaveClicked() {
-        val data = FormData(
-            startDate = formState.startDate ?: return,
+        // Save button should only be enabled if all required fields are set.
+        check(formState.canBeSaved)
+        val data = DiveData(
+            // Format validation is done by text fields, so no need to check here.
+            number = formState.number.trim().takeIf { it.isNotBlank() }
+                ?.toIntegerOrNull(locale) ?: error("Number is required"),
+            startDate = formState.startDate ?: error("Start date is required"),
             startTime = formState.startTime,
-            duration = formState.duration ?: return,
+            duration = formState.duration ?: error("Duration is required"),
             location = formState.location.trim().takeIf { it.isNotBlank() },
             maxDepthMeters = formState.maxDepthMeters.trim().takeIf { it.isNotBlank() }
-                ?.toNumberOrNull(locale)?.toFloat(), // validation is done in text field
+                ?.toNumberOrNull(locale)?.toFloat(),
             buddy = formState.buddy.trim().takeIf { it.isNotBlank() },
             notes = formState.notes.trim().takeIf { it.isNotBlank() },
         )
@@ -84,7 +94,7 @@ fun EditScreen(
         topBar = {
             EditDiveAppBar(
                 diveState = uiState.diveState,
-                formValid = formState.isValid,
+                saveEnabled = formState.canBeSaved,
                 saving = uiState.saveState is SaveState.Saving,
                 onClose = onClose,
                 onSave = ::onSaveClicked,
@@ -102,7 +112,7 @@ fun EditScreen(
             is DiveState.Error -> ErrorState(
                 modifier = fullPaddingModifier,
                 message = uiState.diveState.message,
-                onRetry = onFetchDive,
+                onRetry = onFetchDiveData,
             )
             is DiveState.Create, is DiveState.Update -> ContentState(
                 modifier = Modifier.consumeWindowInsets(innerPadding),
@@ -114,7 +124,7 @@ fun EditScreen(
 }
 
 @Composable
-fun ContentState(
+private fun ContentState(
     formState: FormState,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
@@ -125,10 +135,12 @@ fun ContentState(
             .verticalScroll(rememberScrollState())
             .padding(contentPadding),
     ) {
-        DiveStartDateItem(formState)
-        DiveStartTimeItem(formState)
+        NumberItem(formState)
         HorizontalDivider(Modifier.padding(vertical = 4.dp))
-        DiveDurationItem(formState)
+        StartDateItem(formState)
+        StartTimeItem(formState)
+        HorizontalDivider(Modifier.padding(vertical = 4.dp))
+        DurationItem(formState)
         HorizontalDivider(Modifier.padding(vertical = 4.dp))
         LocationItem(formState)
         HorizontalDivider(Modifier.padding(vertical = 4.dp))
@@ -149,7 +161,7 @@ private fun PreviewCreate() {
             uiState = EditState(),
             onClose = {},
             onShowDetail = {},
-            onFetchDive = {},
+            onFetchDiveData = {},
             onSave = {},
         )
     }
@@ -166,7 +178,7 @@ private fun PreviewUpdate() {
             ),
             onClose = {},
             onShowDetail = {},
-            onFetchDive = {},
+            onFetchDiveData = {},
             onSave = {},
         )
     }
