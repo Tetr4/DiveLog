@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
+import androidx.core.content.ContextCompat
 import cloud.mike.divelog.bluetooth.precondition.PreconditionService
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState
 import cloud.mike.divelog.bluetooth.utils.getParcelableExtraCompat
@@ -38,7 +39,7 @@ class PairingService(
     private val deviceBondingFlow
         get() = callbackFlow {
             val receiver = BondingReceiver { trySendBlocking(it) }
-            context.registerReceiver(receiver, receiver.filter)
+            ContextCompat.registerReceiver(context, receiver, receiver.filter, ContextCompat.RECEIVER_NOT_EXPORTED)
             awaitClose { context.unregisterReceiver(receiver) }
         }
 }

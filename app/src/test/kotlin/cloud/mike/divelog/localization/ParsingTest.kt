@@ -1,5 +1,3 @@
-@file:Suppress("IllegalIdentifier")
-
 package cloud.mike.divelog.localization
 
 import org.junit.Assert.assertEquals

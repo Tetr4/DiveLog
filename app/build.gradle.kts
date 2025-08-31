@@ -13,7 +13,7 @@ val buildTag = System.getenv("GITHUB_RUN_NUMBER") ?: DateTimeFormatter.ISO_LOCAL
 
 android {
     namespace = "cloud.mike.divelog"
-    compileSdk = 35
+    compileSdk = 36
 
     signingConfigs {
         create("release") {
@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId = "cloud.mike.divelog"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = versionCodeProp
         versionName = "$versionNameProp+$buildTag"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -74,23 +74,23 @@ dependencies {
     implementation(project(":data"))
 
     // Dependency Injection (https://insert-koin.io/)
-    implementation("io.insert-koin:koin-android:4.0.3")
-    implementation("io.insert-koin:koin-androidx-compose:4.0.3")
+    implementation("io.insert-koin:koin-android:4.1.0")
+    implementation("io.insert-koin:koin-androidx-compose:4.1.0")
 
     // ViewModel Scoping (https://github.com/sebaslogen/resaca)
-    implementation("io.github.sebaslogen:resaca:4.3.4")
+    implementation("io.github.sebaslogen:resaca:4.5.0")
 
     // AndroidX (https://developer.android.com/jetpack/androidx/versions)
-    implementation("androidx.core:core-ktx:1.16.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+    implementation("androidx.core:core-ktx:1.17.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.3")
     implementation("androidx.activity:activity-compose:1.10.1")
-    implementation("androidx.navigation:navigation-compose:2.8.9")
+    implementation("androidx.navigation:navigation-compose:2.9.3")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.paging:paging-compose:3.3.6")
 
     // Compose (https://developer.android.com/jetpack/compose/bom/bom-mapping)
-    implementation(platform("androidx.compose:compose-bom:2025.04.01"))
+    implementation(platform("androidx.compose:compose-bom:2025.08.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
@@ -99,12 +99,12 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
 
     // Accompanist (https://google.github.io/accompanist/)
-    implementation("com.google.accompanist:accompanist-themeadapter-material3:0.30.1")
+    implementation("com.google.accompanist:accompanist-themeadapter-material3:0.36.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     testImplementation("org.mockito:mockito-inline:5.2.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:6.0.0")
     testImplementation("androidx.paging:paging-testing:3.3.6")
 }

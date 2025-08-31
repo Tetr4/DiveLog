@@ -9,7 +9,7 @@ import android.icu.util.ULocale
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.core.text.util.LocalePreferences
 import java.text.NumberFormat
 import java.time.LocalDate
@@ -87,11 +87,8 @@ fun LocalDateTime.format(style: FormatStyle = FormatStyle.MEDIUM): String = Date
 @ReadOnlyComposable
 fun Duration.format() = "$inWholeMinutes min"
 
+// Never use Locale.getDefault(), as it does not support runtime changes
 val primaryLocale: Locale
     @Composable
     @ReadOnlyComposable
-    get() {
-        // Never use Locale.getDefault(), as it does not support runtime changes
-        val context = LocalContext.current
-        return context.resources.configuration.locales.get(0)
-    }
+    get() = LocalConfiguration.current.locales.get(0)

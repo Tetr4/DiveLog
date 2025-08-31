@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
+import androidx.core.content.ContextCompat
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_CONNECTION_PERMISSION_NOT_GRANTED
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_NOT_AVAILABLE
 import cloud.mike.divelog.bluetooth.precondition.PreconditionState.BLUETOOTH_NOT_ENABLED
@@ -55,7 +56,7 @@ class PreconditionService(
         get() = callbackFlow {
             send(bluetoothEnabled)
             val receiver = BluetoothAdapterReceiver { trySendBlocking(bluetoothEnabled) }
-            context.registerReceiver(receiver, receiver.filter)
+            ContextCompat.registerReceiver(context, receiver, receiver.filter, ContextCompat.RECEIVER_NOT_EXPORTED)
             awaitClose { context.unregisterReceiver(receiver) }
         }
 

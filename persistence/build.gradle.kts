@@ -2,25 +2,25 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("androidx.room")
 }
 
 android {
     namespace = "cloud.mike.divelog.persistence"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 26
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        ksp {
-            // See https://developer.android.com/jetpack/androidx/releases/room#compiler-options
-            arg("room.schemaLocation", "$projectDir/schemas")
-            arg("room.generateKotlin", "true")
-        }
     }
 
     kotlin {
         jvmToolchain(21)
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 
     testOptions {
@@ -33,18 +33,18 @@ android {
 
 dependencies {
     // Dependency Injection
-    implementation("io.insert-koin:koin-android:4.0.3")
+    implementation("io.insert-koin:koin-android:4.1.0")
 
     // Room (https://developer.android.com/jetpack/androidx/releases/room)
-    val roomVersion = "2.7.1"
+    val roomVersion = "2.7.2"
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-paging:$roomVersion")
 
     // Testing
-    testImplementation("androidx.test:core-ktx:1.6.1")
-    testImplementation("androidx.test.ext:junit-ktx:1.2.1")
+    testImplementation("androidx.test:core-ktx:1.7.0")
+    testImplementation("androidx.test.ext:junit-ktx:1.3.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-    testImplementation("org.robolectric:robolectric:4.14.1")
+    testImplementation("org.robolectric:robolectric:4.16")
 }
